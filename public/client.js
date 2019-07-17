@@ -9,7 +9,13 @@ var poriruaCollege = [-41.141636, 174.873872]
 var L = window.L;
 var map = L.map('map').setView(porirua, 13);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+var tileLayerOSM = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+var tileLayerOpenCycleMap = 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey=7dd44766c60140818b8816a0d8521fc2';
+
+// var tileLayerUrl = tileLayerOSM;
+var tileLayerUrl = tileLayerOpenCycleMap;
+
+L.tileLayer(tileLayerUrl, {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
