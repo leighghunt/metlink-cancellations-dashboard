@@ -1,3 +1,6 @@
+Go to [Google maps](https://www.google.co.nz/maps)
+Click location, and copy coordinates from popup.
+
 Welcome to Glitch
 =================
 

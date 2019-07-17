@@ -3,14 +3,17 @@
 
 console.log('hello world :o');
 
+var porirua = [-41.135461, 174.839714]
+var poriruaCollege = [-41.141636, 174.873872]
+
 var L = window.L;
-var map = L.map('mapid').setView([174.873872, -41.141636], 13);
+var map = L.map('mapid').setView(porirua, 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-L.marker([51.5, -0.09]).addTo(map)
+L.marker(poriruaCollege).addTo(map)
     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
     .openPopup();
 

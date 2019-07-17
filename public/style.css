@@ -1,7 +1,7 @@
 /* styles */
 /* called by your view template */
 
-#mapid { height: 180px; }
+#mapid { height: 400px; }
 
 * {
   box-sizing: border-box;
