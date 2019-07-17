@@ -1,5 +1,10 @@
 Go to [Google maps](https://www.google.co.nz/maps)
-Click location, and copy coordinates from popup.
+
+- Click location, and copy coordinates from popup.
+
+Useful links:
+
+[Leaflet](https://leafletjs.com/examples.html)
 
 Welcome to Glitch
 =================
