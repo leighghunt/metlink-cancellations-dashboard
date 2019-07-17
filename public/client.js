@@ -7,7 +7,7 @@ var porirua = [-41.135461, 174.839714]
 var poriruaCollege = [-41.141636, 174.873872]
 
 var L = window.L;
-var map = L.map('mapid').setView(porirua, 13);
+var map = L.map('map').setView(porirua, 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
