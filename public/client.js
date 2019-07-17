@@ -10,10 +10,17 @@ var L = window.L;
 var map = L.map('map').setView(porirua, 13);
 
 var tileLayerOSM = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-var tileLayerOpenCycleMap = 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey=7dd44766c60140818b8816a0d8521fc2';
 
-// var tileLayerUrl = tileLayerOSM;
-var tileLayerUrl = tileLayerOpenCycleMap;
+// Available Thundermap themes:
+var theme = 'transport'; // Others: cycle, landscape, outdoors, transport-dark, spinal-map, pioneer, mobile-atlas, neighbourhood
+// theme = 'cycle';
+theme = 'transport-dark';
+// theme = 'outdoors;
+// theme = 'neighbourhood';
+
+var tileLayerThunderforest = 'https://{s}.tile.thunderforest.com/' + theme + '/{z}/{x}/{y}{r}.png?apikey=7dd44766c60140818b8816a0d8521fc2';
+
+var tileLayerUrl = tileLayerThunderforest;
 
 L.tileLayer(tileLayerUrl, {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
