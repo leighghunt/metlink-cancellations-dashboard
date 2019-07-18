@@ -66,8 +66,9 @@ socket.on('location', function (data) {
   // console.log(L); 
   
   vehicles[data.VehicleRef] = data;
-  if(markers.[data.VehicleRef]){
-    markers[data.VehicleRef].setLatLng(data.Lat, data.Long)
+  if(markers[data.VehicleRef]){
+    var newLatLng = new L.LatLng(data.Lat, data.Long);
+    markers[data.VehicleRef].setLatLng(newLatLng);
   } else
   {
     markers[data.VehicleRef] = (L.marker([data.Lat, data.Long]).addTo(map)
