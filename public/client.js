@@ -72,17 +72,22 @@ socket.on('location', function (data) {
     markers[data.VehicleRef]._popup.setContent(popupText(data));
   } else
   {
-    markers[data.VehicleRef] = (L.marker([data.Lat, data.Long]).addTo(map)
-      .bindPopup(popupText(data)));
-    console.log(data);//if(data.)
+    // markers[data.VehicleRef] = (L.marker([data.Lat, data.Long]).addTo(map)
+    //   .bindPopup(popupText(data)));
+    // console.log(data);//if(data.)
     let colour = 'green';
+    let fillColor = '#3f0';
     if(data.DelaySeconds>60){
+      colour = 'orange';
+      fillColor = '#FF9933';
       if(data.DelaySeconds>300){
+        colour = 'red';
+        fillColor = '#FF0033';
       }      
     }
     markers[data.VehicleRef] = (L.circle([data.Lat, data.Long], {
       color: colour,
-      fillColor: '#f03',
+      fillColor: fillColor,
       fillOpacity: 0.5,
       radius: 30}).addTo(map)
       .bindPopup(popupText(data)));
