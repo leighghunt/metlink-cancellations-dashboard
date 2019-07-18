@@ -64,7 +64,7 @@ function handleResponse(data){
     
     let changeDetected = true;
     if(vehicles[service.VehicleRef]){
-      if(vehicles[service.VehicleRef].RecordedAtTime === service.RecordedAtTime){
+      if(vehicles[service.VehicleRef].RecordedAtTime == service.RecordedAtTime){
         changeDetected = false;
       }
     }
@@ -72,6 +72,7 @@ function handleResponse(data){
     if(changeDetected){
       vehicles[service.VehicleRef] = {
         ServiceId: service.ServiceID,
+        RecordedAtTime: service.RecordedAtTime,
         Lat: service.Lat,
         Long: service.Long,
 
