@@ -67,6 +67,9 @@ function handleResponse(data){
       
     }
     
+    io.emit('location', {vehicle: vehicles[service.VehicleRef]});
+
+    
   });
   
   // console.log(vehicles);

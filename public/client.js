@@ -30,7 +30,7 @@ L.marker(poriruaCollege).addTo(map)
     .bindPopup('Porirua College')
     .openPopup();
 
-map.locate({setView: true, maxZoom: 16});
+// map.locate({setView: true, maxZoom: 16});
 
 function onLocationFound(e) {
     var radius = e.accuracy;
@@ -46,5 +46,15 @@ function onLocationError(e) {
 }
 
 map.on('locationerror', onLocationError);
-
 map.on('locationfound', onLocationFound);
+
+
+console.log('About to connect to sockets');
+console.log(window.location.hostname);
+var io = window.io;
+
+var socket = io.connect(window.location.hostname);
+var devices = {};
+socket.on('location', function (data) {
+  console.log(data);
+});
