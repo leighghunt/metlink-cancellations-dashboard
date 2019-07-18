@@ -102,11 +102,12 @@ socket.on('location', function (data) {
 });
 
 function popupText(data){
-  let now = new Date();
-  var seconds = (new Date(now) - new Date(data.RecordedAtTime))/1000;
-  let age = Math.round(seconds) + 's';
-  if (seconds > 60){
-    age = Math.round(seconds/60) + 'm';
-  }
-  return data.ServiceID + ': ' + data.VehicleRef + ' ' + age
+  // let now = new Date();
+  // var seconds = (new Date(now) - new Date(data.RecordedAtTime))/1000;
+  // let age = Math.round(seconds) + 's';
+  // if (seconds > 60){
+  //   age = Math.round(seconds/60) + 'm';
+  // }
+  // return data.ServiceID + ': ' + data.VehicleRef + ' ' + age
+  return data.ServiceID + ': ' + data.VehicleRef + ' ' + data.RecordedAtTime.toLocaleTimeString();
 }

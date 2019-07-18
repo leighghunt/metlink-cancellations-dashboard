@@ -64,13 +64,13 @@ function handleResponse(data){
     
     let changeDetected = true;
     if(vehicles[service.VehicleRef]){
-      console.log(service.VehicleRef + ' already present')
+      // console.log(service.VehicleRef + ' already present')
       if(vehicles[service.VehicleRef].RecordedAtTime == service.RecordedAtTime){
-        console.log(service.VehicleRef + ' time same ' + vehicles[service.VehicleRef].RecordedAtTime);
+        // console.log(service.VehicleRef + ' time same ' + vehicles[service.VehicleRef].RecordedAtTime);
         changeDetected = false;
       } else
       {
-        console.log(service.VehicleRef + ' time different ' + vehicles[service.VehicleRef].RecordedAtTime + ' vs ' + service.RecordedAtTime);
+        // console.log(service.VehicleRef + ' time different ' + vehicles[service.VehicleRef].RecordedAtTime + ' vs ' + service.RecordedAtTime);
 
       }
     }
