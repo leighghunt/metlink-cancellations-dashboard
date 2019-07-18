@@ -73,6 +73,7 @@ socket.on('location', function (data) {
   {
     markers[data.VehicleRef] = (L.marker([data.Lat, data.Long]).addTo(map)
       .bindPopup(data.ServiceID + ': ' + data.VehicleRef + ' ' + data.RecordedAtTime));
+    
   }
 
   
