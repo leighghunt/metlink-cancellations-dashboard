@@ -30,7 +30,7 @@ let services = ['KPL', 60, 220, 210, 226, 236, 230, 250, 260];
 let url = 'https://www.metlink.org.nz/api/v1/ServiceLocation/';
 
 function callAPI(){
-    console.log('Calling API....');
+  console.log('Calling API....');
   
   services.map(function(serviceId){
     console.log(url + serviceId);
@@ -46,6 +46,9 @@ function callAPI(){
     })
     
   });
+  
+  console.log(vehicles);
+
 }
 
 function handleResponse(data){    
@@ -62,7 +65,7 @@ function handleResponse(data){
     
   });
   
-  console.log(vehicles);
+  // console.log(vehicles);
 
 
 }
@@ -77,4 +80,4 @@ setTimeout(callAPI, 10000); // Avoid firing immediately so we don't balst the AP
 //callAPI();
 setInterval(callAPI, 60000);
 
-console.log(vehicles);
+// console.log(vehicles);
