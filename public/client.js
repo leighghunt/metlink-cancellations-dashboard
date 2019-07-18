@@ -56,7 +56,7 @@ var io = window.io;
 
 var socket = io.connect(window.location.hostname);
 var vehicles = {};
-var markers= [];
+var markers= {};
 console.log(vehicles);
 socket.on('location', function (data) {
   console.log(data);
@@ -66,8 +66,13 @@ socket.on('location', function (data) {
   // console.log(L); 
   
   vehicles[data.VehicleRef] = data;
-  markers.push(L.marker([data.Lat, data.Long]).addTo(map)
-    .bindPopup(data.ServiceID + ': ' + data.VehicleRef + ' ' + data.RecordedAtTime));
+  if(markers.[data.VehicleRef]){
+    markers[data.VehicleRef].setLatLng(data.Lat, data.Long)
+  } else
+  {
+    markers[data.VehicleRef] = (L.marker([data.Lat, data.Long]).addTo(map)
+      .bindPopup(data.ServiceID + ': ' + data.VehicleRef + ' ' + data.RecordedAtTime));
+  }
 
   
   // markers[data.VehicleRef] = L.marker([data.Lat, data.Long]);
