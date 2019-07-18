@@ -6,6 +6,7 @@ console.log('hello world :o');
 var porirua = [-41.135461, 174.839714]
 var poriruaCollege = [-41.141636, 174.873872]
 
+console.log(L); 
 var L = window.L;
 var map = L.map('map').setView(porirua, 13);
 
@@ -59,10 +60,18 @@ var markers= {};
 console.log(vehicles);
 socket.on('location', function (data) {
   console.log(data);
-  var L = window.L;
 
+  // console.log(L); 
+  // // var L = window.L;
+  // console.log(L); 
+  
   vehicles[data.VehicleRef] = data;
-  markers[data.VehicleRef].marker = L.marker([data.Lat, data.Long]);
-  markers[data.VehicleRef].marker.addToMap(map);
+  L.marker([data.Lat, data.Long]).addTo(map)
+    .bindPopup(data.ServiceID + ': ' + data.VehicleRef);
+
+  
+  // markers[data.VehicleRef] = L.marker([data.Lat, data.Long]);
+  // console.log(markers[data.VehicleRef]);
+  // markers[data.VehicleRef].addToMap(map);
   console.log(vehicles);
 });
