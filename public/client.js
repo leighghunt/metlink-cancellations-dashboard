@@ -54,7 +54,10 @@ console.log(window.location.hostname);
 var io = window.io;
 
 var socket = io.connect(window.location.hostname);
-var devices = {};
+var vehicles = {};
+console.log(vehicles);
 socket.on('location', function (data) {
   console.log(data);
+  vehicles[data.VehicleRef] = data;
+  console.log(vehicles);
 });
