@@ -20,3 +20,9 @@ app.get('/', function(request, response) {
 const listener = app.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+setInterval(getStuff, 10000);
+
+function getStuff(){
+  console.log('getting Stuff....');
+}
