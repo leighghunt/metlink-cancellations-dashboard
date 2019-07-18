@@ -31,7 +31,7 @@ L.marker(poriruaCollege).addTo(map)
     .bindPopup('Porirua College')
     .openPopup();
 
-// map.locate({setView: true, maxZoom: 16});
+map.locate({setView: true, maxZoom: 16});
 
 function onLocationFound(e) {
     var radius = e.accuracy;
@@ -69,11 +69,11 @@ socket.on('location', function (data) {
   if(markers[data.VehicleRef]){
     var newLatLng = new L.LatLng(data.Lat, data.Long);
     markers[data.VehicleRef].setLatLng(newLatLng);
-    markers[data.VehicleRef]._popup.setContent(data.ServiceID + ': ' + data.VehicleRef + ' ' + data.RecordedAtTime);
+    markers[data.VehicleRef]._popup.setContent(popupText(data));
   } else
   {
     markers[data.VehicleRef] = (L.marker([data.Lat, data.Long]).addTo(map)
-      .bindPopup(data.ServiceID + ': ' + data.VehicleRef + ' ' + data.RecordedAtTime));
+      .bindPopup(popupText(data)));
     
   }
 
@@ -83,3 +83,13 @@ socket.on('location', function (data) {
   // markers[data.VehicleRef].addToMap(map);
   console.log(vehicles);
 });
+
+function popupText(data){
+  let now = new Date();
+  var seconds = new Date(now-data.RecordedAtTime).getSeconds();
+  let age = seconds + 's';
+  if (seconds > 60){
+    age = seconds/60 + 'm';
+  }
+  return data.ServiceID + ': ' + data.VehicleRef + ' ' + age
+}
