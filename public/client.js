@@ -74,6 +74,18 @@ socket.on('location', function (data) {
   {
     markers[data.VehicleRef] = (L.marker([data.Lat, data.Long]).addTo(map)
       .bindPopup(popupText(data)));
+    console.log(data);//if(data.)
+    let colour = 'green';
+    if(data.DelaySeconds>60){
+      if(data.DelaySeconds>300){
+      }      
+    }
+    markers[data.VehicleRef] = (L.circle([data.Lat, data.Long], {
+      color: colour,
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 30}).addTo(map)
+      .bindPopup(popupText(data)));
     
   }
 

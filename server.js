@@ -81,7 +81,8 @@ function handleResponse(data){
         RecordedAtTime: service.RecordedAtTime,
         Lat: service.Lat,
         Long: service.Long,
-
+        DelaySeconds: service.DelaySeconds,
+        Bearing: service.Bearing
       }
     }
 
