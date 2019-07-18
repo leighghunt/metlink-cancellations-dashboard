@@ -62,17 +62,25 @@ function handleResponse(data){
   data.Services.forEach(function(service){
    // console.log(service.ServiceID + ': ' + service.VehicleRef);
     
-    vehicles[service.VehicleRef] = {
-      ServiceId: service.ServiceID,
-      Lat: service.Lat,
-      Long: service.Long,
-      
+    let changeDetected = true;
+    if(vehicles[service.VehicleRef]){
+      if(vehicles[service.VehicleRef].RecordedAtTime === service.RecordedAtTime){
+        changeDetected = false;
+      }
     }
-    
+
+    if(changeDetected){
+      vehicles[service.VehicleRef] = {
+        ServiceId: service.ServiceID,
+        Lat: service.Lat,
+        Long: service.Long,
+
+      }
+    }
+
     // io.emit('location', {vehicle: vehicles[service.VehicleRef]});
     io.emit('location', service); //{vehicle: service});
 
-    
   });
   
   // console.log(vehicles);
@@ -90,6 +98,6 @@ const KPL_JSON = '{"LastModified":"2019-07-18T15:00:09+12:00","Services":[{"Reco
 
 setTimeout(callAPI, 10000); // Avoid firing immediately so we don't balst the API and get throttled.
 //callAPI();
-setInterval(callAPI, 30000);
+setInterval(callAPI, 10000);
 
 console.log(vehicles);

@@ -69,6 +69,7 @@ socket.on('location', function (data) {
   if(markers[data.VehicleRef]){
     var newLatLng = new L.LatLng(data.Lat, data.Long);
     markers[data.VehicleRef].setLatLng(newLatLng);
+    markers[data.VehicleRef]._popup.setContent(data.ServiceID + ': ' + data.VehicleRef + ' ' + data.RecordedAtTime);
   } else
   {
     markers[data.VehicleRef] = (L.marker([data.Lat, data.Long]).addTo(map)
