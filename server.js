@@ -70,7 +70,7 @@ function handleResponse(data){
     }
     
     // io.emit('location', {vehicle: vehicles[service.VehicleRef]});
-    io.emit('location', {vehicle: service});
+    io.emit('location', service); //{vehicle: service});
 
     
   });

@@ -55,9 +55,14 @@ var io = window.io;
 
 var socket = io.connect(window.location.hostname);
 var vehicles = {};
+var markers= {};
 console.log(vehicles);
 socket.on('location', function (data) {
   console.log(data);
+  var L = window.L;
+
   vehicles[data.VehicleRef] = data;
+  markers[data.VehicleRef].marker = L.marker([data.Lat, data.Long]);
+  markers[data.VehicleRef].marker.addToMap(map);
   console.log(vehicles);
 });
