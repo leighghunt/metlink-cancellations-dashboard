@@ -61,8 +61,32 @@ var vehicles = {};
 var markers= {};
 var trails = {};
 console.log(vehicles);
+
+// a helper function to call when our request for dreams is done
+const getVehiclesListener = function() {
+  // parse our response to convert to JSON
+  console.log('getVehiclesListener')
+  vehicles = JSON.parse(this.responseText);
+
+  // iterate through every dream and add it to our page
+  vehicles.forEach( function(data) {
+    handleVehicleData(data);
+  });
+}
+
+// request the dreams from our app's sqlite database
+const vehiclesRequest = new XMLHttpRequest();
+vehiclesRequest.onload = getVehiclesListener;
+vehiclesRequest.open('get', '/latest');
+vehiclesRequest.send();
+
+
 socket.on('location', function (data) {
   console.log(data);
+  handleVehicleData(data);
+});
+          
+function handleVehicleData(data){
 
   if(vehicles[data.VehicleRef] && vehicles[data.VehicleRef].RecordedAtTime == data.RecordedAtTime){
     console.log('no update');
@@ -121,7 +145,7 @@ socket.on('location', function (data) {
   // console.log(markers[data.VehicleRef]);
   // markers[data.VehicleRef].addToMap(map);
   console.log(vehicles);
-});
+}
 
 function popupText(data){
   // let now = new Date();
