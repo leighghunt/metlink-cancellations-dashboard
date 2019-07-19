@@ -66,11 +66,11 @@ console.log(vehicles);
 const getVehiclesListener = function() {
   // parse our response to convert to JSON
   console.log('getVehiclesListener')
-  vehicles = JSON.parse(this.responseText);
+  let latestVehicles = JSON.parse(this.responseText);
 
   // iterate through every dream and add it to our page
-  for(var VehicleRef in vehicles){
-    handleVehicleData(vehicles[VehicleRef]);
+  for(var VehicleRef in latestVehicles){
+    handleVehicleData(latestVehicles[VehicleRef]);
   }
 }
 
@@ -81,7 +81,7 @@ vehiclesRequest.open('get', '/latest');
 vehiclesRequest.send();
 
 
-socket.on('location_', function (data) {
+socket.on('location', function (data) {
   console.log(data);
   handleVehicleData(data);
 });
