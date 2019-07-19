@@ -82,23 +82,25 @@ socket.on('location', function (data) {
     }
 
   if(markers[data.VehicleRef]){
-    let historyMarker = L.circle(markers[data.VehicleRef].getLatLng(), {
-      color: colour,
-      fillColor: fillColour,
-      fillOpacity: 0.5,
-      radius: 10}).addTo(map);
+    // let historyMarker = L.circle(markers[data.VehicleRef].getLatLng(), {
+    //   color: colour,
+    //   fillColor: fillColour,
+    //   fillOpacity: 0.5,
+    //   radius: 10}).addTo(map);
 
-    let historyMLine = L.polyline([markers[data.VehicleRef].getLatLng(), [data.Lat, data.Long]], {
+    let historyLine = L.polyline([markers[data.VehicleRef].getLatLng(), [data.Lat, data.Long]], {
       color: colour,
+      dashArray: '1',
       width: 10}).addTo(map);
 
     if(!trails[data.VehicleRef]){
       trails[data.VehicleRef] = [];
     }
-    trails[data.VehicleRef].push(historyMarker);
+    trails[data.VehicleRef].push(historyLine);
 
     var newLatLng = new L.LatLng(data.Lat, data.Long);
     markers[data.VehicleRef].setLatLng(newLatLng);
+    // markers[data.VehicleRef].setColor(colour);
     markers[data.VehicleRef]._popup.setContent(popupText(data));
   } else
   {
