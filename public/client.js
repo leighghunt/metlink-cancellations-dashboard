@@ -57,6 +57,7 @@ var io = window.io;
 var socket = io.connect(window.location.hostname);
 var vehicles = {};
 var markers= {};
+var trails = {};
 console.log(vehicles);
 socket.on('location', function (data) {
   console.log(data);
@@ -67,6 +68,17 @@ socket.on('location', function (data) {
   
   vehicles[data.VehicleRef] = data;
   if(markers[data.VehicleRef]){
+    let historyMarker = L.circle(markers[data.VehicleRef].getLatLng(), {
+      color: 'grey',
+      fillColor: 'grey',
+      fillOpacity: 0.1,
+      radius: 10}).addTo(map);
+    
+    if(!trails[data.VehicleRef]){
+      trails[data.VehicleRef] = {};
+    } else{
+      trails[data.VehicleRef].push();
+    }
     var newLatLng = new L.LatLng(data.Lat, data.Long);
     markers[data.VehicleRef].setLatLng(newLatLng);
     markers[data.VehicleRef]._popup.setContent(popupText(data));
@@ -109,5 +121,8 @@ function popupText(data){
   //   age = Math.round(seconds/60) + 'm';
   // }
   // return data.ServiceID + ': ' + data.VehicleRef + ' ' + age
-  return data.ServiceID + ': ' + data.VehicleRef + ' ' + data.RecordedAtTime.toLocaleTimeString();
+  
+  let time = new Date(data.RecordedAtTime).toLocaleTimeString();
+  let delay = data.DelaySeconds > 60? ' (Delayed ' + data.DelaySeconds + 's)':'';
+  return data.ServiceID + ': ' + data.VehicleRef + ' ' + time + delay;
 }
