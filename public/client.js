@@ -24,7 +24,8 @@ var tileLayerThunderforest = 'https://{s}.tile.thunderforest.com/' + theme + '/{
 var tileLayerUrl = tileLayerThunderforest;
 
 L.tileLayer(tileLayerUrl, {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  opacity: 0.3,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
 L.marker(poriruaCollege).addTo(map)
@@ -65,6 +66,10 @@ socket.on('location', function (data) {
   // console.log(L); 
   // // var L = window.L;
   // console.log(L); 
+  if(vehicles[data.VehicleRef] && vehicles[data.VehicleRef].RecordedAtTime == data.RecordedAtTime){
+    console.log('no update');
+    return;
+  }
   
   vehicles[data.VehicleRef] = data;
   if(markers[data.VehicleRef]){
@@ -75,10 +80,10 @@ socket.on('location', function (data) {
       radius: 10}).addTo(map);
     
     if(!trails[data.VehicleRef]){
-      trails[data.VehicleRef] = {};
-    } else{
-      trails[data.VehicleRef].push();
+      trails[data.VehicleRef] = [];
     }
+    trails[data.VehicleRef].push(historyMarker);
+
     var newLatLng = new L.LatLng(data.Lat, data.Long);
     markers[data.VehicleRef].setLatLng(newLatLng);
     markers[data.VehicleRef]._popup.setContent(popupText(data));
