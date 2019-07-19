@@ -73,8 +73,8 @@ socket.on('location', function (data) {
   let colour = 'green';
     let fillColour = '#3f0';
     if(data.DelaySeconds>60){
-      colour = 'orange';
-      fillColour = '#FF9933';
+      colour = 'yellow';
+      fillColour = '#ffff33';
       if(data.DelaySeconds>300){
         colour = 'red';
         fillColour = '#FF0033';
@@ -82,12 +82,6 @@ socket.on('location', function (data) {
     }
 
   if(markers[data.VehicleRef]){
-    // let historyMarker = L.circle(markers[data.VehicleRef].getLatLng(), {
-    //   color: colour,
-    //   fillColor: fillColour,
-    //   fillOpacity: 0.5,
-    //   radius: 10}).addTo(map);
-
     let historyLine = L.polyline([markers[data.VehicleRef].getLatLng(), [data.Lat, data.Long]], {
       color: colour,
       width: 10}).addTo(map);
@@ -99,7 +93,7 @@ socket.on('location', function (data) {
     let opacity = 1;
     for(var index = trails[data.VehicleRef].length - 1;index >=0; --index){
       trails[data.VehicleRef][index].setStyle({opacity:opacity});
-      opacity -= 0.2;
+      opacity -= 0.1;
       if(opacity<=0){
         map.removeLayer(trails[data.VehicleRef].shift());        
       }
@@ -107,7 +101,9 @@ socket.on('location', function (data) {
 
     var newLatLng = new L.LatLng(data.Lat, data.Long);
     markers[data.VehicleRef].setLatLng(newLatLng);
-    // markers[data.VehicleRef].setColor(colour);
+    markers[data.VehicleRef].setStyle({
+      color: colour,
+      fillColor: fillColour});
     markers[data.VehicleRef]._popup.setContent(popupText(data));
   } else
   {
