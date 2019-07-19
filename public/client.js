@@ -69,9 +69,9 @@ const getVehiclesListener = function() {
   vehicles = JSON.parse(this.responseText);
 
   // iterate through every dream and add it to our page
-  vehicles.forEach( function(data) {
-    handleVehicleData(data);
-  });
+  for(var VehicleRef in vehicles){
+    handleVehicleData(vehicles[VehicleRef]);
+  }
 }
 
 // request the dreams from our app's sqlite database
@@ -81,7 +81,7 @@ vehiclesRequest.open('get', '/latest');
 vehiclesRequest.send();
 
 
-socket.on('location', function (data) {
+socket.on('location_', function (data) {
   console.log(data);
   handleVehicleData(data);
 });
