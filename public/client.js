@@ -90,13 +90,20 @@ socket.on('location', function (data) {
 
     let historyLine = L.polyline([markers[data.VehicleRef].getLatLng(), [data.Lat, data.Long]], {
       color: colour,
-      dashArray: '1',
       width: 10}).addTo(map);
 
     if(!trails[data.VehicleRef]){
       trails[data.VehicleRef] = [];
     }
     trails[data.VehicleRef].push(historyLine);
+    let opacity = 1;
+    for(var index = trails[data.VehicleRef].length - 1;index >=0; --index){
+      trails[data.VehicleRef][index].setStyle({opacity:opacity});
+      opacity -= 0.2;
+      if(opacity<=0){
+        
+      }
+    }
 
     var newLatLng = new L.LatLng(data.Lat, data.Long);
     markers[data.VehicleRef].setLatLng(newLatLng);
