@@ -96,6 +96,12 @@ function handleResponse(data){
 
 }
 
+// http://expressjs.com/en/starter/basic-routing.html
+app.get('/latest', function(request, response) {
+  response.send(JSON.stringify(vehicles));
+});
+
+
 
 // Short cut the API call so we don't get banned from the API :-)
 // Get this from https://www.metlink.org.nz/api/v1/ServiceLocation/KPL
