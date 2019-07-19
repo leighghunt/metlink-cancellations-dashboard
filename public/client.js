@@ -101,7 +101,7 @@ socket.on('location', function (data) {
       trails[data.VehicleRef][index].setStyle({opacity:opacity});
       opacity -= 0.2;
       if(opacity<=0){
-        
+        map.removeLayer(trails[data.VehicleRef].shift());        
       }
     }
 
