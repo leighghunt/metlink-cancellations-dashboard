@@ -158,6 +158,13 @@ function popupText(data){
   
   let time = new Date(data.RecordedAtTime).toLocaleTimeString();
   let delay = data.DelaySeconds > 60? ' (Delayed ' + data.DelaySeconds + 's)':'';
-  let description = data. "(" + data.OriginStopName + new Date(data.DepartureTime).toLocaleTimeString() + " -> " + data.DestinationStopName + ")\n"
-  return description + data.ServiceID + ': ' + data.VehicleRef + '\n' + time + delay;
+  
+  let description = 'Bus ' + data.ServiceId + ' (' + data.VehicleRef + ')\n' 
+  if(['KPL', 'HVL', 'JVL', 'MEL', 'WRL'].includes(data.ServiceId)){
+    description = "(" + new Date(data.DepartureTime).toLocaleTimeString() + ' ' + data.OriginStopName + " -> " + data.DestinationStopName + ")\n";     
+   }
+  
+  let popup = description + time + delay;
+  console.log(popup);
+  return popup;
 }
