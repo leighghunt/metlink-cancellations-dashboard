@@ -79,7 +79,7 @@ function handleResponse(data){
     if(changeDetected){
       vehicles[service.VehicleRef] = {
         VehicleRef: service.VehicleRef,
-        ServiceId: service.ServiceID,
+        ServiceID: service.ServiceID,
         RecordedAtTime: service.RecordedAtTime,
         Lat: service.Lat,
         Long: service.Long,
