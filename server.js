@@ -84,7 +84,12 @@ function handleResponse(data){
         Lat: service.Lat,
         Long: service.Long,
         DelaySeconds: service.DelaySeconds,
-        Bearing: service.Bearing
+        Bearing: service.Bearing,
+        DepartureTime: service.DepartureTime,
+        OriginStopID: service.OriginStopID,
+        OriginStopName: service.OriginStopName,
+        DestinationStopID: service.DestinationStopID,
+        DestinationStopName: service.DestinationStopName
       }
     }
 

@@ -158,5 +158,6 @@ function popupText(data){
   
   let time = new Date(data.RecordedAtTime).toLocaleTimeString();
   let delay = data.DelaySeconds > 60? ' (Delayed ' + data.DelaySeconds + 's)':'';
-  return data.ServiceID + ': ' + data.VehicleRef + ' ' + time + delay;
+  let description = data. "(" + data.OriginStopName + new Date(data.DepartureTime).toLocaleTimeString() + " -> " + data.DestinationStopName + ")\n"
+  return description + data.ServiceID + ': ' + data.VehicleRef + '\n' + time + delay;
 }
