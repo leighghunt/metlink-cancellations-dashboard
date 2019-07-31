@@ -2,6 +2,8 @@ const findMeButton = document.querySelector('.findMe');
 findMeButton.addEventListener('click', findMe);
 
 var x = document.getElementById("demo");
+var synth = window.speechSynthesis;
+
 function getLocation() {
   console.log('getLocation')
   if (navigator.geolocation) {
@@ -17,10 +19,10 @@ function showPosition(position) {
 }
 
 function findMe(){
-  
+  getLocation();
+  test();
 }
 
-var synth = window.speechSynthesis;
 
 function test(){
   const speech = new SpeechSynthesisUtterance("hello there - testing 1 2 3");
