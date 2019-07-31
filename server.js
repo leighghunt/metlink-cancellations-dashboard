@@ -28,6 +28,11 @@ server.listen(process.env.PORT);
 //   console.log('Your app is listening on port ' + listener.address().port);
 // });
 
+let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
+
+function getStopDepartures(stopNumber)
+
+
 // Bus stuff
 
 var vehicles = {};
