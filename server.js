@@ -117,8 +117,8 @@ const KPL_JSON = '{"LastModified":"2019-07-18T15:00:09+12:00","Services":[{"Reco
 // setTimeout(function(){handleResponse(JSON.parse(KPL_JSON))}, 5000);
 // setInterval(function(){handleResponse(JSON.parse(KPL_JSON))}, 5000);
 
-setTimeout(callAPI, 10000); // Avoid firing immediately so we don't balst the API and get throttled.
+// setTimeout(callAPI, 10000); // Avoid firing immediately so we don't balst the API and get throttled.
 //callAPI();
-setInterval(callAPI, 10000);
+// setInterval(callAPI, 10000);
 
 console.log(vehicles);
