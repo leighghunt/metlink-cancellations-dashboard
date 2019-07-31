@@ -36,17 +36,27 @@ const getStopDeparturesListener = function() {
   console.log('getStopDeparturesListener')
   let stopDepartures = JSON.parse(this.responseText);
 
-  // iterate through every dream and add it to our page
-  for(var stopDeparture in stopDepartures.Services){
-    console.log(stopDeparture);
-    console.log(stopDeparture.ServiceID);
-    console.log(stopDeparture.ServiceID);
-    console.log(stopDeparture.OperatorRef); // RAIL, TZM
-    console.log(stopDeparture.Service.Name);
-    console.log(stopDeparture.Service.Mode);
-    console.log(stopDeparture.);
+  stopDepartures.Services.forEach(function(stopDeparture){
+    // console.log(stopDeparture);
+    // console.log(stopDeparture.Service.Code);
+    // console.log(stopDeparture.Service.Name);
+    // console.log(stopDeparture.Service.Mode);
+    // console.log(stopDeparture.DepartureStatus);
+    // console.log(stopDeparture.DisplayDepartureSeconds);
+    // console.log(stopDeparture.ExpectedDeparture);
     
-  }
+    if(stopDeparture.DisplayDepartureSeconds < 600){
+  
+      let message = stopDeparture.Service.Mode + ' ' + stopDeparture.Service.Code + ' is departing in ' + stopDeparture.DisplayDepartureSeconds;
+    
+      const speech = new SpeechSynthesisUtterance(message);
+      speech.voice = selectedVoice;
+      speechSynthesis.speak(speech);
+      
+    }
+    
+    
+  });
 }
 
 
