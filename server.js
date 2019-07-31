@@ -30,7 +30,31 @@ server.listen(process.env.PORT);
 
 let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
 
-function getStopDepartures(stopNumber)
+function getStopDepartures(stopNumber){
+
+}
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get('/stopDepartures/:stop', function(request, response) {
+  console.log(request.params.stop);
+
+      response.send('HUh');
+
+  axios.get(stopDeparturesURL + request.params.stop)
+  .then(function (apiResponse) {
+
+    console.log(apiResponse.data);
+    response.send('HUh');
+//    response.send(JSON.stringify(apiResponse.data));      
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+
+  
+  response.send(JSON.stringify(vehicles));
+});
 
 
 // Bus stuff
