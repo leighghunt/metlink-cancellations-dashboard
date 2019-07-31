@@ -38,22 +38,17 @@ function getStopDepartures(stopNumber){
 app.get('/stopDepartures/:stop', function(request, response) {
   console.log(request.params.stop);
 
-      response.send('HUh');
-
   axios.get(stopDeparturesURL + request.params.stop)
   .then(function (apiResponse) {
 
     console.log(apiResponse.data);
-    response.send('HUh');
-//    response.send(JSON.stringify(apiResponse.data));      
+   response.send(JSON.stringify(apiResponse.data));      
   })
   .catch(function (error) {
     // handle error
     console.log(error);
-  })
-
-  
-  response.send(JSON.stringify(vehicles));
+    response.status(500).send(error)
+  })  
 });
 
 

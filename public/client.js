@@ -29,6 +29,34 @@ function findMe(){
 
 
 
+
+
+/ a helper function to call when our request for dreams is done
+const getStopDeparturesListener = function() {
+  // parse our response to convert to JSON
+  console.log('getStopDeparturesListener')
+  let latestVehicles = JSON.parse(this.responseText);
+
+  // iterate through every dream and add it to our page
+  for(var VehicleRef in latestVehicles){
+    handleVehicleData(latestVehicles[VehicleRef]);
+  }
+}
+
+
+
+
+
+function getStopDepartures(){
+  const stopNumber = $('#getStopDepartures').text;
+  console.log(stopNumber);
+  const stopDeparturesRequest = new XMLHttpRequest();
+  stopDeparturesRequest.onload = getStopDeparturesListener;
+  stopDeparturesRequest.open('get', '/stopDepartures');
+  stopDeparturesRequest.send();
+
+}
+
 function test(){
   const speech = new SpeechSynthesisUtterance("hello there - testing 1 2 3");
   speech.voice = selectedVoice;
@@ -40,7 +68,11 @@ function test(){
 $('#findMe').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
   findMe();
-  alert("yo")
+});
+
+$('#getStopDepartures').on('click', function(event) {
+  // event.preventDefault(); // To prevent following the link (optional)
+  getStopDepartures();
 });
 
 
