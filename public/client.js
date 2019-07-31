@@ -1,3 +1,6 @@
+const findMeButton = document.querySelector('.findMe');
+findMeButton.addEventListener('click', findMe);
+
 var x = document.getElementById("demo");
 function getLocation() {
   console.log('getLocation')
@@ -13,7 +16,16 @@ function showPosition(position) {
   "<br>Longitude: " + position.coords.longitude; 
 }
 
-getLocation();
+function findMe(){
+  
+}
 
 var synth = window.speechSynthesis;
 
+function test(){
+  const speech = new SpeechSynthesisUtterance("hello there - testing 1 2 3");
+  // speech.voice = voice;
+  // speech.pitch = pitchInput.value;
+  // speech.rate = rateInput.value;
+  speechSynthesis.speak(speech);
+}
