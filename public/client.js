@@ -31,15 +31,21 @@ function findMe(){
 
 
 
-/ a helper function to call when our request for dreams is done
 const getStopDeparturesListener = function() {
   // parse our response to convert to JSON
   console.log('getStopDeparturesListener')
-  let latestVehicles = JSON.parse(this.responseText);
+  let stopDepartures = JSON.parse(this.responseText);
 
   // iterate through every dream and add it to our page
-  for(var VehicleRef in latestVehicles){
-    handleVehicleData(latestVehicles[VehicleRef]);
+  for(var stopDeparture in stopDepartures.Services){
+    console.log(stopDeparture);
+    console.log(stopDeparture.ServiceID);
+    console.log(stopDeparture.ServiceID);
+    console.log(stopDeparture.OperatorRef); // RAIL, TZM
+    console.log(stopDeparture.Service.Name);
+    console.log(stopDeparture.Service.Mode);
+    console.log(stopDeparture.);
+    
   }
 }
 
@@ -48,11 +54,11 @@ const getStopDeparturesListener = function() {
 
 
 function getStopDepartures(){
-  const stopNumber = $('#getStopDepartures').text;
+  const stopNumber = $('#stopNumber').val();
   console.log(stopNumber);
   const stopDeparturesRequest = new XMLHttpRequest();
   stopDeparturesRequest.onload = getStopDeparturesListener;
-  stopDeparturesRequest.open('get', '/stopDepartures');
+  stopDeparturesRequest.open('get', '/stopDepartures/' + stopNumber);
   stopDeparturesRequest.send();
 
 }

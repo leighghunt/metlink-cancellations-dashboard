@@ -40,8 +40,6 @@ app.get('/stopDepartures/:stop', function(request, response) {
 
   axios.get(stopDeparturesURL + request.params.stop)
   .then(function (apiResponse) {
-
-    console.log(apiResponse.data);
    response.send(JSON.stringify(apiResponse.data));      
   })
   .catch(function (error) {
