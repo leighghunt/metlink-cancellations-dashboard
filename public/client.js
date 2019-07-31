@@ -31,7 +31,7 @@ function findMe(){
 
 function test(){
   const speech = new SpeechSynthesisUtterance("hello there - testing 1 2 3");
-  speech.voice = voice;
+  speech.voice = selectedVoice;
   // speech.pitch = pitchInput.value;
   // speech.rate = rateInput.value;
   speechSynthesis.speak(speech);
@@ -55,7 +55,7 @@ const populateVoiceList = () => {
       console.log(voice);
       console.log(voice.name);
         if(voice.name == 'Google UK English Female'){
-          voice = voice;
+          selectedVoice = voice;
         }
       }
     })
