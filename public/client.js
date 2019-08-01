@@ -167,7 +167,7 @@ const getStopDeparturesListener = function() {
       message += '. The next service is ' + describeService(nextDepartureInfo);
     } else
     {
-      message += "There are no services listed."
+      message = "There are no services listed."
     }
     console.log(message);
     const speech = new SpeechSynthesisUtterance(message);
