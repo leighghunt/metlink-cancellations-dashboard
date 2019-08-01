@@ -112,52 +112,54 @@ const getStopDeparturesListener = function() {
             // <li class="list-group-item list-group-item-action">Cras justo odio</li>
 
 
-  
-  stopDepartures.Services.forEach(function(stopDeparture){
-    
-    let expectedDeparture = new moment(stopDeparture.DisplayDeparture);
+  if(stopDepartures.Services){
+    stopDepartures.Services.forEach(function(stopDeparture){
 
-    if(!nextDeparture || expectedDeparture < nextDeparture){
-      nextDeparture = expectedDeparture;
-      nextDepartureInfo = stopDeparture;
-    }
+      let expectedDeparture = new moment(stopDeparture.DisplayDeparture);
 
-    let calculatedDepartureSeconds = (expectedDeparture - now)/1000;
+      if(!nextDeparture || expectedDeparture < nextDeparture){
+        nextDeparture = expectedDeparture;
+        nextDepartureInfo = stopDeparture;
+      }
 
-    // console.log('calculatedDepartureSeconds');
-    // console.log(calculatedDepartureSeconds);
-    // console.log('stopDeparture.DisplayDepartureSeconds')
-    // console.log(stopDeparture.DisplayDepartureSeconds)
-    
-    
-    if(calculatedDepartureSeconds < announcementCutoffSeconds){
-      
-      let message = describeService(stopDeparture);
-    
-      const speech = new SpeechSynthesisUtterance(message);
-      speech.voice = selectedVoice;
-      speechSynthesis.speak(speech);
-    
-      
-      let displayMessage = stopDeparture.Service.Code
-      + ' to ' + stopDeparture.DestinationStopName + ' '
-      + new moment(stopDeparture.DisplayDeparture).format('LT')
-    
-      let node = document.createElement("LI");
-      node.className = 'list-group-item list-group-item-action';
-      var textnode = document.createTextNode(displayMessage);         // Create a text node
-      node.appendChild(textnode);                              // Append the text to <li>
-      listResults.appendChild(node);
+      let calculatedDepartureSeconds = (expectedDeparture - now)/1000;
 
-      
-      
-      
-      announced = true;
-      
-    }    
-    
-  });
-  
+      // console.log('calculatedDepartureSeconds');
+      // console.log(calculatedDepartureSeconds);
+      // console.log('stopDeparture.DisplayDepartureSeconds')
+      // console.log(stopDeparture.DisplayDepartureSeconds)
+
+
+      if(calculatedDepartureSeconds < announcementCutoffSeconds){
+
+        let message = describeService(stopDeparture);
+
+        const speech = new SpeechSynthesisUtterance(message);
+        speech.voice = selectedVoice;
+        speechSynthesis.speak(speech);
+
+
+        let displayMessage = stopDeparture.Service.Code
+        + ' to ' + stopDeparture.DestinationStopName + ' '
+        + new moment(stopDeparture.DisplayDeparture).format('LT')
+
+        let node = document.createElement("LI");
+        node.className = 'list-group-item list-group-item-action';
+        var textnode = document.createTextNode(displayMessage);         // Create a text node
+        node.appendChild(textnode);                              // Append the text to <li>
+        listResults.appendChild(node);
+
+
+
+
+        announced = true;
+
+      }    
+
+    });
+
+  }
+
   if(!announced){
     message = 'There are no departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
     message += '.\n The next service is in ' + moment.duration((nextDeparture - new moment())/1000, "seconds").humanize();
