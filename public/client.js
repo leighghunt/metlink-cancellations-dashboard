@@ -115,28 +115,32 @@ function describeService(service){
 
   let message;
   if(service.Service.Mode.toUpperCase() == 'BUS'){
-    message = 'Bus ' + service.Service.Code + ' from ' + service.OriginStopName + ' to ' + service.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+    message = 'Bus ' + service.Service.Code + ' from "' + service.OriginStopName + '" to "' + service.DestinationStopName + '" is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
   } else
   {
-    message = 'The '  + service.Service.Mode + ' from ' + service.OriginStopName + ' to ' + service.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+    message = 'The '  + service.Service.Mode + ' from "' + service.OriginStopName + '" to "' + service.DestinationStopName + '" is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
   }
 
   console.log(message);
 
-  message = message.replace('WgtnStn', 'Wellington')
-  message = message.replace('WELL-All stops', 'Wellington (all stops)')
-  message = message.replace('JOHN-All stops', 'Johnsonville (all stops)')
-  message = message.replace('UPPE', 'Upper Hutt')
-  message = message.replace('WaikanaeStn', 'Whycan-i')
-  message = message.replace('WAIK - All stops', 'Whycan-i (all stops)')
-  message = message.replace('Waikanae', 'whycan-i')
-  message = message.replace('Papakowhai', 'pahpah-co fi')
-  message = message.replace('Paremata', 'Para-mata')
-  message = message.replace('Whitby-NavigationDr', 'Whitby, Navigation Drive')
-  message = message.replace('Porirua', 'Poory Rua')
-  message = message.replace('RaumatiBchShops', 'Row mati')
-  message = message.replace('Raumati', 'Row mati Beach Shops')
-  message = message.replace('Raumati', 'Row mati')
+  message = message.replace(/WgtnStn/gi, 'Wellington')
+  message = message.replace(/WELL-All stops/gi, 'Wellington (all stops)')
+  message = message.replace(/JOHN-All stops/gi, 'Johnsonville (all stops)')
+  message = message.replace(/UPPE/gi, 'Upper Hutt')
+  message = message.replace(/WaikanaeStn/gi, 'Whycan-i')
+  message = message.replace(/WAIK - All stops/gi, 'Whycan-i (all stops)')
+  message = message.replace(/Waikanae/gi, 'whycan-i')
+  message = message.replace(/Papakowhai/gi, 'pahpah-co fi')
+  message = message.replace(/Paremata/gi, 'Para-mata')
+  message = message.replace(/Whitby-NavigationDr/gi, 'Whitby, Navigation Drive')
+  message = message.replace(/Porirua/gi, 'Poory Rua')
+  message = message.replace(/RaumatiBchShops-Rau/gi, 'Row mati Beach Shops')
+  message = message.replace(/Raumati/gi, 'Row mati')
+  message = message.replace(/ParaparaumuStn-/gi, 'Para Para Umu Station ')
+  message = message.replace(/Paraparaumu/gi, 'Para Para Umu')
+
+  message = message.replace(/KapitiHealthCtr \(op/gi, 'Kapiti Health Centre')
+  // message = message.replace(/Paekakariki/gi, 'Para Para Umu')
   
 
   console.log(message);
