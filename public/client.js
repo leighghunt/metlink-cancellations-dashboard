@@ -55,7 +55,7 @@ populateVoiceList();
 
 
 const getStopDeparturesListener = function() {
-  populateVoiceList();
+  // populateVoiceList();
   // parse our response to convert to JSON
   console.log('getStopDeparturesListener')
   let stopDepartures = JSON.parse(this.responseText);
@@ -77,24 +77,24 @@ const getStopDeparturesListener = function() {
 
     let calculatedDepartureSeconds = (expectedDeparture - now)/1000;
 
-    console.log('calculatedDepartureSeconds');
-    console.log(calculatedDepartureSeconds);
-    console.log('stopDeparture.DisplayDepartureSeconds')
-    console.log(stopDeparture.DisplayDepartureSeconds)
+    // console.log('calculatedDepartureSeconds');
+    // console.log(calculatedDepartureSeconds);
+    // console.log('stopDeparture.DisplayDepartureSeconds')
+    // console.log(stopDeparture.DisplayDepartureSeconds)
     
     if(calculatedDepartureSeconds < announcementCutoffSeconds){
 
       // console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds"))
       // console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds").humanize())
       // let message = stopDeparture.Service.Mode + ' ' + stopDeparture.Service.Name + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
-      let message = stopDeparture.Service.Mode + ' from ' + stopDeparture.OriginStopName + ' to ' + stopDeparture.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+      let message = 'The '  + stopDeparture.Service.Mode + ' from ' + stopDeparture.OriginStopName + ' to ' + stopDeparture.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
       
       console.log(message);
 
-      message = message.replace('WgtnStn', 'Wellington Station')
-      message = message.replace('WELL - All Stops', 'Wellington Station (all stops)')
-      message = message.replace('WaikanaeStn', 'Whycan-i Station')
-      message = message.replace('WAIK - All stops', 'Whycan-i Station (all stops)')
+      message = message.replace('WgtnStn', 'Wellington')
+      message = message.replace('WELL-All stops', 'Wellington (all stops)')
+      message = message.replace('WaikanaeStn', 'Whycan-i')
+      message = message.replace('WAIK - All stops', 'Whycan-i (all stops)')
       message = message.replace('Waikanae', 'whycan-i')
       message = message.replace('Papakowhai', 'pahpah-co fi')
       message = message.replace('Paremata', 'Para-mata')
@@ -114,7 +114,7 @@ const getStopDeparturesListener = function() {
   
   if(!announced){
     message = 'There are no departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
-    message += '\n The next service is in ' + moment.duration((nextDeparture - new moment())/1000, "seconds").humanize();
+    message += '.\n The next service is in ' + moment.duration((nextDeparture - new moment())/1000, "seconds").humanize();
     console.log(message);
     const speech = new SpeechSynthesisUtterance(message);
     speech.voice = selectedVoice;
