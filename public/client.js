@@ -140,8 +140,8 @@ const getStopDeparturesListener = function() {
     
       
       let displayMessage = stopDeparture.Service.Code
-      + ' to ' + stopDeparture.DestinationStopName
-      + ' is departing at ' + new moment(stopDeparture.DisplayDeparture).format('LT')
+      + ' to ' + stopDeparture.DestinationStopName + ' '
+      + new moment(stopDeparture.DisplayDeparture).format('LT')
     
       let node = document.createElement("LI");
       node.className = 'list-group-item list-group-item-action';
