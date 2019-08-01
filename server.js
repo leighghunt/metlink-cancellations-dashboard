@@ -29,6 +29,7 @@ server.listen(process.env.PORT);
 // });
 
 let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
+let stopNearbyURL = 'https://www.metlink.org.nz/api/v1/StopNearby/'
 
 function getStopDepartures(stopNumber){
 
@@ -39,6 +40,22 @@ app.get('/stopDepartures/:stop', function(request, response) {
   console.log(request.params.stop);
 
   axios.get(stopDeparturesURL + request.params.stop)
+  .then(function (apiResponse) {
+   response.send(JSON.stringify(apiResponse.data));      
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+    response.status(500).send(error)
+  })  
+});
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get('/stopNearby/:latitude/:longitude', function(request, response) {
+  console.log(request.params.latitude);
+  console.log(request.params.longitude);
+
+  axios.get(stopNearbyURL + request.params.latitude + '/' + request.params.longitude)
   .then(function (apiResponse) {
    response.send(JSON.stringify(apiResponse.data));      
   })

@@ -52,6 +52,16 @@ const populateVoiceList = () => {
 
 populateVoiceList();
 
+const getStopNearbyListener = function() {
+  console.log('getStopDeparturesListener')
+  let stopsNearby = JSON.parse(this.responseText);
+
+  stopsNearby.forEach(function(stopNearby){
+
+    console.log(stopNearby.Name);
+  });
+  
+}
 
 
 const getStopDeparturesListener = function() {
@@ -154,6 +164,29 @@ function describeService(service){
   return message;
 }
 
+function findLocation()
+{
+  populateVoiceList();
+  const speech = new SpeechSynthesisUtterance("Locating...");
+  speech.voice = selectedVoice;
+  speechSynthesis.speak(speech);
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(getStopsNearby);
+  } else {
+    speech = new SpeechSynthesisUtterance("Geolocation not supported by this browser");
+    speech.voice = selectedVoice;
+    speechSynthesis.speak(speech);
+  }
+}
+
+function getStopsNearby(position){
+  const stopNearbyRequest = new XMLHttpRequest();
+  stopNearbyRequest.onload = getStopDeparturesListener;
+  stopNearbyRequest.open('get', '/stopNearby/' + position.coords.latitude + '/' + position.coords.longitude);
+  stopNearbyRequest.send();
+
+}
 
 function getStopDepartures(){
   populateVoiceList();
@@ -180,7 +213,7 @@ function test(){
 
 $('#findMe').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
-  findMe();
+  findLocation();
 });
 
 $('#getStopDepartures').on('click', function(event) {
