@@ -167,10 +167,10 @@ function describeService(service){
               + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
   }
   
-  let calculatedDelay = (new moment(service.ExpectedDeparture) - new moment(service.DisplayDeparture))/1000;
+  let calculatedDelay = (new moment(service.AimedDeparture) - new moment(service.DisplayDeparture))/1000;
   
-  if(calculatedDelay > 60){
-    message += '. It is ' + moment.duration(calculatedDelay, "seconds").humanize() + " late.";
+  if(calculatedDelay > 60 || service.DepartureStatus == 'delayed'){
+    message += ". It's " + moment.duration(calculatedDelay, "seconds").humanize() + " late.";
     
   }
 
