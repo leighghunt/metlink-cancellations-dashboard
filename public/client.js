@@ -62,7 +62,7 @@ const getStopNearbyListener = function() {
   stopsNearby.slice(0, 5).forEach(function(stopNearby){
     $('#getStopDepartures' + buttonIndex).text(stopNearby.Sms);
     document.getElementById('getStopDepartures' + buttonIndex).style.visibility = "visible"
-    nearbyStopIDs.push(nearbyStopIDs);
+    nearbyStopIDs.push(stopNearby.Sms);
     buttonIndex++;
     if(stopNearby.Name){
       console.log(stopNearby.Name);
@@ -234,7 +234,27 @@ $('#getStopDepartures').on('click', function(event) {
 
 $('#getStopDepartures1').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
-  getStopDepartures();
+  getStopDepartures(nearbyStopIDs[0]);
+});
+
+$('#getStopDepartures2').on('click', function(event) {
+  // event.preventDefault(); // To prevent following the link (optional)
+  getStopDepartures(nearbyStopIDs[1]);
+});
+
+$('#getStopDepartures3').on('click', function(event) {
+  // event.preventDefault(); // To prevent following the link (optional)
+  getStopDepartures(nearbyStopIDs[2]);
+});
+
+$('#getStopDepartures4').on('click', function(event) {
+  // event.preventDefault(); // To prevent following the link (optional)
+  getStopDepartures(nearbyStopIDs[3]);
+});
+
+$('#getStopDepartures5').on('click', function(event) {
+  // event.preventDefault(); // To prevent following the link (optional)
+  getStopDepartures(nearbyStopIDs[4]);
 });
 
 

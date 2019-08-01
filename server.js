@@ -30,6 +30,7 @@ server.listen(process.env.PORT);
 
 let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
 let stopNearbyURL = 'https://www.metlink.org.nz/api/v1/StopNearby/'
+let stopURL = 'https://www.metlink.org.nz/api/v1/Stop/'
 
 function getStopDepartures(stopNumber){
 
@@ -58,6 +59,19 @@ app.get('/stopNearby/:latitude/:longitude', function(request, response) {
   axios.get(stopNearbyURL + request.params.latitude + '/' + request.params.longitude)
   .then(function (apiResponse) {
    response.send(JSON.stringify(apiResponse.data));      
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+    response.status(500).send(error)
+  })  
+});
+
+app.get('/stopName/:stop', function(request, response) {
+
+  axios.get(stopURL + request.params.stop)
+  .then(function (apiResponse) {
+   response.send(apiResponse.data.Name);      
   })
   .catch(function (error) {
     // handle error
