@@ -113,7 +113,13 @@ function describeService(service){
   let expectedDeparture = new moment(service.DisplayDeparture);
   let calculatedDepartureSeconds = (expectedDeparture - now)/1000;
 
-  let message = 'The '  + service.Service.Mode + ' from ' + service.OriginStopName + ' to ' + service.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+  let message;
+  if(service.Service.Mode.toUpperCase() == 'BUS'){
+    message = 'Bus ' + service.Service.Code + ' from ' + service.OriginStopName + ' to ' + service.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+  } else
+  {
+    message = 'The '  + service.Service.Mode + ' from ' + service.OriginStopName + ' to ' + service.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+  }
 
   console.log(message);
 
@@ -127,6 +133,11 @@ function describeService(service){
   message = message.replace('Papakowhai', 'pahpah-co fi')
   message = message.replace('Paremata', 'Para-mata')
   message = message.replace('Whitby-NavigationDr', 'Whitby, Navigation Drive')
+  message = message.replace('Porirua', 'Poory Rua')
+  message = message.replace('RaumatiBchShops', 'Row mati')
+  message = message.replace('Raumati', 'Row mati Beach Shops')
+  message = message.replace('Raumati', 'Row mati')
+  
 
   console.log(message);
   
