@@ -46,8 +46,17 @@ const getStopDeparturesListener = function() {
     // console.log(stopDeparture.ExpectedDeparture);
     
     if(stopDeparture.DisplayDepartureSeconds < 600){
-  
-      let message = stopDeparture.Service.Mode + ' ' + stopDeparture.Service.Code + ' is departing in ' + stopDeparture.DisplayDepartureSeconds;
+
+      let expectedDeparture = new moment(stopDeparture.ExpectedDeparture);
+      let now = new moment();
+      let calculatedDepartureSeconds = expectedDeparture - now;
+      console.log('calculatedDepartureSeconds');
+      console.log(calculatedDepartureSeconds);
+      console.log('stopDeparture.DisplayDepartureSeconds')
+      console.log(stopDeparture.DisplayDepartureSeconds)
+      console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds"))
+      console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds").humanize())
+      let message = stopDeparture.Service.Mode + ' ' + stopDeparture.Service.Name + ' is departing in ' + moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds").humanize();
     
       const speech = new SpeechSynthesisUtterance(message);
       speech.voice = selectedVoice;
