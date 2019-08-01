@@ -52,14 +52,18 @@ const populateVoiceList = () => {
 
 populateVoiceList();
 
+let nearbyStopIDs = [];
+
 const getStopNearbyListener = function() {
   console.log('getStopDeparturesListener')
+  nearbyStopIDs = [];
   let stopsNearby = JSON.parse(this.responseText);
-  int buttonIndex = 1;
+  let buttonIndex = 1;
   stopsNearby.slice(0, 5).forEach(function(stopNearby){
-    getStopDepartures1
+    $('#getStopDepartures' + buttonIndex).text(stopNearby.Sms);
+    document.getElementById('getStopDepartures' + buttonIndex).style.visibility = "visible"
+    nearbyStopIDs.push(nearbyStopIDs);
     buttonIndex++;
-    $('#getStopDepartures1' + )
     if(stopNearby.Name){
       console.log(stopNearby.Name);
     } else {
@@ -194,14 +198,12 @@ function getStopsNearby(position){
 
 }
 
-function getStopDepartures(){
+function getStopDepartures(stopNumber){
   populateVoiceList();
   const speech = new SpeechSynthesisUtterance("Checking...");
   speech.voice = selectedVoice;
   speechSynthesis.speak(speech);
 
-  const stopNumber = $('#stopNumber').val().toUpperCase();
-  console.log(stopNumber);
   const stopDeparturesRequest = new XMLHttpRequest();
   stopDeparturesRequest.onload = getStopDeparturesListener;
   stopDeparturesRequest.open('get', '/stopDepartures/' + stopNumber);
@@ -223,6 +225,14 @@ $('#findMe').on('click', function(event) {
 });
 
 $('#getStopDepartures').on('click', function(event) {
+  // event.preventDefault(); // To prevent following the link (optional)
+  const stopNumber = $('#stopNumber').val().toUpperCase();
+  console.log(stopNumber);
+
+  getStopDepartures(stopNumber);
+});
+
+$('#getStopDepartures1').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
   getStopDepartures();
 });
