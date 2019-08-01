@@ -163,6 +163,8 @@ function describeService(service){
               + ' to "' + service.DestinationStopName + '"'
               + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
   }
+  
+  if(service.)
 
   console.log(message);
 
