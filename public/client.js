@@ -29,7 +29,33 @@ function findMe(){
 
 
 
+
+
+const populateVoiceList = () => {
+  console.log('populateVoiceList');
+  console.log(speechSynthesis.getVoices());
+  if(voices.length !== speechSynthesis.getVoices().length){
+    voices = speechSynthesis.getVoices();
+    
+    voices.map((voice, i) => {
+      if(voice.lang == 'en-GB' || voice.lang == 'en-NZ' ){
+      console.log(voice);
+      console.log(voice.name);
+        if(voice.name == 'Google UK English Female'){
+          selectedVoice = voice;
+          console.log(voice.name);
+        }
+      }
+    })
+  }
+}
+
+populateVoiceList();
+
+
+
 const getStopDeparturesListener = function() {
+  populateVoiceList();
   // parse our response to convert to JSON
   console.log('getStopDeparturesListener')
   let stopDepartures = JSON.parse(this.responseText);
@@ -37,7 +63,7 @@ const getStopDeparturesListener = function() {
   let nextDeparture = null;
 
   let announced = false;
-  let announcementCutoffSeconds = 6000;
+  let announcementCutoffSeconds = 600;
   let now = new moment();
 
   
@@ -65,10 +91,10 @@ const getStopDeparturesListener = function() {
       
       console.log(message);
 
-      message = message.replace('WgtnStn', 'whycan-i')
-      message = message.replace('WgtnStn', 'whycan-i')
-      message = message.replace('WaikanaeStn', 'whycan-i')
-      message = message.replace('WAIK - All stops', 'whycan-i')
+      message = message.replace('WgtnStn', 'Wellington Station')
+      message = message.replace('WELL - All Stops', 'Wellington Station (all stops)')
+      message = message.replace('WaikanaeStn', 'Whycan-i Station')
+      message = message.replace('WAIK - All stops', 'Whycan-i Station (all stops)')
       message = message.replace('Waikanae', 'whycan-i')
       message = message.replace('Papakowhai', 'pahpah-co fi')
       message = message.replace('Paremata', 'Para-mata')
@@ -87,15 +113,14 @@ const getStopDeparturesListener = function() {
   });
   
   if(!announced){
-    message = 'No departures in next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
-    message += 'Next service is in ' + moment.duration((nextDeparture - new moment())/1000, "seconds").humanize();
+    message = 'There are no departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
+    message += '\n The next service is in ' + moment.duration((nextDeparture - new moment())/1000, "seconds").humanize();
     console.log(message);
     const speech = new SpeechSynthesisUtterance(message);
     speech.voice = selectedVoice;
     speechSynthesis.speak(speech);
 
   }
-
 }
 
 
@@ -132,21 +157,3 @@ $('#getStopDepartures').on('click', function(event) {
 
 
 
-
-const populateVoiceList = () => {
-  if(voices.length !== speechSynthesis.getVoices().length){
-    voices = speechSynthesis.getVoices();
-    
-    voices.map((voice, i) => {
-      if(voice.lang == 'en-GB' || voice.lang == 'en-NZ' ){
-      console.log(voice);
-      console.log(voice.name);
-        if(voice.name == 'Google UK English Female'){
-          selectedVoice = voice;
-        }
-      }
-    })
-  }
-}
-
-populateVoiceList();
