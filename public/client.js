@@ -102,6 +102,11 @@ const getStopDeparturesListener = function() {
   let announced = false;
   let announcementCutoffSeconds = 600;
   let now = new moment();
+  
+  
+            <ul class="list-group" id='listResults' style="display_:none">
+            <li class="list-group-item list-group-item-action">Cras justo odio</li>
+
 
   
   stopDepartures.Services.forEach(function(stopDeparture){
@@ -213,12 +218,18 @@ function findLocation()
   speechSynthesis.speak(speech);
 
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(getStopsNearby);
+    navigator.geolocation.getCurrentPosition(getStopsNearby, locationError);
   } else {
     speech = new SpeechSynthesisUtterance("Geolocation not supported by this browser");
     speech.voice = selectedVoice;
     speechSynthesis.speak(speech);
   }
+}
+
+function locationError(){
+    speech = new SpeechSynthesisUtterance("I'm sorry, I couldn't locate you");
+    speech.voice = selectedVoice;
+    speechSynthesis.speak(speech);
 }
 
 function getStopsNearby(position){
