@@ -198,7 +198,7 @@ function describeService(service){
 function findLocation()
 {
   populateVoiceList();
-  const speech = new SpeechSynthesisUtterance("Locating...");
+  const speech = new SpeechSynthesisUtterance("Locating stops nearest to you");
   speech.voice = selectedVoice;
   speechSynthesis.speak(speech);
 
@@ -237,21 +237,11 @@ function getStopDepartures(stopNumber){
 
 }
 
-function test(){
-  const speech = new SpeechSynthesisUtterance("hello there - testing 1 2 3");
-  speech.voice = selectedVoice;
-  // speech.pitch = pitchInput.value;
-  // speech.rate = rateInput.value;
-  speechSynthesis.speak(speech);
-}
-
 $('#findMe').on('click', function(event) {
-  // event.preventDefault(); // To prevent following the link (optional)
   findLocation();
 });
 
 $('#getStopDepartures').on('click', function(event) {
-  // event.preventDefault(); // To prevent following the link (optional)
   const stopNumber = $('#stopNumber').val().toUpperCase();
   console.log(stopNumber);
 
