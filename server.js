@@ -71,7 +71,7 @@ app.get('/stopName/:stop', function(request, response) {
 
   axios.get(stopURL + request.params.stop)
   .then(function (apiResponse) {
-   response.send(apiResponse.data.Name);      
+   response.send(JSON.stringify(apiResponse.data));      
   })
   .catch(function (error) {
     // handle error

@@ -32,18 +32,18 @@ function findMe(){
 
 
 const populateVoiceList = () => {
-  console.log('populateVoiceList');
-  console.log(speechSynthesis.getVoices());
+  // console.log('populateVoiceList');
+  // console.log(speechSynthesis.getVoices());
   if(voices.length !== speechSynthesis.getVoices().length){
     voices = speechSynthesis.getVoices();
     
     voices.map((voice, i) => {
       if(voice.lang == 'en-GB' || voice.lang == 'en-NZ' ){
-      console.log(voice);
-      console.log(voice.name);
+      // console.log(voice);
+      // console.log(voice.name);
         if(voice.name == 'Google UK English Female'){
           selectedVoice = voice;
-          console.log(voice.name);
+          // console.log(voice.name);
         }
       }
     })
@@ -52,7 +52,7 @@ const populateVoiceList = () => {
 
 populateVoiceList();
 
-let nearbyStopIDs = [];
+let nearbyStops = [];
 
 const getStopNearbyListener = function() {
   console.log('getStopDeparturesListener')
@@ -62,11 +62,12 @@ const getStopNearbyListener = function() {
   stopsNearby.slice(0, 5).forEach(function(stopNearby){
     $('#getStopDepartures' + buttonIndex).text(stopNearby.Sms);
     document.getElementById('getStopDepartures' + buttonIndex).style.visibility = "visible"
-    nearbyStopIDs.push(stopNearby.Sms);
     buttonIndex++;
     if(stopNearby.Name){
+      nearbyStops.push({Name: stopNearby.Name, Sms: stopNearby.Sms});
       console.log(stopNearby.Name);
     } else {
+      nearbyStops.push({Name: stopNearby.Sms, Sms: stopNearby.Sms});
       console.log(stopNearby.Sms);
     }
   });
@@ -200,7 +201,12 @@ function getStopsNearby(position){
 
 function getStopDepartures(stopNumber){
   populateVoiceList();
-  const speech = new SpeechSynthesisUtterance("Checking...");
+  stop = nearbyStops.filter(stop => stop.Sms == stopNumber);
+  let message = "Checking departures for chosen stop"
+  if(stop){
+    message = "Checking departures for " + stop.Name;
+  }
+  const speech = new SpeechSynthesisUtterance(message);
   speech.voice = selectedVoice;
   speechSynthesis.speak(speech);
 
@@ -234,27 +240,27 @@ $('#getStopDepartures').on('click', function(event) {
 
 $('#getStopDepartures1').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
-  getStopDepartures(nearbyStopIDs[0]);
+  getStopDepartures(nearbyStops[0].Sms);
 });
 
 $('#getStopDepartures2').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
-  getStopDepartures(nearbyStopIDs[1]);
+  getStopDepartures(nearbyStops[1].Sms);
 });
 
 $('#getStopDepartures3').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
-  getStopDepartures(nearbyStopIDs[2]);
+  getStopDepartures(nearbyStops[2].Sms);
 });
 
 $('#getStopDepartures4').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
-  getStopDepartures(nearbyStopIDs[3]);
+  getStopDepartures(nearbyStops[3].Sms);
 });
 
 $('#getStopDepartures5').on('click', function(event) {
   // event.preventDefault(); // To prevent following the link (optional)
-  getStopDepartures(nearbyStopIDs[4]);
+  getStopDepartures(nearbyStops[4].Sms);
 });
 
 
