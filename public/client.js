@@ -54,9 +54,19 @@ populateVoiceList();
 
 let nearbyStops = [];
 
+const getStopNameListener = function() {
+  let stopInfo = JSON.parse(this.responseText);
+  let stop = nearbyStops.find(stop => stop.Sms == stopInfo.Sms);
+  if(stop){
+    console.log('Replacing ' + stop.Name + ' with ' + stopInfo.Name);
+    stop.Name = stopInfo.Name;
+  }  
+}
+
+
 const getStopNearbyListener = function() {
   console.log('getStopDeparturesListener')
-  nearbyStopIDs = [];
+  nearbyStops = [];
   let stopsNearby = JSON.parse(this.responseText);
   let buttonIndex = 1;
   stopsNearby.slice(0, 5).forEach(function(stopNearby){
@@ -67,6 +77,12 @@ const getStopNearbyListener = function() {
       nearbyStops.push({Name: stopNearby.Name, Sms: stopNearby.Sms});
       console.log(stopNearby.Name);
     } else {
+      // We've not got a name in the nearby Stop info - seems to be a problem with railway stations - let's find it
+      const stopNameRequest = new XMLHttpRequest();
+      stopNameRequest.onload = getStopNameListener;
+      stopNameRequest.open('get', '/stopName/' + stopNearby.Sms);
+      stopNameRequest.send();
+
       nearbyStops.push({Name: stopNearby.Sms, Sms: stopNearby.Sms});
       console.log(stopNearby.Sms);
     }
@@ -201,7 +217,7 @@ function getStopsNearby(position){
 
 function getStopDepartures(stopNumber){
   populateVoiceList();
-  stop = nearbyStops.filter(stop => stop.Sms == stopNumber);
+  stop = nearbyStops.find(stop => stop.Sms == stopNumber);
   let message = "Checking departures for chosen stop"
   if(stop){
     message = "Checking departures for " + stop.Name;
