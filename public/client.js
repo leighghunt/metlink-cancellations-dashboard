@@ -97,6 +97,7 @@ const getStopDeparturesListener = function() {
   let stopDepartures = JSON.parse(this.responseText);
   
   let nextDeparture = null;
+  let nextDepartureInfo = null;
 
   let announced = false;
   let announcementCutoffSeconds = 600;
@@ -109,6 +110,7 @@ const getStopDeparturesListener = function() {
 
     if(!nextDeparture || expectedDeparture < nextDeparture){
       nextDeparture = expectedDeparture;
+      nextDepartureInfo = stopDeparture;
     }
 
     let calculatedDepartureSeconds = (expectedDeparture - now)/1000;
@@ -135,6 +137,7 @@ const getStopDeparturesListener = function() {
   if(!announced){
     message = 'There are no departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
     message += '.\n The next service is in ' + moment.duration((nextDeparture - new moment())/1000, "seconds").humanize();
+    message += '.\n It is ' + describeService(nextDepartureInfo);
     console.log(message);
     const speech = new SpeechSynthesisUtterance(message);
     speech.voice = selectedVoice;
@@ -164,7 +167,12 @@ function describeService(service){
               + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
   }
   
-  if(service.)
+  let calculatedDelay = (new moment(service.ExpectedDeparture) - new moment(service.DisplayDeparture))/1000;
+  
+  if(calculatedDelay > 60){
+    message += '. It is ' + moment.duration(calculatedDelay, "seconds").humanize() + " late.";
+    
+  }
 
   console.log(message);
 
