@@ -115,10 +115,16 @@ function describeService(service){
 
   let message;
   if(service.Service.Mode.toUpperCase() == 'BUS'){
-    message = 'Bus ' + service.Service.Code + ' from "' + service.OriginStopName + '" to "' + service.DestinationStopName + '" is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+    message = 'Bus ' + service.Service.Code 
+              /* + ' from "' + service.OriginStopName + '"'*/  
+              + ' to "' + service.DestinationStopName + '"'
+              + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
   } else
   {
-    message = 'The '  + service.Service.Mode + ' from "' + service.OriginStopName + '" to "' + service.DestinationStopName + '" is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+    message = 'The '  + service.Service.Mode 
+              /* + ' from "' + service.OriginStopName + '"'*/ 
+              + ' to "' + service.DestinationStopName + '"'
+              + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
   }
 
   console.log(message);
