@@ -55,7 +55,6 @@ populateVoiceList();
 
 
 const getStopDeparturesListener = function() {
-  // populateVoiceList();
   // parse our response to convert to JSON
   console.log('getStopDeparturesListener')
   let stopDepartures = JSON.parse(this.responseText);
@@ -83,24 +82,8 @@ const getStopDeparturesListener = function() {
     // console.log(stopDeparture.DisplayDepartureSeconds)
     
     if(calculatedDepartureSeconds < announcementCutoffSeconds){
-
-      // console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds"))
-      // console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds").humanize())
-      // let message = stopDeparture.Service.Mode + ' ' + stopDeparture.Service.Name + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
-      let message = 'The '  + stopDeparture.Service.Mode + ' from ' + stopDeparture.OriginStopName + ' to ' + stopDeparture.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
       
-      console.log(message);
-
-      message = message.replace('WgtnStn', 'Wellington')
-      message = message.replace('WELL-All stops', 'Wellington (all stops)')
-      message = message.replace('WaikanaeStn', 'Whycan-i')
-      message = message.replace('WAIK - All stops', 'Whycan-i (all stops)')
-      message = message.replace('Waikanae', 'whycan-i')
-      message = message.replace('Papakowhai', 'pahpah-co fi')
-      message = message.replace('Paremata', 'Para-mata')
-      message = message.replace('Whitby-NavigationDr', 'Whitby, Navigation Drive')
-       
-      console.log(message);
+      let message = describeService(stopDeparture);
     
       const speech = new SpeechSynthesisUtterance(message);
       speech.voice = selectedVoice;
@@ -124,11 +107,40 @@ const getStopDeparturesListener = function() {
 }
 
 
+function describeService(service){
 
+  let now = new moment();
+  let expectedDeparture = new moment(service.DisplayDeparture);
+  let calculatedDepartureSeconds = (expectedDeparture - now)/1000;
+
+  let message = 'The '  + service.Service.Mode + ' from ' + service.OriginStopName + ' to ' + service.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+
+  console.log(message);
+
+  message = message.replace('WgtnStn', 'Wellington')
+  message = message.replace('WELL-All stops', 'Wellington (all stops)')
+  message = message.replace('JOHN-All stops', 'Johnsonville (all stops)')
+  message = message.replace('UPPE', 'Upper Hutt')
+  message = message.replace('WaikanaeStn', 'Whycan-i')
+  message = message.replace('WAIK - All stops', 'Whycan-i (all stops)')
+  message = message.replace('Waikanae', 'whycan-i')
+  message = message.replace('Papakowhai', 'pahpah-co fi')
+  message = message.replace('Paremata', 'Para-mata')
+  message = message.replace('Whitby-NavigationDr', 'Whitby, Navigation Drive')
+
+  console.log(message);
+  
+  return message;
+}
 
 
 function getStopDepartures(){
-  const stopNumber = $('#stopNumber').val();
+  populateVoiceList();
+  const speech = new SpeechSynthesisUtterance("Checking...");
+  speech.voice = selectedVoice;
+  speechSynthesis.speak(speech);
+
+  const stopNumber = $('#stopNumber').val().toUpperCase();
   console.log(stopNumber);
   const stopDeparturesRequest = new XMLHttpRequest();
   stopDeparturesRequest.onload = getStopDeparturesListener;
