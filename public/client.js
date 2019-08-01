@@ -181,6 +181,10 @@ function describeService(service){
   message = message.replace(/Raumati/gi, 'Row mati')
   message = message.replace(/ParaparaumuStn-/gi, 'Para Para Umu Station ')
   message = message.replace(/Paraparaumu/gi, 'Para Para Umu')
+  message = message.replace(/MELL - All stops/gi, 'Melling (all stops)')
+  message = message.replace(/PORI - All stops/gi, 'Poory Rua (all stops)')
+  message = message.replace(/TAIT - All stops\*/gi, 'Taita (all stops)')
+  
 
   message = message.replace(/KapitiHealthCtr \(op/gi, 'Kapiti Health Centre')
   // message = message.replace(/Paekakariki/gi, 'Para Para Umu')
