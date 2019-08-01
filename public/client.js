@@ -29,39 +29,58 @@ function findMe(){
 
 
 
-
-
 const getStopDeparturesListener = function() {
   // parse our response to convert to JSON
   console.log('getStopDeparturesListener')
   let stopDepartures = JSON.parse(this.responseText);
+  
+  let nextDeparture = null;
 
   stopDepartures.Services.forEach(function(stopDeparture){
-    // console.log(stopDeparture);
-    // console.log(stopDeparture.Service.Code);
-    // console.log(stopDeparture.Service.Name);
-    // console.log(stopDeparture.Service.Mode);
-    // console.log(stopDeparture.DepartureStatus);
-    // console.log(stopDeparture.DisplayDepartureSeconds);
-    // console.log(stopDeparture.ExpectedDeparture);
     
-    if(stopDeparture.DisplayDepartureSeconds < 600){
+    let expectedDeparture = new moment(stopDeparture.DisplayDeparture);
 
-      let expectedDeparture = new moment(stopDeparture.ExpectedDeparture);
-      let now = new moment();
-      let calculatedDepartureSeconds = expectedDeparture - now;
-      console.log('calculatedDepartureSeconds');
-      console.log(calculatedDepartureSeconds);
-      console.log('stopDeparture.DisplayDepartureSeconds')
-      console.log(stopDeparture.DisplayDepartureSeconds)
-      console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds"))
-      console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds").humanize())
-      let message = stopDeparture.Service.Mode + ' ' + stopDeparture.Service.Name + ' is departing in ' + moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds").humanize();
+    if(!nextDeparture || nextDeparture){
+      
+    }
+
+    
+    let now = new moment();
+    let calculatedDepartureSeconds = (expectedDeparture - now)/1000;
+
+    console.log('calculatedDepartureSeconds');
+    console.log(calculatedDepartureSeconds);
+    console.log('stopDeparture.DisplayDepartureSeconds')
+    console.log(stopDeparture.DisplayDepartureSeconds)
+    
+    let announced = false;
+
+    if(calculatedDepartureSeconds < 6000){
+
+      // console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds"))
+      // console.log(moment.duration(stopDeparture.DisplayDepartureSeconds, "seconds").humanize())
+      // let message = stopDeparture.Service.Mode + ' ' + stopDeparture.Service.Name + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+      let message = stopDeparture.Service.Mode + ' from ' + stopDeparture.OriginStopName + ' from ' + stopDeparture.DestinationStopName + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+      
+
+      message = message.replace('Waikanae', 'whycan-i')
+      message = message.replace('Papakowhai', 'pahpah-co fi')
+      message = message.replace('Paremata', 'Para-mata')
+       
     
       const speech = new SpeechSynthesisUtterance(message);
       speech.voice = selectedVoice;
       speechSynthesis.speak(speech);
       
+      announced = true;
+      
+    }
+    
+    if(!announced){
+      const speech = new SpeechSynthesisUtterance(message);
+      speech.voice = selectedVoice;
+      speechSynthesis.speak(speech);
+
     }
     
     
