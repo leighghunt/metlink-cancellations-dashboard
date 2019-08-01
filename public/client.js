@@ -103,9 +103,13 @@ const getStopDeparturesListener = function() {
   let announcementCutoffSeconds = 600;
   let now = new moment();
   
-  
-            <ul class="list-group" id='listResults' style="display_:none">
-            <li class="list-group-item list-group-item-action">Cras justo odio</li>
+  listResults = document.getElementById('listResults');
+  listResults.style.display = 'block';
+  while (listResults.firstChild) {
+    listResults.removeChild(listResults.firstChild);
+  }
+            // <ul class="list-group" id='listResults' style="display_:none">
+            // <li class="list-group-item list-group-item-action">Cras justo odio</li>
 
 
   
@@ -124,6 +128,17 @@ const getStopDeparturesListener = function() {
     // console.log(calculatedDepartureSeconds);
     // console.log('stopDeparture.DisplayDepartureSeconds')
     // console.log(stopDeparture.DisplayDepartureSeconds)
+    
+    let displayMessage = stopDeparture.Service.Code
+        + ' to "' + stopDeparture.DestinationStopName + '"'
+        + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").format('hh:mm:ss');
+    
+    let node = document.createElement("LI");
+    node.className = 'list-group-item list-group-item-action';
+    var textnode = document.createTextNode(displayMessage);         // Create a text node
+    node.appendChild(textnode);                              // Append the text to <li>
+    listResults.appendChild(node);
+
     
     if(calculatedDepartureSeconds < announcementCutoffSeconds){
       
