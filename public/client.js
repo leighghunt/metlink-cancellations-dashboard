@@ -161,9 +161,14 @@ const getStopDeparturesListener = function() {
   }
 
   if(!announced){
-    message = 'There are no departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
-    message += '.\n The next service is in ' + moment.duration((nextDeparture - new moment())/1000, "seconds").humanize();
-    message += '.\n It is ' + describeService(nextDepartureInfo);
+    let message;
+    if(nextDeparture){
+      message = 'There are no departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
+      message += '. The next service is ' + describeService(nextDepartureInfo);
+    } else
+    {
+      message += "There are no services listed."
+    }
     console.log(message);
     const speech = new SpeechSynthesisUtterance(message);
     speech.voice = selectedVoice;
