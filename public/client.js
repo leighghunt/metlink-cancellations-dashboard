@@ -55,10 +55,16 @@ populateVoiceList();
 const getStopNearbyListener = function() {
   console.log('getStopDeparturesListener')
   let stopsNearby = JSON.parse(this.responseText);
-
-  stopsNearby.forEach(function(stopNearby){
-
-    console.log(stopNearby.Name);
+  int buttonIndex = 1;
+  stopsNearby.slice(0, 5).forEach(function(stopNearby){
+    getStopDepartures1
+    buttonIndex++;
+    $('#getStopDepartures1' + )
+    if(stopNearby.Name){
+      console.log(stopNearby.Name);
+    } else {
+      console.log(stopNearby.Sms);
+    }
   });
   
 }
@@ -182,7 +188,7 @@ function findLocation()
 
 function getStopsNearby(position){
   const stopNearbyRequest = new XMLHttpRequest();
-  stopNearbyRequest.onload = getStopDeparturesListener;
+  stopNearbyRequest.onload = getStopNearbyListener;
   stopNearbyRequest.open('get', '/stopNearby/' + position.coords.latitude + '/' + position.coords.longitude);
   stopNearbyRequest.send();
 
