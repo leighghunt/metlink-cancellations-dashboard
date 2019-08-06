@@ -1,3 +1,5 @@
+/* globals moment */
+
 const findMeButton = document.querySelector('.findMe');
 // findMeButton.addEventListener('click', findMe);
 
@@ -119,7 +121,7 @@ const getStopDeparturesListener = function() {
   let announcementCutoffSeconds = 600;
   let now = new moment();
   
-  listResults = document.getElementById('listResults');
+  let listResults = document.getElementById('listResults');
   listResults.style.display = 'block';
   while (listResults.firstChild) {
     listResults.removeChild(listResults.firstChild);
@@ -269,7 +271,7 @@ function findLocation()
 }
 
 function locationError(){
-    speech = new SpeechSynthesisUtterance("I'm sorry, I couldn't locate you");
+    let speech = new SpeechSynthesisUtterance("I'm sorry, I couldn't locate you");
     speech.voice = selectedVoice;
     speechSynthesis.speak(speech);
 }
