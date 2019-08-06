@@ -5,6 +5,7 @@ var x = document.getElementById("demo");
 var synth = window.speechSynthesis;
 let voices = [];
 let selectedVoice;
+let outLocation;
 
 function getLocation() {
   console.log('getLocation')
@@ -69,7 +70,12 @@ const getStopNearbyListener = function() {
   nearbyStops = [];
   let stopsNearby = JSON.parse(this.responseText);
   let buttonIndex = 1;
+  
+  // What's the distance between the two closest stops?
+  
+  
   stopsNearby.slice(0, 5).forEach(function(stopNearby){
+    console.log(stopNearby);
     $('#getStopDepartures' + buttonIndex).text(stopNearby.Sms);
     document.getElementById('getStopDepartures' + buttonIndex).style.visibility = "visible"
     buttonIndex++;
@@ -259,8 +265,10 @@ function locationError(){
 }
 
 function getStopsNearby(position){
+  ourLocation = position;
   const stopNearbyRequest = new XMLHttpRequest();
   stopNearbyRequest.onload = getStopNearbyListener;
+  console.log(position.coords.accuracy)
   stopNearbyRequest.open('get', '/stopNearby/' + position.coords.latitude + '/' + position.coords.longitude);
   stopNearbyRequest.send();
 
