@@ -5,7 +5,7 @@ var x = document.getElementById("demo");
 var synth = window.speechSynthesis;
 let voices = [];
 let selectedVoice;
-let outLocation;
+let ourLocation;
 
 function getLocation() {
   console.log('getLocation')
@@ -72,10 +72,19 @@ const getStopNearbyListener = function() {
   let buttonIndex = 1;
   
   // What's the distance between the two closest stops?
+
+  let distanceToStop1 = distance(stopsNearby[0].ourLocation.coords.latitude, stopsNearby[0].ourLocation.coords.longitude, stopNearby.Lat, stopNearby.Long, 'K') * 1000);
+  let distanceToStop2 = distance(stopsNearby[1].ourLocation.coords.latitude, stopsNearby[1].ourLocation.coords.longitude, stopNearby.Lat, stopNearby.Long, 'K') * 1000);
   
+  // Is closest stop close enough, and 2nd closest far enough away?
+  if(distanceToStop2 < outLocation.accuracy && distanceToStop2 > outLocation.accuracy){
+    
+  }
   
   stopsNearby.slice(0, 5).forEach(function(stopNearby){
     console.log(stopNearby);
+    console.log(stopNearby.Name);
+    console.log(distance(ourLocation.coords.latitude, ourLocation.coords.longitude, stopNearby.Lat, stopNearby.Long, 'K') * 1000 + 'm');
     $('#getStopDepartures' + buttonIndex).text(stopNearby.Sms);
     document.getElementById('getStopDepartures' + buttonIndex).style.visibility = "visible"
     buttonIndex++;
@@ -330,3 +339,29 @@ $('#getStopDepartures5').on('click', function(event) {
 
 
 
+
+
+
+
+// https://www.geodatasource.com/developers/javascript
+function distance(lat1, lon1, lat2, lon2, unit) {
+	if ((lat1 == lat2) && (lon1 == lon2)) {
+		return 0;
+	}
+	else {
+		var radlat1 = Math.PI * lat1/180;
+		var radlat2 = Math.PI * lat2/180;
+		var theta = lon1-lon2;
+		var radtheta = Math.PI * theta/180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+		if (unit=="K") { dist = dist * 1.609344 }
+		if (unit=="N") { dist = dist * 0.8684 }
+		return dist;
+	}
+}
