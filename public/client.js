@@ -71,16 +71,6 @@ const getStopNearbyListener = function() {
   let stopsNearby = JSON.parse(this.responseText);
   let buttonIndex = 1;
   
-  // What's the distance between the two closest stops?
-
-  let distanceToStop1 = distance(stopsNearby[0].ourLocation.coords.latitude, stopsNearby[0].ourLocation.coords.longitude, stopNearby.Lat, stopNearby.Long, 'K') * 1000);
-  let distanceToStop2 = distance(stopsNearby[1].ourLocation.coords.latitude, stopsNearby[1].ourLocation.coords.longitude, stopNearby.Lat, stopNearby.Long, 'K') * 1000);
-  
-  // Is closest stop close enough, and 2nd closest far enough away?
-  if(distanceToStop2 < outLocation.accuracy && distanceToStop2 > outLocation.accuracy){
-    
-  }
-  
   stopsNearby.slice(0, 5).forEach(function(stopNearby){
     console.log(stopNearby);
     console.log(stopNearby.Name);
@@ -103,6 +93,17 @@ const getStopNearbyListener = function() {
     }
   });
   
+  let autoRequestNearestStop = false;
+  
+  // What's the distance between the two closest stops?
+  let distanceToStop1 = distance(ourLocation.coords.latitude, ourLocation.coords.longitude, stopsNearby[0].Lat, stopsNearby[0].Long, 'K') * 1000;
+  let distanceToStop2 = distance(ourLocation.coords.latitude, ourLocation.coords.longitude, stopsNearby[1].Lat, stopsNearby[1].Long, 'K') * 1000;
+  
+  // Is closest stop close enough, and 2nd closest far enough away?
+  if(distanceToStop2 < ourLocation.accuracy && distanceToStop2 > ourLocation.accuracy || 
+    distanceToStop2 >= distanceToStop1 * 2){
+    getStopDepartures(nearbyStops[0].Sms);
+  }  
 }
 
 
