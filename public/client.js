@@ -118,7 +118,7 @@ const getStopDeparturesListener = function() {
   let nextDepartureInfo = null;
 
   let announced = false;
-  let announcementCutoffSeconds = 600;
+  let announcementCutoffSeconds = 900;
   let now = new moment();
   
   let listResults = document.getElementById('listResults');
