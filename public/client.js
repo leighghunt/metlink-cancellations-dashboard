@@ -114,10 +114,13 @@ const getStopDeparturesListener = function() {
   console.log('getStopDeparturesListener')
   let stopDepartures = JSON.parse(this.responseText);
   
-  let nextDeparture = null;
-  let nextDepartureInfo = null;
+  let nextInboundDeparture = null;
+  let nextInboundDepartureInfo = null;
+  let nextOutboundDeparture = null;
+  let nextOutboundDepartureInfo = null;
 
-  let announced = false;
+  let announcedInbound = false;
+  let announcedOutbound = false;
   let announcementCutoffSeconds = 900;
   let now = new moment();
   
@@ -134,11 +137,21 @@ const getStopDeparturesListener = function() {
     stopDepartures.Services.forEach(function(stopDeparture){
 
       let expectedDeparture = new moment(stopDeparture.DisplayDeparture);
+      
+      let inbound = stopDeparture.Direction == "Inbound";
 
-      if(!nextDeparture || expectedDeparture < nextDeparture){
-        nextDeparture = expectedDeparture;
-        nextDepartureInfo = stopDeparture;
+      if(inbound){
+        if(!nextInboundDeparture || expectedDeparture < nextInboundDeparture){
+          nextInboundDeparture = expectedDeparture;
+          nextInboundDepartureInfo = stopDeparture;
+        }
+      } else {
+        if(!nextOutboundDeparture || expectedDeparture < nextOutboundDeparture){
+          nextOutboundDeparture = expectedDeparture;
+          nextOutboundDepartureInfo = stopDeparture;
+        }
       }
+
 
       let calculatedDepartureSeconds = (expectedDeparture - now)/1000;
 
@@ -169,28 +182,47 @@ const getStopDeparturesListener = function() {
 
 
 
-
-        announced = true;
-
+        if(inbound==true)
+        {
+          announcedInbound = true;
+        } else{
+          announcedOutbound = true;
+        }
       }    
 
     });
 
   }
 
-  if(!announced){
+  if(!announcedInbound || !announcedOutbound){
     let message;
-    if(nextDeparture){
-      message = 'There are no departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
-      message += '. The next service is ' + describeService(nextDepartureInfo);
-    } else
-    {
+    if(nextInboundDeparture==null && nextOutboundDeparture==null){
       message = "There are no services listed."
+      console.log(message);
+      const speech = new SpeechSynthesisUtterance(message);
+      speech.voice = selectedVoice;
+      speechSynthesis.speak(speech);
+    } else {
+      
     }
-    console.log(message);
-    const speech = new SpeechSynthesisUtterance(message);
-    speech.voice = selectedVoice;
-    speechSynthesis.speak(speech);
+
+    if(nextInboundDeparture){
+      message = 'There are no Inbound departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
+      message += '. The next Inbound service is ' + describeService(nextInboundDepartureInfo);
+      console.log(message);
+      const speech = new SpeechSynthesisUtterance(message);
+      speech.voice = selectedVoice;
+      speechSynthesis.speak(speech);
+    } 
+
+    if(nextOutboundDeparture){
+      message = 'There are no Outbound departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
+      message += '. The next Outbound service is ' + describeService(nextOutboundDepartureInfo);
+      console.log(message);
+      const speech = new SpeechSynthesisUtterance(message);
+      speech.voice = selectedVoice;
+      speechSynthesis.speak(speech);
+    } 
 
   }
 }
