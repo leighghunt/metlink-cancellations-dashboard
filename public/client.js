@@ -124,6 +124,10 @@ const getStopDeparturesListener = function() {
   let announcementCutoffSeconds = 900;
   let now = new moment();
   
+  const includeSchoolBuses = $('#includeSchoolBuses').val();
+  console.log(includeSchoolBuses);
+
+  
   let listResults = document.getElementById('listResults');
   listResults.style.display = 'block';
   while (listResults.firstChild) {
