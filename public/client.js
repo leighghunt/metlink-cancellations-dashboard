@@ -124,7 +124,7 @@ const getStopDeparturesListener = function() {
   let announcementCutoffSeconds = 900;
   let now = new moment();
   
-  const includeSchoolBuses = $('#includeSchoolBuses').val();
+  const includeSchoolBuses = $('#includeSchoolBuses').is(':checked')
   console.log(includeSchoolBuses);
 
   
@@ -140,6 +140,10 @@ const getStopDeparturesListener = function() {
   if(stopDepartures.Services){
     stopDepartures.Services.forEach(function(stopDeparture){
 
+      // Are we ignoring School Buses?
+      if(!includeSchoolBuses && stopDeparture.Service.Mode!="School"){
+        return;
+      }
       let expectedDeparture = new moment(stopDeparture.DisplayDeparture);
       
       let inbound = stopDeparture.Direction == "Inbound";
@@ -211,7 +215,7 @@ const getStopDeparturesListener = function() {
     }
 
     if(nextInboundDeparture){
-      message = 'There are no Inbound departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
+      message = 'No Inbound departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
       message += '. The next Inbound service is ' + describeService(nextInboundDepartureInfo);
       console.log(message);
       const speech = new SpeechSynthesisUtterance(message);
@@ -220,7 +224,7 @@ const getStopDeparturesListener = function() {
     } 
 
     if(nextOutboundDeparture){
-      message = 'There are no Outbound departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
+      message = 'No Outbound departures in the next ' + moment.duration(announcementCutoffSeconds , "seconds").humanize();
       message += '. The next Outbound service is ' + describeService(nextOutboundDepartureInfo);
       console.log(message);
       const speech = new SpeechSynthesisUtterance(message);
@@ -246,12 +250,16 @@ function describeService(service){
               + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
   } else
   {
-    message = 'The '  + service.Service.Mode 
-              /* + ' from "' + service.OriginStopName + '"'*/ 
-              + ' to "' + service.DestinationStopName + '"'
-              + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+    if(service.Service.Mode.toUpperCase() == 'SCHOOL'){
+      message = 'The School Bus departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+    } else
+    {
+      message = 'The '  + service.Service.Mode
+                /* + ' from "' + service.OriginStopName + '"'*/ 
+                + ' to "' + service.DestinationStopName + '"'
+                + ' is departing in ' + moment.duration(calculatedDepartureSeconds, "seconds").humanize();
+    }
   }
-  
   let calculatedDelay = (new moment(service.AimedDeparture) - new moment(service.DisplayDeparture))/1000;
   
   if(calculatedDelay > 60 || service.DepartureStatus == 'delayed'){
@@ -293,7 +301,7 @@ function describeService(service){
 function findLocation()
 {
   populateVoiceList();
-  const speech = new SpeechSynthesisUtterance("Locating stops nearest to you");
+  const speech = new SpeechSynthesisUtterance("Locating stops");
   speech.voice = selectedVoice;
   speechSynthesis.speak(speech);
 
@@ -325,9 +333,9 @@ function getStopsNearby(position){
 function getStopDepartures(stopNumber){
   populateVoiceList();
   stop = nearbyStops.find(stop => stop.Sms == stopNumber);
-  let message = "Checking departures for chosen stop"
+  let message = "Checking chosen stop"
   if(stop){
-    message = "Checking departures for " + stop.Name;
+    message = "Checking " + stop.Name;
   }
   const speech = new SpeechSynthesisUtterance(message);
   speech.voice = selectedVoice;
