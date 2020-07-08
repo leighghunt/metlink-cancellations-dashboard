@@ -275,6 +275,7 @@ function describeService(service){
   message = message.replace(/UPPE/gi, 'Upper Hutt')
   message = message.replace(/WaikanaeStn/gi, 'Whycan-i')
   message = message.replace(/WAIK - All stops/gi, 'Whycan-i (all stops)')
+  message = message.replace(/WAIK-All stops/gi, 'Whycan-i (all stops)')
   message = message.replace(/Waikanae/gi, 'whycan-i')
   message = message.replace(/Papakowhai/gi, 'pahpah-co fi')
   message = message.replace(/Paremata/gi, 'Para-mata')
