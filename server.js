@@ -116,12 +116,35 @@ app.get('/stopNearby2/:latitude/:longitude', function(request, response) {
 
     // restrict to those within 1km
     apiResponse.data = apiResponse.data.filter(element => distanceBetweenLocations.calc({latitude: element.stop_lat, longitude: element.stop_lon}, location) <= 1)
-    
+
+    console.log("stopNearby2 Filtered")
+    console.log(new Date())
+
+
     console.log(apiResponse.data.length)
     console.log(apiResponse.data[0])
     
     // Sort
-    apiResponse.data = apiResponse.data.sort(element => distanceBetweenLocations.calc({latitude: element.stop_lat, longitude: element.stop_lon}, location) <= 1)
+
+    apiResponse.data = apiResponse.data.sort(function(a, b) {
+      
+      var distA = distanceBetweenLocations.calc({latitude: a.stop_lat, longitude: a.stop_lon}, location) 
+      var distB = distanceBetweenLocations.calc({latitude: b.stop_lat, longitude: b.stop_lon}, location)
+
+      if (distA < distB) {
+        return -1;
+      }
+      if (distA > distB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+    
+    console.log("stopNearby2 Sorted")
+    console.log(new Date())
+
     
     // apiResponse.forEach(element => element.distance=Math.sqrt(-2));
 
