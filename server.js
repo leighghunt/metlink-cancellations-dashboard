@@ -53,12 +53,20 @@ app.get('/stopDepartures/:stop', function(request, response) {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/stopNearby/:latitude/:longitude', function(request, response) {
+  console.log("stopNearby 1")
+  console.log(new Date())
+
+
   console.log(request.params.latitude);
   console.log(request.params.longitude);
 
   axios.get(stopNearbyURL + request.params.latitude + '/' + request.params.longitude)
   .then(function (apiResponse) {
    response.send(JSON.stringify(apiResponse.data));      
+  
+    console.log("stopNearby 2")
+    console.log(new Date())
+
   })
   .catch(function (error) {
     // handle error
