@@ -23,6 +23,33 @@ app.get('/', function(request, response) {
 
 server.listen(process.env.PORT);
 
+
+const centralSubtendedAngle = (locationX, locationY) => {
+  const locationXLatRadians = degreesToRadians(locationX.latitude)
+  const locationYLatRadians = degreesToRadians(locationY.latitude)
+return radiansToDegrees(
+    Math.acos(
+      Math.sin(locationXLatRadians) * Math.sin(locationYLatRadians) +
+        Math.cos(locationXLatRadians) *
+          Math.cos(locationYLatRadians) *
+          Math.cos(
+            degreesToRadians(
+              Math.abs(locationX.longitude - locationY.longitude)
+            )
+       )
+    )
+  )
+}
+
+const earthRadius = 6371
+const greatCircleDistance = angle => 2 * Math.PI * earthRadius * (angle / 360)
+const distanceBetweenLocations = (locationX, locationY) =>
+  greatCircleDistance(centralSubtendedAngle(locationX, locationY))
+const NewYork = {latitude: 40.7128, longitude: 74.0060}
+const Sydney = {latitude: -33.8688, longitude: -151.2093}
+console.log(distanceBetweenLocations(NewYork, Sydney))
+
+
 // // listen for requests :)
 // const listener = app.listen(process.env.PORT, function() {
 //   console.log('Your app is listening on port ' + listener.address().port);
@@ -88,9 +115,21 @@ app.get('/stopNearby2/:latitude/:longitude', function(request, response) {
     'x-api-key': process.env.metlink_api_key
   }})
   .then(function (apiResponse) {
+    console.log("stopNearby2 B")
+    console.log(new Date())
+
+    console.log(apiResponse.data.length)
+    console.log(apiResponse.data[0])
+
+    
+    apiResponse.forEach(element => element.distance=Math.sqrt(-2));
+
+    console.log(apiResponse.data[0])
+
+
    response.send(JSON.stringify(apiResponse.data));      
   
-    console.log("stopNearby2 B")
+    console.log("stopNearby2 C")
     console.log(new Date())
 
   })
