@@ -23,31 +23,40 @@ app.get('/', function(request, response) {
 
 server.listen(process.env.PORT);
 
+var distanceBetweenLocations = require('./distanceBetweenLocations');
+console.log(typeof distanceBetweenLocations.foo); // => 'function'
 
-const centralSubtendedAngle = (locationX, locationY) => {
-  const locationXLatRadians = degreesToRadians(locationX.latitude)
-  const locationYLatRadians = degreesToRadians(locationY.latitude)
-return radiansToDegrees(
-    Math.acos(
-      Math.sin(locationXLatRadians) * Math.sin(locationYLatRadians) +
-        Math.cos(locationXLatRadians) *
-          Math.cos(locationYLatRadians) *
-          Math.cos(
-            degreesToRadians(
-              Math.abs(locationX.longitude - locationY.longitude)
-            )
-       )
-    )
-  )
-}
 
-const earthRadius = 6371
-const greatCircleDistance = angle => 2 * Math.PI * earthRadius * (angle / 360)
-const distanceBetweenLocations = (locationX, locationY) =>
-  greatCircleDistance(centralSubtendedAngle(locationX, locationY))
+// const earthRadius = 6371
+// const greatCircleDistance = angle => 2 * Math.PI * earthRadius * (angle / 360)
+// const distanceBetweenLocations = (locationX, locationY) =>
+//   greatCircleDistance(centralSubtendedAngle(locationX, locationY))
+// const NewYork = {latitude: 40.7128, longitude: 74.0060}
+// const Sydney = {latitude: -33.8688, longitude: -151.2093}
+// console.log(distanceBetweenLocations(NewYork, Sydney))
+
+// const Settlement = {latitude: -41.137871978284586, longitude: 174.84208717505328}
+// const Stop2011 = {latitude: -41.13779797, longitude: 174.8424102}
+// const Stop2754 = {latitude: -41.11620506, longitude: 174.9018349}
+
+// console.log(distanceBetweenLocations(Settlement, Stop2011))
+// console.log(distanceBetweenLocations(Settlement, Stop2754))
+
+
+
 const NewYork = {latitude: 40.7128, longitude: 74.0060}
 const Sydney = {latitude: -33.8688, longitude: -151.2093}
 console.log(distanceBetweenLocations(NewYork, Sydney))
+
+const Settlement = {latitude: -41.137871978284586, longitude: 174.84208717505328}
+const Stop2011 = {latitude: -41.13779797, longitude: 174.8424102}
+const Stop2754 = {latitude: -41.11620506, longitude: 174.9018349}
+
+console.log(distanceBetweenLocations(Settlement, Stop2011))
+console.log(distanceBetweenLocations(Settlement, Stop2754))
+
+
+
 
 
 // // listen for requests :)
