@@ -53,7 +53,7 @@ app.get('/stopDepartures/:stop', function(request, response) {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/stopNearby/:latitude/:longitude', function(request, response) {
-  console.log("stopNearby 1")
+  console.log("stopNearby1 A")
   console.log(new Date())
 
 
@@ -64,7 +64,33 @@ app.get('/stopNearby/:latitude/:longitude', function(request, response) {
   .then(function (apiResponse) {
    response.send(JSON.stringify(apiResponse.data));      
   
-    console.log("stopNearby 2")
+    console.log("stopNearby1 B")
+    console.log(new Date())
+
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+    response.status(500).send(error)
+  })  
+});
+
+app.get('/stopNearby2/:latitude/:longitude', function(request, response) {
+  console.log("stopNearby2 A")
+  console.log(new Date())
+
+
+  console.log(request.params.latitude);
+  console.log(request.params.longitude);
+
+  axios.get("https://api.opendata.metlink.org.nz/v1/gtfs/stops", {
+  headers: {
+    'x-api-key': process.env.metlink_api_key
+  }})
+  .then(function (apiResponse) {
+   response.send(JSON.stringify(apiResponse.data));      
+  
+    console.log("stopNearby2 B")
     console.log(new Date())
 
   })
