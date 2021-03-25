@@ -24,38 +24,17 @@ app.get('/', function(request, response) {
 server.listen(process.env.PORT);
 
 var distanceBetweenLocations = require('./distanceBetweenLocations');
-console.log(typeof distanceBetweenLocations.foo); // => 'function'
-
-
-// const earthRadius = 6371
-// const greatCircleDistance = angle => 2 * Math.PI * earthRadius * (angle / 360)
-// const distanceBetweenLocations = (locationX, locationY) =>
-//   greatCircleDistance(centralSubtendedAngle(locationX, locationY))
-// const NewYork = {latitude: 40.7128, longitude: 74.0060}
-// const Sydney = {latitude: -33.8688, longitude: -151.2093}
-// console.log(distanceBetweenLocations(NewYork, Sydney))
-
-// const Settlement = {latitude: -41.137871978284586, longitude: 174.84208717505328}
-// const Stop2011 = {latitude: -41.13779797, longitude: 174.8424102}
-// const Stop2754 = {latitude: -41.11620506, longitude: 174.9018349}
-
-// console.log(distanceBetweenLocations(Settlement, Stop2011))
-// console.log(distanceBetweenLocations(Settlement, Stop2754))
-
-
 
 const NewYork = {latitude: 40.7128, longitude: 74.0060}
 const Sydney = {latitude: -33.8688, longitude: -151.2093}
-console.log(distanceBetweenLocations(NewYork, Sydney))
+console.log(distanceBetweenLocations.calc(NewYork, Sydney))
 
 const Settlement = {latitude: -41.137871978284586, longitude: 174.84208717505328}
 const Stop2011 = {latitude: -41.13779797, longitude: 174.8424102}
 const Stop2754 = {latitude: -41.11620506, longitude: 174.9018349}
 
-console.log(distanceBetweenLocations(Settlement, Stop2011))
-console.log(distanceBetweenLocations(Settlement, Stop2754))
-
-
+console.log(distanceBetweenLocations.calc(Settlement, Stop2011))
+console.log(distanceBetweenLocations.calc(Settlement, Stop2754))
 
 
 
@@ -118,6 +97,11 @@ app.get('/stopNearby2/:latitude/:longitude', function(request, response) {
 
   console.log(request.params.latitude);
   console.log(request.params.longitude);
+  
+  location = {
+    latitude: request.params.latitude,
+    longitude: request.params.longitude
+  };
 
   axios.get("https://api.opendata.metlink.org.nz/v1/gtfs/stops", {
   headers: {
@@ -130,8 +114,16 @@ app.get('/stopNearby2/:latitude/:longitude', function(request, response) {
     console.log(apiResponse.data.length)
     console.log(apiResponse.data[0])
 
+    // restrict to those within 1km
+    apiResponse.data = apiResponse.data.filter(element => distanceBetweenLocations.calc({latitude: element.stop_lat, longitude: element.stop_lon}, location) <= 1)
     
-    apiResponse.forEach(element => element.distance=Math.sqrt(-2));
+    console.log(apiResponse.data.length)
+    console.log(apiResponse.data[0])
+    
+    // Sort
+    apiResponse.data = apiResponse.data.sort(element => distanceBetweenLocations.calc({latitude: element.stop_lat, longitude: element.stop_lon}, location) <= 1)
+    
+    // apiResponse.forEach(element => element.distance=Math.sqrt(-2));
 
     console.log(apiResponse.data[0])
 

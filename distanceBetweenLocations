@@ -23,8 +23,9 @@ const earthRadius = 6371
 const greatCircleDistance = angle => 2 * Math.PI * earthRadius * (angle / 360)
 
 module.exports = {
-const distanceBetweenLocations = (locationX, locationY) =>
-  greatCircleDistance(centralSubtendedAngle(locationX, locationY))
+  calc: function(locationX, locationY) {
+    return greatCircleDistance(centralSubtendedAngle(locationX, locationY))
+  }  
 };
 
 
