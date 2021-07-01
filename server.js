@@ -66,29 +66,29 @@ app.get('/stopDepartures/:stop', function(request, response) {
   })  
 });
 
-// http://expressjs.com/en/starter/basic-routing.html
-app.get('/stopNearby/:latitude/:longitude', function(request, response) {
-  console.log("stopNearby1 A")
-  console.log(new Date())
+// // http://expressjs.com/en/starter/basic-routing.html
+// app.get('/stopNearby/:latitude/:longitude', function(request, response) {
+//   console.log("stopNearby1 A")
+//   console.log(new Date())
 
 
-  console.log(request.params.latitude);
-  console.log(request.params.longitude);
+//   console.log(request.params.latitude);
+//   console.log(request.params.longitude);
 
-  axios.get(stopNearbyURL + request.params.latitude + '/' + request.params.longitude)
-  .then(function (apiResponse) {
-   response.send(JSON.stringify(apiResponse.data));      
+//   axios.get(stopNearbyURL + request.params.latitude + '/' + request.params.longitude)
+//   .then(function (apiResponse) {
+//    response.send(JSON.stringify(apiResponse.data));      
   
-    console.log("stopNearby1 B")
-    console.log(new Date())
+//     console.log("stopNearby1 B")
+//     console.log(new Date())
 
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-    response.status(500).send(error)
-  })  
-});
+//   })
+//   .catch(function (error) {
+//     // handle error
+//     console.log(error);
+//     response.status(500).send(error)
+//   })  
+// });
 
 app.get('/stopNearby2/:latitude/:longitude', function(request, response) {
   console.log("stopNearby2 A")

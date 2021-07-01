@@ -75,23 +75,23 @@ const getStopNearbyListener = function() {
   
   stopsNearby.slice(0, 5).forEach(function(stopNearby){
     console.log(stopNearby);
-    console.log(stopNearby.Name);
+    console.log(stopNearby.stop_name);
     console.log(distance(ourLocation.coords.latitude, ourLocation.coords.longitude, stopNearby.Lat, stopNearby.Long, 'K') * 1000 + 'm');
-    $('#getStopDepartures' + buttonIndex).text(stopNearby.Sms);
+    $('#getStopDepartures' + buttonIndex).text(stopNearby.stop_code);
     document.getElementById('getStopDepartures' + buttonIndex).style.visibility = "visible"
     buttonIndex++;
-    if(stopNearby.Name){
-      nearbyStops.push({Name: stopNearby.Name, Sms: stopNearby.Sms});
-      console.log(stopNearby.Name);
+    if(stopNearby.stop_name){
+      nearbyStops.push({Name: stopNearby.stop_name, Sms: stopNearby.stop_code});
+      console.log(stopNearby.stop_name);
     } else {
       // We've not got a name in the nearby Stop info - seems to be a problem with railway stations - let's find it
       const stopNameRequest = new XMLHttpRequest();
       stopNameRequest.onload = getStopNameListener;
-      stopNameRequest.open('get', '/stopName/' + stopNearby.Sms);
+      stopNameRequest.open('get', '/stopName/' + stopNearby.stop_code);
       stopNameRequest.send();
 
-      nearbyStops.push({Name: stopNearby.Sms, Sms: stopNearby.Sms});
-      console.log(stopNearby.Sms);
+      nearbyStops.push({Name: stopNearby.stop_code, Sms: stopNearby.stop_code});
+      console.log(stopNearby.stop_code);
     }
   });
   
@@ -302,7 +302,7 @@ function describeService(service){
 function findLocation()
 {
   populateVoiceList();
-  const speech = new SpeechSynthesisUtterance("Locating stops");
+  const speech = new SpeechSynthesisUtterance("Locating stops - Please note that this app may be broken due to recent changes in the Metlink API - I'll try and fix it soon!");
   speech.voice = selectedVoice;
   speechSynthesis.speak(speech);
 
