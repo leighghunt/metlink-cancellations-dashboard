@@ -326,7 +326,7 @@ function getStopsNearby(position){
   const stopNearbyRequest = new XMLHttpRequest();
   stopNearbyRequest.onload = getStopNearbyListener;
   console.log(position.coords.accuracy)
-  stopNearbyRequest.open('get', '/stopNearby/' + position.coords.latitude + '/' + position.coords.longitude);
+  stopNearbyRequest.open('get', '/stopNearby2/' + position.coords.latitude + '/' + position.coords.longitude);
   stopNearbyRequest.send();
 
 }
