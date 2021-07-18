@@ -7,8 +7,8 @@ console.log('hello world :o');
 
 const getCancellationsListener = function() {
   // parse our response to convert to JSON
-  console.log('getCancellationsListener')
-  console.log(this.responseText)
+  // console.log('getCancellationsListener')
+  // console.log(this.responseText)
   var data = JSON.parse(this.responseText)
 
   
@@ -28,6 +28,7 @@ const getCancellationsListener = function() {
     })
 
     if(active){
+      console.log(elem)
       console.log(elem.alert.cause)
       console.log(elem.alert.effect)
       
