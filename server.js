@@ -34,7 +34,7 @@ server.listen(process.env.PORT);
 
 // let vehiclePositionURL = 'https://api.opendata.metlink.org.nz/v1/gtfs-rt/vehiclepositions'
 let serviceAlertsURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/servicealerts"
-let tripUpdatesURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/trip-updates"
+let tripUpdatesURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/tripupdates"
 
 // let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
 // let stopNearbyURL = 'https://www.metlink.org.nz/api/v1/StopNearby/'
@@ -50,9 +50,11 @@ app.get('/cancellations/', function(request, response) {
     
     
     console.log("cancellations")
-    // console.log(apiResponse)
+    // console.log(apiResponse.data)
 
-    console.log("apiResponse.data:" + JSON.stringify(apiResponse.data).length)
+    // console.log("apiResponse:" + JSON.stringify(apiResponse).length)
+
+    console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
 
     response.send(JSON.stringify(apiResponse.data));      

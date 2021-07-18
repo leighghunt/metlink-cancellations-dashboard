@@ -8,7 +8,8 @@ console.log('hello world :o');
 const getCancellationsListener = function() {
   // parse our response to convert to JSON
   console.log('getCancellationsListener')
-  var data = JSON.parse(this.responseText);
+  console.log(this.responseText)
+  var data = JSON.parse(this.responseText)
 
   // for(var stop in data){
   //   allStops.push(data[stop]);
