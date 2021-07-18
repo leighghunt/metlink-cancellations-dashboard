@@ -10,9 +10,9 @@ const getCancellationsListener = function() {
   console.log('getCancellationsListener')
   var data = JSON.parse(this.responseText);
 
-  for(var stop in data){
-    allStops.push(data[stop]);
-  }
+  // for(var stop in data){
+  //   allStops.push(data[stop]);
+  // }
 
   
   // // iterate through every dream and add it to our page
@@ -20,10 +20,6 @@ const getCancellationsListener = function() {
   // for(var stop in stops){
   //   handleStopsData(stops[stop]);
   // }
-  
-  console.log(allStops["PORI"]);
-  findNearestStops();
-
 
 }
 
