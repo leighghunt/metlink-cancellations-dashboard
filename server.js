@@ -34,6 +34,7 @@ server.listen(process.env.PORT);
 
 // let vehiclePositionURL = 'https://api.opendata.metlink.org.nz/v1/gtfs-rt/vehiclepositions'
 let serviceAlertsURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/servicealerts"
+let tripUpdatesURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/trip-updates"
 
 // let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
 // let stopNearbyURL = 'https://www.metlink.org.nz/api/v1/StopNearby/'
@@ -41,7 +42,7 @@ let serviceAlertsURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/serviceal
 
 app.get('/cancellations/', function(request, response) {
 
-  axios.get(serviceAlertsURL, {
+  axios.get(tripUpdatesURL, {
     headers: {
       'x-api-key': process.env.metlink_api_key
     }})
