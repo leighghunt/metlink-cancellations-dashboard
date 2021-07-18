@@ -9,6 +9,14 @@ const getCancellationsListener = function() {
   // parse our response to convert to JSON
   // console.log('getCancellationsListener')
   // console.log(this.responseText)
+
+  let listResults = document.getElementById('listResults');
+  listResults.style.display = 'block';
+  while (listResults.firstChild) {
+    listResults.removeChild(listResults.firstChild);
+  }
+
+
   var data = JSON.parse(this.responseText)
 
   
@@ -27,12 +35,29 @@ const getCancellationsListener = function() {
       console.log(active)
     })
 
+
     if(active){
       console.log(elem)
       console.log(elem.alert.cause)
       console.log(elem.alert.effect)
       
+      if(elem.alert.effect == "NO_SERVICE"){
+
+        var displayMessage = elem.alert.cause
+       
+        console.log(elem.alert.effect)
+        let node = document.createElement("LI");
+        node.className = 'list-group-item list-group-item-action';
+        var textnode = document.createTextNode(displayMessage);         // Create a text node
+        node.appendChild(textnode);                              // Append the text to <li>
+        listResults.appendChild(node);
+
+
+      }
+      
     }
+    
+
 
   })
 
@@ -50,6 +75,10 @@ const getCancellationsListener = function() {
   //   handleStopsData(stops[stop]);
   // }
 
+}
+
+function alertToText(elem){
+  return elem.
 }
 
 const cancellationsRequest = new XMLHttpRequest();
