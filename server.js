@@ -23,18 +23,7 @@ app.get('/', function(request, response) {
 
 server.listen(process.env.PORT);
 
-var distanceBetweenLocations = require('./distanceBetweenLocations');
-
-const NewYork = {latitude: 40.7128, longitude: 74.0060}
-const Sydney = {latitude: -33.8688, longitude: -151.2093}
-console.log(distanceBetweenLocations.calc(NewYork, Sydney))
-
-const Settlement = {latitude: -41.137871978284586, longitude: 174.84208717505328}
-const Stop2011 = {latitude: -41.13779797, longitude: 174.8424102}
-const Stop2754 = {latitude: -41.11620506, longitude: 174.9018349}
-
-console.log(distanceBetweenLocations.calc(Settlement, Stop2011))
-console.log(distanceBetweenLocations.calc(Settlement, Stop2754))
+// var distanceBetweenLocations = require('./distanceBetweenLocations');
 
 
 
@@ -43,21 +32,19 @@ console.log(distanceBetweenLocations.calc(Settlement, Stop2754))
 //   console.log('Your app is listening on port ' + listener.address().port);
 // });
 
-let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
-let stopNearbyURL = 'https://www.metlink.org.nz/api/v1/StopNearby/'
-let stopURL = 'https://www.metlink.org.nz/api/v1/Stop/'
+// let vehiclePositionURL = 'https://api.opendata.metlink.org.nz/v1/gtfs-rt/vehiclepositions'
+let serviceAlertsURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/servicealerts"
 
-function getStopDepartures(stopNumber){
+// let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
+// let stopNearbyURL = 'https://www.metlink.org.nz/api/v1/StopNearby/'
+// let stopURL = 'https://www.metlink.org.nz/api/v1/Stop/'
 
-}
-
-// http://expressjs.com/en/starter/basic-routing.html
-app.get('/stopDepartures/:stop', function(request, response) {
-  console.log(request.params.stop);
-
-  axios.get(stopDeparturesURL + request.params.stop)
+app.get('/cancellations/', function(request, response) {
+  axios.get(serviceAlertsURL)
   .then(function (apiResponse) {
-   response.send(JSON.stringify(apiResponse.data));      
+    
+    console.log(apiResponse)
+    response.send(JSON.stringify(apiResponse.data));      
   })
   .catch(function (error) {
     // handle error
@@ -66,22 +53,15 @@ app.get('/stopDepartures/:stop', function(request, response) {
   })  
 });
 
-// // http://expressjs.com/en/starter/basic-routing.html
-// app.get('/stopNearby/:latitude/:longitude', function(request, response) {
-//   console.log("stopNearby1 A")
-//   console.log(new Date())
 
 
-//   console.log(request.params.latitude);
-//   console.log(request.params.longitude);
 
-//   axios.get(stopNearbyURL + request.params.latitude + '/' + request.params.longitude)
+// app.get('/cancellations/:service', function(request, response) {
+//   console.log(request.params.service);
+
+//   axios.get(stopDeparturesURL + request.params.stop)
 //   .then(function (apiResponse) {
 //    response.send(JSON.stringify(apiResponse.data));      
-  
-//     console.log("stopNearby1 B")
-//     console.log(new Date())
-
 //   })
 //   .catch(function (error) {
 //     // handle error
@@ -90,102 +70,7 @@ app.get('/stopDepartures/:stop', function(request, response) {
 //   })  
 // });
 
-app.get('/stopNearby2/:latitude/:longitude', function(request, response) {
-  console.log("stopNearby2 A")
-  console.log(new Date())
 
-
-  console.log(request.params.latitude);
-  console.log(request.params.longitude);
-  
-  location = {
-    latitude: request.params.latitude,
-    longitude: request.params.longitude
-  };
-
-  axios.get("https://api.opendata.metlink.org.nz/v1/gtfs/stops", {
-  headers: {
-    'x-api-key': process.env.metlink_api_key
-  }})
-  .then(function (apiResponse) {
-    console.log("stopNearby2 B")
-    console.log(new Date())
-
-    console.log(apiResponse.data.length)
-    console.log(apiResponse.data[0])
-
-    apiResponse.data.forEach(function (element, index, array) {
-      array[index].distance=distanceBetweenLocations.calc({latitude: element.stop_lat, longitude: element.stop_lon}, location);
-    });
-
-
-    // restrict to those within 1km
-    // apiResponse.data = apiResponse.data.filter(element => distanceBetweenLocations.calc({latitude: element.stop_lat, longitude: element.stop_lon}, location) <= 1)
-    apiResponse.data = apiResponse.data.filter(element => element.distance <= 1)
-
-
-    console.log("stopNearby2 Filtered")
-    console.log(new Date())
-
-
-    console.log(apiResponse.data.length)
-    console.log(apiResponse.data[0])
-    
-    // Sort
-
-    apiResponse.data = apiResponse.data.sort(function(a, b) {
-      
-      // var distA = distanceBetweenLocations.calc({latitude: a.stop_lat, longitude: a.stop_lon}, location) 
-      // var distB = distanceBetweenLocations.calc({latitude: b.stop_lat, longitude: b.stop_lon}, location)
-      var distA = a.distance;
-      var distB = b.distance;
-
-      if (distA < distB) {
-        return -1;
-      }
-      if (distA > distB) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
-    });
-    
-    
-    console.log("stopNearby2 Sorted")
-    console.log(new Date())
-
-    
-    // apiResponse.forEach(element => element.distance=Math.sqrt(-2));
-
-    console.log(apiResponse.data[0])
-
-
-   response.send(JSON.stringify(apiResponse.data));      
-  
-    console.log("stopNearby2 C")
-    console.log(new Date())
-
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-    response.status(500).send(error)
-  })  
-});
-
-app.get('/stopName/:stop', function(request, response) {
-
-  axios.get(stopURL + request.params.stop)
-  .then(function (apiResponse) {
-   response.send(JSON.stringify(apiResponse.data));      
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-    response.status(500).send(error)
-  })  
-});
 
 
 // Bus stuff
