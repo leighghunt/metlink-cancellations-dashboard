@@ -10,6 +10,8 @@ const getCancellationsListener = function() {
   console.log('getCancellationsListener')
   console.log(this.responseText)
   var data = JSON.parse(this.responseText)
+  
+  data.entity.forEach((elem) => {console.log(elem.alert.cause)})
 
   // for(var stop in data){
   //   allStops.push(data[stop]);

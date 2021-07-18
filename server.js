@@ -42,7 +42,7 @@ let tripUpdatesURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/tripupdates
 
 app.get('/cancellations/', function(request, response) {
 
-  axios.get(tripUpdatesURL, {
+  axios.get(serviceAlertsURL, {
     headers: {
       'x-api-key': process.env.metlink_api_key
     }})
@@ -52,11 +52,11 @@ app.get('/cancellations/', function(request, response) {
     console.log("cancellations")
     // console.log(apiResponse.data)
 
-    // console.log("apiResponse:" + JSON.stringify(apiResponse).length)
+    console.log("apiResponse.data length:" + JSON.stringify(apiResponse.data).length)
 
-    console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
+    // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
-
+    response.setHeader('Content-Type', 'application/json')
     response.send(JSON.stringify(apiResponse.data));      
   })
   .catch(function (error) {
