@@ -24,16 +24,7 @@
 
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
-    
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-   crossorigin=""/>
-   <!-- Make sure you put this AFTER Leaflet's CSS -->
-   <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-   crossorigin=""></script>
-    
+      
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
 
@@ -41,17 +32,10 @@
     <!-- import the webpage's client-side javascript file -->
     <script src="/client.js" defer></script>
   </head>
-<!--   <body>
-    <p id="demo"></p>
-    <button class="findMe">
-      Find Me!
-    </button>
-
-
-    <div class="glitchButton" style="position:fixed;top:20px;right:20px;z-index:1000"></div>
-    <script src="https://button.glitch.me/button.js"></script>
-  </body> -->
     <body class="text-center">
+<!--     <div class="glitchButton" style="position:fixed;top:20px;right:20px;z-index:1000"></div>
+    <script src="https://button.glitch.me/button.js"></script>
+ -->
 
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
@@ -68,28 +52,13 @@
       <p id="demo"></p>
 
       <main role="main" class="inner cover">
-        <h1 class="cover-heading">SORRY - App is broken due to change in Metlink's API</h1>
-        <h1 class="cover-heading">I'll try and fix it soon (1 July 2021)</h1>
+        <h1 class="cover-heading">How many buses have been cancelled today?</h1>
 
         <p class="lead">
-          <a href="#" id="findMe" class="btn btn-lg btn-primary">Find My nearest stop</a>
-        </p>
-        <p class="lead">
-          <a href="#" style="visibility:hidden" id="getStopDepartures1" class="btn btn-lg btn-success">1234</a>
-          <a href="#" style="visibility:hidden" id="getStopDepartures2" class="btn btn-lg btn-success">5678</a>
-          <a href="#" style="visibility:hidden" id="getStopDepartures3" class="btn btn-lg btn-success">ABCD</a>
-          <a href="#" style="visibility:hidden" id="getStopDepartures4" class="btn btn-lg btn-success">XYZ</a>
-          <a href="#" style="visibility:hidden" id="getStopDepartures5" class="btn btn-lg btn-success">TEST</a>
           <div class="form-group">
               <label for="inputlg">Or type in a Stop Number:</label>
               <input class="form-control input-lg" id="stopNumber" type="text">
-
               <div class="form-check">
-
-                <input class="form-check-input" type="checkbox" value="" id="includeSchoolBuses">
-                <label class="form-check-label" for="includeSchoolBuses">
-                  School Buses
-                </label>
               </div>
             </div>
           <a href="#" id="getStopDepartures" class="btn btn-lg btn-primary">GO!</a>
