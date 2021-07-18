@@ -13,18 +13,18 @@ const getCancellationsListener = function() {
 
   
   data.entity.forEach((elem) => {
-    
+    var startDate = new Date(elem.alert.active_period.start * 1000)
+    var endDate = new Date(elem.alert.active_period.end * 1000)
+
+    console.log(startDate)
+
+    console.log(endDate)
+
     console.log(elem.alert.cause)
+    console.log(elem.alert.effect)
   })
 
 
-  
-  data.entity.forEach((elem) => {console.log(elem.alert.cause)})
-
-  console.log("EFFECTS:")
-  console.log("========")
-
-  data.entity.forEach((elem) => {console.log(elem.alert.effect)})
 
 
   // for(var stop in data){
