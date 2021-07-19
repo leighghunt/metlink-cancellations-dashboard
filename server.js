@@ -30,7 +30,8 @@ var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PA
     // which doesn't get copied if someone remixes the project.
   // storage: '.data/database.sqlite'
 
-  // dialectOptions: {mode: 2 | 4},
+  // dialectOptions: {mode: 2 | 4},    Use sequelize v5 or you'll get file/directory creation issues here
+  // https://github.com/sequelize/sequelize/issues/12329#issuecomment-662160609
   storage: '.data/database.sqlite'
 
 });
@@ -43,12 +44,16 @@ sequelize.authenticate()
   .then(function(err) {
     console.log('Connection has been established successfully.');
     // define a new table 'users'
-  console.log('B');
 
     Cancellation = sequelize.define('cancellations', {
       routeId: {
         type: Sequelize.STRING
       },
+
+      id: {
+        type: Sequelize.INTEGER
+      },
+
 
       route_short_name: {
         type: Sequelize.STRING
@@ -70,19 +75,13 @@ sequelize.authenticate()
         type: Sequelize.DATE
       },
 
-      retrievedDate: {
+      timestamp: {
         type: Sequelize.DATE
       }
 
     });
     
-    console.log('C');
-
-
-    setup();
-    console.log('D');
-
-
+    // setup();
   })
   .catch(function (err) {
     console.log('Unable to connect to the database: ', err);
@@ -90,28 +89,14 @@ sequelize.authenticate()
 
 // populate table with default users
 function setup(){
-    console.log('Setup A');
 
-
-  Cancellation.sync({force: true}) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
+  Cancellation.sync(/*{force: true}*/) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
     .then(function(){
-    console.log('Setup B');
 
     Cancellation.create({routeId: -1, route_short_name: "BLAH", description: "BLAH BLAH BLAH", startDate: new Date(), endDate: new Date()})
-        console.log('Setup D');
-
-
-      // // Add the default users to the database
-      // for(var i=0; i<users.length; i++){ // loop through all users
-      //   User.create({ firstName: users[i][0], lastName: users[i][1]}); // create a new entry in the users table
-      // }
     });  
 }
 
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
-
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
 
@@ -138,13 +123,16 @@ app.get('/cancellations/', function(request, response) {
     headers: {
       'x-api-key': process.env.metlink_api_key
     }})
-  .then(function (apiResponse) {
+  .then(async function (apiResponse) {
     
     console.log("cancellations")
 
-    const cancellations = Cancellation.findAll();
-    console.log(cancellations);
+    Cancellation.findAll()
+      .then(cancellations => {
+        console.log("All cancellations:", JSON.stringify(cancellations, null, 4));
+    });
 
+    
     
     
     // console.log(apiResponse.data)
@@ -168,6 +156,8 @@ app.get('/cancellations/', function(request, response) {
     response.status(500).send(error)
   })  
 });
+
+
 
 app.get('/routes/', function(request, response) {
 
