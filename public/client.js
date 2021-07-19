@@ -68,7 +68,9 @@ function alertToText(elem){
     
     var route_id = currentValue.route_id
     
-    if(isNumeric)
+    if(route_id[route_id.length-1] == "0"){
+      route_id = route_id.substring(0, route_id.length-1)
+    }
     
     if(accumulator==""){
       return route_id
