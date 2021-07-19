@@ -46,14 +46,14 @@ sequelize.authenticate()
     // define a new table 'users'
 
     Cancellation = sequelize.define('cancellations', {
-      routeId: {
-        type: Sequelize.STRING
-      },
-
       id: {
+        primaryKey: true,
         type: Sequelize.INTEGER
       },
 
+      routeId: {
+        type: Sequelize.STRING
+      },
 
       route_short_name: {
         type: Sequelize.STRING
@@ -90,7 +90,7 @@ sequelize.authenticate()
 // populate table with default users
 function setup(){
 
-  Cancellation.sync(/*{force: true}*/) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
+  Cancellation.sync({force: true}) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
     .then(function(){
 
     Cancellation.create({routeId: -1, route_short_name: "BLAH", description: "BLAH BLAH BLAH", startDate: new Date(), endDate: new Date()})
@@ -141,6 +141,16 @@ app.get('/cancellations/', function(request, response) {
 
     // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
+    apiResponse.data.entity.forEach((entity) => {
+      Cancellation.create({
+        id: entity.id,
+        route_id: entity.route_id,
+        description: entity.alert.header_text.translation[0].text,
+        timestamp: new Date(entity.alert.active_period[0].timestamp * 1000),
+        startDate: new Date(entity.alert.active_period[0].start * 1000),
+        endDate: new Date(entity.alert.active_period[0].end * 1000),
+      });
+    })
     
     // Cancellation.create({ firstName: request.query.fName, lastName: request.query.lName});
 
