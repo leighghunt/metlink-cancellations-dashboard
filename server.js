@@ -13,7 +13,9 @@ const io = require('socket.io')(server);
 
 var Cancellation
 
-  console.log('A');
+var routes
+
+  // console.log('A');
 
 
 // setup a new database
@@ -127,14 +129,6 @@ app.get('/cancellations/', function(request, response) {
     
     console.log("cancellations")
 
-    Cancellation.findAll()
-      .then(cancellations => {
-        // console.log("All cancellations:", JSON.stringify(cancellations, null, 4));
-    });
-
-    
-    
-    
     // console.log(apiResponse.data)
 
     console.log("apiResponse.data length:" + JSON.stringify(apiResponse.data).length)
@@ -142,16 +136,20 @@ app.get('/cancellations/', function(request, response) {
     // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
     apiResponse.data.entity.forEach((entity) => {
-      // console.log(entity.alert.header_text.translation[0].text)
-      Cancellation.upsert({
-        id: entity.id,
-        route_id: entity.route_id,
-        JSON: JSON.stringify(entity),
-        description: entity.alert.header_text.translation[0].text,
-        timestamp: new Date(entity.timestamp),
-        startDate: new Date(entity.alert.active_period[0].start * 1000),
-        endDate: new Date(entity.alert.active_period[0].end * 1000),
-      });
+      
+      if(entity.alert.effect == "NO_SERVICE"){
+
+        // console.log(entity.alert.header_text.translation[0].text)
+        Cancellation.upsert({
+          id: entity.id,
+          route_id: entity.route_id,
+          JSON: JSON.stringify(entity),
+          description: entity.alert.header_text.translation[0].text,
+          timestamp: new Date(entity.timestamp),
+          startDate: new Date(entity.alert.active_period[0].start * 1000),
+          endDate: new Date(entity.alert.active_period[0].end * 1000),
+        });
+      }
     })
     
     // Cancellation.create({ firstName: request.query.fName, lastName: request.query.lName});
@@ -162,10 +160,26 @@ app.get('/cancellations/', function(request, response) {
     // ******************************************************************************************************
 
     
-    
-    
-    response.setHeader('Content-Type', 'application/json')
-    response.send(JSON.stringify(apiResponse.data));      
+    Cancellation.findAll()
+      .then(cancellations => {
+        // console.log("All cancellations:", JSON.stringify(cancellations, null, 4));
+        var results = cancellations.map(cancellation => {
+          return {
+            id: cancellation.id,
+            startDate: cancellation.startDate,
+            endDate: cancellation.endDate,
+            description: cancellation.description
+          }
+        })
+        
+        console.log(results);
+        response.setHeader('Content-Type', 'application/json')
+        response.send(JSON.stringify(results));      
+
+    });
+
+    // response.setHeader('Content-Type', 'application/json')
+    // response.send(JSON.stringify(apiResponse.data));      
   })
   .catch(function (error) {
     // handle error
@@ -176,7 +190,7 @@ app.get('/cancellations/', function(request, response) {
 
 
 
-app.get('/routes/', function(request, response) {
+// app.get('/routes/', function(request, response) {
 
   axios.get(routesURL, {
     headers: {
@@ -184,17 +198,17 @@ app.get('/routes/', function(request, response) {
     }})
   .then(function (apiResponse) {
     
-    
+    routes = apiResponse.data;
     console.log("routes")
 
-    console.log("apiResponse.data length:" + JSON.stringify(apiResponse.data).length)
+//     console.log("apiResponse.data length:" + JSON.stringify(apiResponse.data).length)
 
-    response.setHeader('Content-Type', 'application/json')
-    response.send(JSON.stringify(apiResponse.data));      
+//     response.setHeader('Content-Type', 'application/json')
+//     response.send(JSON.stringify(apiResponse.data));      
   })
   .catch(function (error) {
     // handle error
     console.log(error);
-    response.status(500).send(error)
+    // response.status(500).send(error)
   })  
-});
+// });
