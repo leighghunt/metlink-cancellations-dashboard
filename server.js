@@ -33,7 +33,7 @@ var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PA
   storage: '.data2/database.sqlite'
 
 });
-  console.log('A2a')
+  console.log('A2')
 
 
 // authenticate with the database
@@ -78,7 +78,7 @@ sequelize.authenticate()
     console.log('C');
 
 
-    setup();
+    // setup();
     console.log('D');
 
 
@@ -92,7 +92,7 @@ function setup(){
     console.log('Setup A');
 
 
-  Cancellation.sync({force: false}) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
+  Cancellation.sync({force: true}) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
     .then(function(){
     console.log('Setup B');
 
