@@ -1,9 +1,6 @@
 /* globals moment */
 
-
-console.log('hello world :o');
-
-
+var routes = [];
 
 const getCancellationsListener = function() {
   // parse our response to convert to JSON
@@ -89,3 +86,36 @@ const cancellationsRequest = new XMLHttpRequest();
 cancellationsRequest.onload = getCancellationsListener;
 cancellationsRequest.open('get', '/cancellations');
 cancellationsRequest.send();
+
+const routesRequest = new XMLHttpRequest();
+routesRequest.onload = getCancellationsListener;
+routesRequest.open('get', '/routes');
+routesRequest.send();
+
+
+
+
+
+const getRoutesListener = function() {
+
+  var data = JSON.parse(this.responseText)
+  
+  routes = data;
+  
+//   data.entity.forEach((elem) => {
+//     var active = false;
+//     elem.alert.active_period.forEach((active_period) => {
+//       var startDate = new Date(active_period.start * 1000)
+//       var endDate = new Date(active_period.end * 1000)
+//       // console.log(startDate)
+//       // console.log(endDate)
+      
+//       var now = new Date()
+//       if(startDate <= now && endDate >= now){
+//         active = true;
+//       }
+//       // console.log(active)
+//     })
+
+
+}

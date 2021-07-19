@@ -16,6 +16,14 @@ const io = require('socket.io')(server);
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+
+let serviceAlertsURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/servicealerts"
+let tripUpdatesURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/tripupdates"
+let routesURL = "https://api.opendata.metlink.org.nz/v1/gtfs/routes"
+
+
+var routes = []
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
@@ -27,18 +35,6 @@ server.listen(process.env.PORT);
 
 
 
-// // listen for requests :)
-// const listener = app.listen(process.env.PORT, function() {
-//   console.log('Your app is listening on port ' + listener.address().port);
-// });
-
-// let vehiclePositionURL = 'https://api.opendata.metlink.org.nz/v1/gtfs-rt/vehiclepositions'
-let serviceAlertsURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/servicealerts"
-let tripUpdatesURL = "https://api.opendata.metlink.org.nz/v1/gtfs-rt/tripupdates"
-
-// let stopDeparturesURL = 'https://www.metlink.org.nz/api/v1/StopDepartures/'
-// let stopNearbyURL = 'https://www.metlink.org.nz/api/v1/StopNearby/'
-// let stopURL = 'https://www.metlink.org.nz/api/v1/Stop/'
 
 app.get('/cancellations/', function(request, response) {
 
@@ -66,4 +62,25 @@ app.get('/cancellations/', function(request, response) {
   })  
 });
 
+app.get('/routes/', function(request, response) {
 
+  axios.get(routesURL, {
+    headers: {
+      'x-api-key': process.env.metlink_api_key
+    }})
+  .then(function (apiResponse) {
+    
+    
+    console.log("routes")
+
+    console.log("apiResponse.data length:" + JSON.stringify(apiResponse.data).length)
+
+    response.setHeader('Content-Type', 'application/json')
+    response.send(JSON.stringify(apiResponse.data));      
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+    response.status(500).send(error)
+  })  
+});
