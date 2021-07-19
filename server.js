@@ -92,7 +92,10 @@ sequelize.authenticate()
 // populate table with default users
 function setup(){
 
-  Cancellation.sync({force: true}) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
+  Cancellation.sync(
+    // {force: true}
+  ) 
+  // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
     .then(function(){
 
     Cancellation.create({routeId: -1, route_short_name: "BLAH", description: "BLAH BLAH BLAH", startDate: new Date(), endDate: new Date()})
@@ -160,6 +163,8 @@ app.get('/cancellations/', function(request, response) {
     
     // ******************************************************************************************************
     // TO DO - change to format we want to display, process on server, and merge new and persisted data here.
+    //
+    // And add timer to auto-retrieve data
     // ******************************************************************************************************
 
     
