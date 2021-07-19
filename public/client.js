@@ -73,27 +73,16 @@ function alertToText(elem){
       route_id = route_id.substring(0, route_id.length-1)
     }
     
+    var route = routes.find((route) => {route.route_id == route_id})
+    
     if(accumulator==""){
-      return route_id
+      return route.route_short_name //route_id
     } else
-    return accumulator + ", " + route_id
+    return accumulator + ", " + route.route_short_name //route_id
   }, "")
   console.log(services)
   return "Service " + services + ": " + elem.alert.header_text.translation[0].text
 }
-
-const cancellationsRequest = new XMLHttpRequest();
-cancellationsRequest.onload = getCancellationsListener;
-cancellationsRequest.open('get', '/cancellations');
-cancellationsRequest.send();
-
-const routesRequest = new XMLHttpRequest();
-routesRequest.onload = getCancellationsListener;
-routesRequest.open('get', '/routes');
-routesRequest.send();
-
-
-
 
 
 const getRoutesListener = function() {
@@ -102,20 +91,19 @@ const getRoutesListener = function() {
   
   routes = data;
   
-//   data.entity.forEach((elem) => {
-//     var active = false;
-//     elem.alert.active_period.forEach((active_period) => {
-//       var startDate = new Date(active_period.start * 1000)
-//       var endDate = new Date(active_period.end * 1000)
-//       // console.log(startDate)
-//       // console.log(endDate)
-      
-//       var now = new Date()
-//       if(startDate <= now && endDate >= now){
-//         active = true;
-//       }
-//       // console.log(active)
-//     })
-
+  console.log(routes)
 
 }
+
+const routesRequest = new XMLHttpRequest();
+routesRequest.onload = getRoutesListener;
+routesRequest.open('get', '/routes');
+routesRequest.send();
+
+
+const cancellationsRequest = new XMLHttpRequest();
+cancellationsRequest.onload = getCancellationsListener;
+cancellationsRequest.open('get', '/cancellations');
+cancellationsRequest.send();
+
+
