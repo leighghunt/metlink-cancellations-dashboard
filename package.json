@@ -16,7 +16,7 @@
 
 		"sqlite3": "*",
 
-		"sequelize": "*"
+		"sequelize": "5"
   },
   "engines": {
     "node": "8.x"

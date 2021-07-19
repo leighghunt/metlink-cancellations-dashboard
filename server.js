@@ -30,7 +30,8 @@ var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PA
     // which doesn't get copied if someone remixes the project.
   // storage: '.data/database.sqlite'
 
-  storage: '.data/database'
+  // dialectOptions: {mode: 2 | 4},
+  storage: '.data/database.sqlite'
 
 });
   console.log('A2')
@@ -78,7 +79,7 @@ sequelize.authenticate()
     console.log('C');
 
 
-    // setup();
+    setup();
     console.log('D');
 
 
@@ -142,7 +143,7 @@ app.get('/cancellations/', function(request, response) {
     console.log("cancellations")
 
     const cancellations = Cancellation.findAll();
-    console.log(cancellations)
+    console.log(cancellations);
 
     
     
