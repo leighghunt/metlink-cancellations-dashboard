@@ -33,7 +33,7 @@ var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PA
   storage: '.data2/database.sqlite'
 
 });
-  console.log('A2')
+  console.log('A2a')
 
 
 // authenticate with the database
@@ -139,8 +139,13 @@ app.get('/cancellations/', function(request, response) {
     }})
   .then(function (apiResponse) {
     
-    
     console.log("cancellations")
+
+    const cancellations = Cancellation.findAll();
+    console.log(cancellations)
+
+    
+    
     // console.log(apiResponse.data)
 
     console.log("apiResponse.data length:" + JSON.stringify(apiResponse.data).length)
