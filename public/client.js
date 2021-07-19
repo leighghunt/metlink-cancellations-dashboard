@@ -69,16 +69,16 @@ function alertToText(elem){
     
     var route_id = currentValue.route_id
     
-    if(route_id[route_id.length-1] == "0"){
-      route_id = route_id.substring(0, route_id.length-1)
-    }
+    // if(route_id[route_id.length-1] == "0"){
+    //   route_id = route_id.substring(0, route_id.length-1)
+    // }
     
-    var route = routes.find((route) => {route.route_id == route_id})
+    var route = routes.find(route => route.route_id == route_id)
     
     if(accumulator==""){
-      return route.route_short_name //route_id
+      return route.route_short_name 
     } else
-    return accumulator + ", " + route.route_short_name //route_id
+    return accumulator + ", " + route.route_short_name 
   }, "")
   console.log(services)
   return "Service " + services + ": " + elem.alert.header_text.translation[0].text
@@ -93,17 +93,20 @@ const getRoutesListener = function() {
   
   console.log(routes)
 
+  
+  const cancellationsRequest = new XMLHttpRequest();
+  cancellationsRequest.onload = getCancellationsListener;
+  cancellationsRequest.open('get', '/cancellations');
+  cancellationsRequest.send();
+
+
 }
+
 
 const routesRequest = new XMLHttpRequest();
 routesRequest.onload = getRoutesListener;
 routesRequest.open('get', '/routes');
 routesRequest.send();
 
-
-const cancellationsRequest = new XMLHttpRequest();
-cancellationsRequest.onload = getCancellationsListener;
-cancellationsRequest.open('get', '/cancellations');
-cancellationsRequest.send();
 
 
