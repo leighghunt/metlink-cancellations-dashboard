@@ -52,38 +52,31 @@ const getCancellationsListener = function() {
         node.appendChild(textnode);                              // Append the text to <li>
         listResults.appendChild(node);
 
-
-      }
-      
+      } 
     }
-    
-
-
   })
-
-
-
-
-  // for(var stop in data){
-  //   allStops.push(data[stop]);
-  // }
-
-  
-  // // iterate through every dream and add it to our page
-  // allStops = st
-  // for(var stop in stops){
-  //   handleStopsData(stops[stop]);
-  // }
 
 }
 
 function alertToText(elem){
   console.log(elem.alert)
+  // elem.alert.informed_entity.push({route_id: "BLAH"})
+  // elem.alert.informed_entity.push({route_id: "123"})
   var services = elem.alert.informed_entity.reduce((accumulator, currentValue) => {
-    return accumulator + ", " + currentValue.route_id
-  })
+    console.log(accumulator)
+    console.log(currentValue)
+    
+    var route_id = currentValue.route_id
+    
+    if(isNumeric)
+    
+    if(accumulator==""){
+      return route_id
+    } else
+    return accumulator + ", " + route_id
+  }, "")
   console.log(services)
-  return "Service " + elem.alert.informed_entity[0].route_id + ": " + elem.alert.header_text.translation[0].text
+  return "Service " + services + ": " + elem.alert.header_text.translation[0].text
 }
 
 const cancellationsRequest = new XMLHttpRequest();
