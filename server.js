@@ -129,7 +129,7 @@ app.get('/cancellations/', function(request, response) {
 
     Cancellation.findAll()
       .then(cancellations => {
-        console.log("All cancellations:", JSON.stringify(cancellations, null, 4));
+        // console.log("All cancellations:", JSON.stringify(cancellations, null, 4));
     });
 
     
@@ -142,11 +142,13 @@ app.get('/cancellations/', function(request, response) {
     // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
     apiResponse.data.entity.forEach((entity) => {
-      Cancellation.create({
+      // console.log(entity.alert.header_text.translation[0].text)
+      Cancellation.upsert({
         id: entity.id,
         route_id: entity.route_id,
+        JSON: JSON.stringify(entity),
         description: entity.alert.header_text.translation[0].text,
-        timestamp: new Date(entity.alert.active_period[0].timestamp * 1000),
+        timestamp: new Date(entity.timestamp),
         startDate: new Date(entity.alert.active_period[0].start * 1000),
         endDate: new Date(entity.alert.active_period[0].end * 1000),
       });
@@ -154,7 +156,12 @@ app.get('/cancellations/', function(request, response) {
     
     // Cancellation.create({ firstName: request.query.fName, lastName: request.query.lName});
 
+    
+    // ******************************************************************************************************
+    // TO DO - change to format we want to display, process on server, and merge new and persisted data here.
+    // ******************************************************************************************************
 
+    
     
     
     response.setHeader('Content-Type', 'application/json')
