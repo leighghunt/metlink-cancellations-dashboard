@@ -25,25 +25,25 @@ const getCancellationsListener = function() {
     elem.alert.active_period.forEach((active_period) => {
       var startDate = new Date(active_period.start * 1000)
       var endDate = new Date(active_period.end * 1000)
-      console.log(startDate)
-      console.log(endDate)
+      // console.log(startDate)
+      // console.log(endDate)
       
       var now = new Date()
       if(startDate <= now && endDate >= now){
         active = true;
       }
-      console.log(active)
+      // console.log(active)
     })
 
 
     if(active){
-      console.log(elem)
-      console.log(elem.alert.cause)
-      console.log(elem.alert.effect)
+      // console.log(elem)
+      // console.log(elem.alert.cause)
+      // console.log(elem.alert.effect)
       
       if(elem.alert.effect == "NO_SERVICE"){
 
-        var displayMessage = elem.alert.cause
+        var displayMessage = alertToText(elem)
        
         console.log(elem.alert.effect)
         let node = document.createElement("LI");
@@ -78,7 +78,12 @@ const getCancellationsListener = function() {
 }
 
 function alertToText(elem){
-  return elem.
+  console.log(elem.alert)
+  var services = elem.alert.informed_entity.reduce((accumulator, currentValue) => {
+    return accumulator + ", " + currentValue.route_id
+  })
+  console.log(services)
+  return "Service " + elem.alert.informed_entity[0].route_id + ": " + elem.alert.header_text.translation[0].text
 }
 
 const cancellationsRequest = new XMLHttpRequest();
