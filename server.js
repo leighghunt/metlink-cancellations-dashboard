@@ -3,6 +3,7 @@
 
 // init project
 const express = require('express');
+var Sequelize = require('sequelize');
 const axios = require('axios');
 const app = express();
 
