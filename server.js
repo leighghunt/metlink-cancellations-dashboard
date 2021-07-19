@@ -140,7 +140,7 @@ app.get('/cancellations/', function(request, response) {
 
     apiResponse.data.entity.forEach((entity) => {
       
-      if(entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE"){
+      if((entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE"){
 
         
         
