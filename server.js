@@ -11,6 +11,78 @@ const app = express();
 var server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+var Cancellation
+
+
+// setup a new database
+// using database credentials set in .env
+var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PASS, {
+  host: '0.0.0.0',
+  dialect: 'sqlite',
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  },
+    // Security note: the database is saved to the file `database.sqlite` on the local filesystem. It's deliberately placed in the `.data` directory
+    // which doesn't get copied if someone remixes the project.
+  storage: '.data/database.sqlite'
+});
+
+// authenticate with the database
+sequelize.authenticate()
+  .then(function(err) {
+    console.log('Connection has been established successfully.');
+    // define a new table 'users'
+    Cancellation = sequelize.define('cancellations', {
+      routeId: {
+        type: Sequelize.INTEGER
+      },
+
+      route_short_name: {
+        type: Sequelize.STRING
+      },
+
+      description: {
+        type: Sequelize.STRING
+      },
+
+      JSON: {
+        type: Sequelize.STRING
+      },
+
+      startDate: {
+        type: Sequelize.DATE
+      },
+
+      endDate: {
+        type: Sequelize.DATE
+      },
+
+      retrievedDate: {
+        type: Sequelize.DATE
+      }
+
+    });
+    
+    setup();
+  })
+  .catch(function (err) {
+    console.log('Unable to connect to the database: ', err);
+  });
+
+// populate table with default users
+function setup(){
+  Cancellation.sync({force: true}) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
+    .then(function(){
+    Cancellation.create({routeId: -1, route_short_name: "BLAH", description: "BLAH BLAH BLAH", startDate: new Date(), endDate: new Date()})
+      // // Add the default users to the database
+      // for(var i=0; i<users.length; i++){ // loop through all users
+      //   User.create({ firstName: users[i][0], lastName: users[i][1]}); // create a new entry in the users table
+      // }
+    });  
+}
+
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
@@ -53,6 +125,12 @@ app.get('/cancellations/', function(request, response) {
 
     // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
+    
+    // Cancellation.create({ firstName: request.query.fName, lastName: request.query.lName});
+
+
+    
+    
     response.setHeader('Content-Type', 'application/json')
     response.send(JSON.stringify(apiResponse.data));      
   })
