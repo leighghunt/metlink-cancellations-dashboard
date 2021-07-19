@@ -10,6 +10,7 @@ const app = express();
 // Setup SocketIO
 var server = require('http').Server(app);
 const io = require('socket.io')(server);
+var cron = require('node-cron');
 
 var Cancellation
 
@@ -17,6 +18,11 @@ var routes
 
   // console.log('A');
 
+// https://medium.com/@joshuatabansi/cron-jobs-in-glitch-easy-e6068b14e474
+cron.schedule('0 * * * *', () => {
+  console.log('running a task at the start of every hour');
+  //function logic goes here
+});
 
 // setup a new database
 // using database credentials set in .env
@@ -182,7 +188,7 @@ app.get('/cancellations/', function(request, response) {
           }
         })
         
-        console.log(results);
+        // console.log(results);
         response.setHeader('Content-Type', 'application/json')
         response.send(JSON.stringify(results));      
 
@@ -201,12 +207,12 @@ app.get('/cancellations/', function(request, response) {
 
 
 function alertToText(entity){
-  console.log(entity.alert)
+  // console.log(entity.alert)
   // elem.alert.informed_entity.push({route_id: "BLAH"})
   // elem.alert.informed_entity.push({route_id: "123"})
   var services = entity.alert.informed_entity.reduce((accumulator, currentValue) => {
-    console.log(accumulator)
-    console.log(currentValue)
+    // console.log(accumulator)
+    // console.log(currentValue)
     
     var route_id = currentValue.route_id
     
@@ -217,7 +223,7 @@ function alertToText(entity){
     } else
     return accumulator + ", " + route.route_short_name 
   }, "")
-  console.log(services)
+  // console.log(services)
   return "Service " + services + ": " + entity.alert.header_text.translation[0].text
 }
 
