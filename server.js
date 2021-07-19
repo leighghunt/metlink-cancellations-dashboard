@@ -33,7 +33,7 @@ var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PA
   storage: '.data/database.sqlite'
 
 });
-  console.log('A2');
+  console.log('A2')
 
 
 // authenticate with the database
@@ -97,7 +97,7 @@ function setup(){
     console.log('Setup B');
 
     Cancellation.create({routeId: -1, route_short_name: "BLAH", description: "BLAH BLAH BLAH", startDate: new Date(), endDate: new Date()})
-        console.log('Setup C');
+        console.log('Setup D');
 
 
       // // Add the default users to the database
