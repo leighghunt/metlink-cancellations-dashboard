@@ -36,7 +36,7 @@ sequelize.authenticate()
     // define a new table 'users'
     Cancellation = sequelize.define('cancellations', {
       routeId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.S
       },
 
       route_short_name: {
@@ -106,7 +106,7 @@ server.listen(process.env.PORT);
 
 // var distanceBetweenLocations = require('./distanceBetweenLocations');
 
-
+setup();
 
 
 app.get('/cancellations/', function(request, response) {
