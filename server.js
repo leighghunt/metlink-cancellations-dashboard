@@ -139,12 +139,15 @@ app.get('/cancellations/', function(request, response) {
       
       if(entity.alert.effect == "NO_SERVICE"){
 
+        
+        
+        
         // console.log(entity.alert.header_text.translation[0].text)
         Cancellation.upsert({
           id: entity.id,
           route_id: entity.route_id,
           JSON: JSON.stringify(entity),
-          description: entity.alert.header_text.translation[0].text,
+          description: alertToText(entity),
           timestamp: new Date(entity.timestamp),
           startDate: new Date(entity.alert.active_period[0].start * 1000),
           endDate: new Date(entity.alert.active_period[0].end * 1000),
@@ -160,7 +163,9 @@ app.get('/cancellations/', function(request, response) {
     // ******************************************************************************************************
 
     
-    Cancellation.findAll()
+    Cancellation.findAll({
+  order: [
+    ['timestamp', 'DESC']]})
       .then(cancellations => {
         // console.log("All cancellations:", JSON.stringify(cancellations, null, 4));
         var results = cancellations.map(cancellation => {
@@ -187,6 +192,29 @@ app.get('/cancellations/', function(request, response) {
     response.status(500).send(error)
   })  
 });
+
+
+
+function alertToText(entity){
+  console.log(entity.alert)
+  // elem.alert.informed_entity.push({route_id: "BLAH"})
+  // elem.alert.informed_entity.push({route_id: "123"})
+  var services = entity.alert.informed_entity.reduce((accumulator, currentValue) => {
+    console.log(accumulator)
+    console.log(currentValue)
+    
+    var route_id = currentValue.route_id
+    
+    var route = routes.find(route => route.route_id == route_id)
+    
+    if(accumulator==""){
+      return route.route_short_name 
+    } else
+    return accumulator + ", " + route.route_short_name 
+  }, "")
+  console.log(services)
+  return "Service " + services + ": " + entity.alert.header_text.translation[0].text
+}
 
 
 
