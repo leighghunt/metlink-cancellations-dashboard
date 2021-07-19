@@ -13,6 +13,8 @@ const io = require('socket.io')(server);
 
 var Cancellation
 
+  console.log('A');
+
 
 // setup a new database
 // using database credentials set in .env
@@ -26,17 +28,25 @@ var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PA
   },
     // Security note: the database is saved to the file `database.sqlite` on the local filesystem. It's deliberately placed in the `.data` directory
     // which doesn't get copied if someone remixes the project.
+  // storage: '.data/database.sqlite'
+
   storage: '.data/database.sqlite'
+
 });
+  console.log('A2');
+
 
 // authenticate with the database
+
 sequelize.authenticate()
   .then(function(err) {
     console.log('Connection has been established successfully.');
     // define a new table 'users'
+  console.log('B');
+
     Cancellation = sequelize.define('cancellations', {
       routeId: {
-        type: Sequelize.S
+        type: Sequelize.STRING
       },
 
       route_short_name: {
@@ -65,7 +75,13 @@ sequelize.authenticate()
 
     });
     
+    console.log('C');
+
+
     setup();
+    console.log('D');
+
+
   })
   .catch(function (err) {
     console.log('Unable to connect to the database: ', err);
@@ -73,9 +89,17 @@ sequelize.authenticate()
 
 // populate table with default users
 function setup(){
-  Cancellation.sync({force: true}) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
+    console.log('Setup A');
+
+
+  Cancellation.sync(/*{force: true}*/) // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
     .then(function(){
+    console.log('Setup B');
+
     Cancellation.create({routeId: -1, route_short_name: "BLAH", description: "BLAH BLAH BLAH", startDate: new Date(), endDate: new Date()})
+        console.log('Setup C');
+
+
       // // Add the default users to the database
       // for(var i=0; i<users.length; i++){ // loop through all users
       //   User.create({ firstName: users[i][0], lastName: users[i][1]}); // create a new entry in the users table
@@ -105,8 +129,6 @@ app.get('/', function(request, response) {
 server.listen(process.env.PORT);
 
 // var distanceBetweenLocations = require('./distanceBetweenLocations');
-
-setup();
 
 
 app.get('/cancellations/', function(request, response) {
