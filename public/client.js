@@ -35,13 +35,13 @@ const getCancellationsListener = function() {
       // console.log(active)
     })
 
+    if(elem.alert.effect == "NO_SERVICE"){
 
-    if(active){
+      if(active){
       // console.log(elem)
       // console.log(elem.alert.cause)
       // console.log(elem.alert.effect)
       
-      if(elem.alert.effect == "NO_SERVICE"){
 
         var displayMessage = alertToText(elem)
        
@@ -52,7 +52,11 @@ const getCancellationsListener = function() {
         node.appendChild(textnode);                              // Append the text to <li>
         listResults.appendChild(node);
 
-      } 
+      } else {
+      console.log("NOT ACTIVE")
+      console.log(elem)
+        
+      }
     }
   })
 
