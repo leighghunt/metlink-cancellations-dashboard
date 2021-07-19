@@ -24,6 +24,13 @@ cron.schedule('0 * * * *', () => {
   //function logic goes here
 });
 
+cron.schedule('0/1 * * * *', () => {
+  console.log('running a task aevery minute');
+  //function logic goes here
+});
+
+
+
 // setup a new database
 // using database credentials set in .env
 var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PASS, {
