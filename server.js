@@ -209,10 +209,14 @@ app.get('/cancellations/', async function(request, response) {
     Cancellation.findAll({
         where: {
           timestamp: {[Op.gt]: time24HoursAgo},
+
           [Op.or]: [
             { cause: "STRIKE" },
+            { cause: "TECHNICAL_PROBLEM" },
+          //   { cause: "ACCIDENT" },    // Kind of not really avoidable
             { effect: "NO_SERVICE" },
-            { effect: "REDUCED_SERVICE" }
+            { effect: "REDUCED_SERVICE" },
+            { effect: "SIGNIFICANT_DELAYS" }
           ]
 
         },
@@ -247,17 +251,31 @@ function entityToText(entity){
   // elem.alert.informed_entity.push({route_id: "123"})
   var routeType = "Service "
   
+  console.log(entity.alert.informed_entity[0])
+
+
   switch(entity.alert.informed_entity[0].route_type){
     case 2:
-      routeType = "Train"
+      routeType = "Train "
+      break
+
     case 3:
       routeType = "Bus "
+      break
+
+    case 4:
+      routeType = "Ferry "
+      break
+
+    case 5:
+      routeType = "Cable Car "
+      break
 
     default:
       routeType = "Service "
-
       break
   }
+  console.log(routeType)
 
   var services = entity.alert.informed_entity.reduce((accumulator, currentValue) => {
     // console.log(accumulator)
