@@ -3,8 +3,9 @@
 var io = window.io;
 var socket = io.connect(window.location.hostname);
 socket.on('cancellation', function (cancellation) {
-  console.log(cancellation);
-  // handleVehicleData(data);
+  // cancellation.description = "***" + cancellation.description;
+  // console.log(cancellation);
+  displayCancellation(cancellation)
 });
 
 
@@ -23,18 +24,25 @@ const getCancellationsListener = function() {
   
   document.getElementById('howmany').innerText=data.length
 
-  data.forEach((elem) => {
-
-        var displayMessage = elem.description
-       
-        let node = document.createElement("LI");
-        node.className = 'list-group-item list-group-item-action';
-        var textnode = document.createTextNode(displayMessage);         // Create a text node
-        node.appendChild(textnode);                              // Append the text to <li>
-        listResults.appendChild(node);
-    })
+  data.forEach((cancellation) => {
+    displayCancellation(cancellation)     
+  })
 }
 
+const displayCancellation = function(cancellation){
+  let listResults = document.getElementById('listResults');
+
+  var displayMessage = cancellation.description
+
+  let node = document.createElement("LI");
+  node.className = 'list-group-item list-group-item-action';
+  var textnode = document.createTextNode(displayMessage);         // Create a text node
+  node.appendChild(textnode);                              // Append the text to <li>
+  // listResults.appendChild(node);
+
+  listResults.insertBefore(node, listResults.firstChild);
+
+}
   
 const cancellationsRequest = new XMLHttpRequest();
 cancellationsRequest.onload = getCancellationsListener;

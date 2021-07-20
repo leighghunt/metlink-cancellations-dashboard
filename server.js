@@ -255,7 +255,7 @@ app.get('/cancellations/', async function(request, response) {
 
         },
         order: [
-          ['timestamp', 'DESC']
+          ['timestamp', 'ASC']
         ]
       })
       .then(cancellations => {
