@@ -55,6 +55,15 @@ sequelize.authenticate()
         type: Sequelize.STRING
       },
 
+
+      cause: {
+        type: Sequelize.STRING
+      },
+
+      effect: {
+        type: Sequelize.STRING
+      },
+
       route_short_name: {
         type: Sequelize.STRING
       },
@@ -81,7 +90,7 @@ sequelize.authenticate()
 
     });
     
-    // setup();
+    setup();
   })
   .catch(function (err) {
     console.log('Unable to connect to the database: ', err);
@@ -92,6 +101,7 @@ function setup(){
 
   Cancellation.sync(
     // {force: true}
+    { alter: true }
   ) 
   // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
     .then(function(){
@@ -159,6 +169,8 @@ function updateCancellations(){
         Cancellation.upsert({
           id: entity.id,
           route_id: entity.route_id,
+          cause: entity.alert.cause,
+          effect: entity.alert.effect,          
           JSON: JSON.stringify(entity),
           description: entityToText(entity),
           timestamp: new Date(entity.timestamp),
@@ -166,6 +178,12 @@ function updateCancellations(){
           endDate: new Date(entity.alert.active_period[0].end * 1000),
         });
 
+      } else {
+        // console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entityToText(entity))
+        console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entity.alert.header_text.translation[0].text)
+
+        // console.log(entity)
+        
       }
     })
     
@@ -265,8 +283,7 @@ function getRoutes(){
 
 getRoutes();
 
-cron.schedule('*/5 * * * *', () => {
-  console.log('*/5 * * * *');
+cron.schedule('*/1 * * * *', () => {
   updateCancellations();
 });
 
