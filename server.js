@@ -24,10 +24,13 @@ cron.schedule('0 * * * *', () => {
   //function logic goes here
 });
 
-cron.schedule('0/1 * * * *', () => {
+var task = cron.schedule('0/1 * * * *', () => {
   console.log('running a task aevery minute');
   //function logic goes here
 });
+
+task.start();
+console.log(task);
 
 
 
@@ -47,6 +50,7 @@ var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PA
 
   // dialectOptions: {mode: 2 | 4},    Use sequelize v5 or you'll get file/directory creation issues here
   // https://github.com/sequelize/sequelize/issues/12329#issuecomment-662160609
+  logging: false,
   storage: '.data/database.sqlite'
 
 });
