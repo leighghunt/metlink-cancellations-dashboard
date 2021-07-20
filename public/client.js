@@ -5,10 +5,15 @@ var socket = io.connect(window.location.hostname);
 socket.on('cancellation', function (cancellation) {
   // cancellation.description = "***" + cancellation.description;
   // console.log(cancellation);
+  ++cancellationsInLast24Hours
+  document.getElementById('howmany').innerText=cancellationsInLast24Hours
+
+
   displayCancellation(cancellation)
 });
 
 
+var cancellationsInLast24Hours = 0;
 
 var routes = [];
 
@@ -22,7 +27,9 @@ const getCancellationsListener = function() {
 
   var data = JSON.parse(this.responseText)
   
-  document.getElementById('howmany').innerText=data.length
+  cancellationsInLast24Hours = data.length;
+  
+  document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
   data.forEach((cancellation) => {
     displayCancellation(cancellation)     
