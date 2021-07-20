@@ -147,15 +147,14 @@ function updateCancellations(){
     // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
     var countBefore = await Cancellation.count()
-    console.log("countBefore")
-
-    console.log(countBefore)
+    // console.log("countBefore")
+    // console.log(countBefore)
 
 
 
     apiResponse.data.entity.forEach(async (entity) => {
       
-      console.log(entity.id)
+      // console.log(entity.id)
 
       // console.log(entity)
 
@@ -184,17 +183,14 @@ function updateCancellations(){
     })
     
     var countAfter = await Cancellation.count()
-    console.log("countAfter")
-
-    console.log(countAfter)
+    // console.log("countAfter")
+    // console.log(countAfter)
 
 
     if(countAfter>countBefore){
       console.log("Added cancellations: " + (countAfter-countBefore))
     }
 
-
-      
   })
   .catch(function (error) {
     // handle error
@@ -221,7 +217,8 @@ app.get('/cancellations/', async function(request, response) {
 
         },
         order: [
-        ['timestamp', 'DESC']]
+          ['timestamp', 'DESC']
+        ]
       })
       .then(cancellations => {
         var results = cancellations.map(cancellation => {

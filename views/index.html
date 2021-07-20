@@ -33,9 +33,9 @@
     <script src="/client.js" defer></script>
   </head>
     <body class="text-center">
-    <div class="glitchButton" style="position:fixed;top:20px;right:20px;z-index:1000"></div>
+<!--     <div class="glitchButton" style="position:fixed;top:20px;right:20px;z-index:1000"></div>
     <script src="https://button.glitch.me/button.js"></script>
-
+ -->
 
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
@@ -52,7 +52,7 @@
       <p id="demo"></p>
 
       <main role="main" class="inner cover">
-        <h1 class="cover-heading">How many buses have been cancelled today?</h1>
+        <h1 class="cover-heading"><span id="howmany">??</span> Metlink services have been cancelled in last 24 hours</h1>
 
 <!--         <p class="lead">
           <div class="form-group">
@@ -77,7 +77,7 @@
 
       <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p>Spoken interface to <a href="https://www.metlink.org.nz">Metlink</a> timetables, by <a href="https://twitter.com/leighghunt">@leighghunt</a>, <a href="http://venari.co.nz">Venari Ltd</a>, hosted on <a href="https://glitch.com/~talking-metlink-2">Glitch</a>.</p>
+          <p>Interface to <a href="https://www.metlink.org.nz">Metlink</a> service alerts API, by <a href="https://twitter.com/leighghunt">@leighghunt</a>, <a href="http://venari.co.nz">Venari Ltd</a>, hosted on <a href="https://glitch.com/~talking-metlink-2">Glitch</a>.</p>
           <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
         </div>
       </footer>

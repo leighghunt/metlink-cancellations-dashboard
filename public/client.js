@@ -11,6 +11,8 @@ const getCancellationsListener = function() {
   }
 
   var data = JSON.parse(this.responseText)
+  
+  document.getElementById('howmany').innerText=data.length
 
   data.forEach((elem) => {
 
