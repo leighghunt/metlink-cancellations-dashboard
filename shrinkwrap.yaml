@@ -1,6 +1,7 @@
 dependencies:
   axios: 0.19.0
   express: 4.16.4
+  moment-timezone: 0.5.33
   node-cron: 3.0.0
   sequelize: 5.22.4
   socket.io: 2.2.0
@@ -1629,6 +1630,7 @@ shrinkwrapVersion: 3
 specifiers:
   axios: ^0.19.0
   express: ^4.16.4
+  moment-timezone: ^0.5.33
   node-cron: ^3.0.0
   sequelize: '5'
   socket.io: ^2.2.0

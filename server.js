@@ -4,7 +4,11 @@
 // init project
 const express = require('express');
 var Sequelize = require('sequelize');
+const {Op} = require('sequelize');
 const axios = require('axios');
+
+const moment = require('moment');
+
 const app = express();
 
 // Setup SocketIO
@@ -162,7 +166,29 @@ function updateCancellations(){
 
 app.get('/cancellations/', function(request, response) {
 
+    // var timeNow = new Date()
+    // startOfToday.setHours(0,0,0,0)
+    
+    // console.log(startOfToday)
+  
+  
+  var timeNow    = new moment();
+  console.log(timeNow)
+
+  var timeNowNZ    = timeNow.clone().tz("Wellington");
+  console.log(timeNowNZ)
+
+  // .tz("2014-06-01 12:00", "America/New_York");
+  // var losAngeles = newYork.clone().tz("America/Los_Angeles");
+  // var london     = newYork.clone().tz("Europe/London");
+
+// newYork.format();    // 2014-06-01T12:00:00-04:00
+  
+  
     Cancellation.findAll({
+        // where: {
+        //   timestamp: {[Op.gt]: startOfToday},   
+        // },
         order: [
         ['timestamp', 'DESC']]
       })
