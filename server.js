@@ -213,11 +213,11 @@ app.get('/cancellations/', async function(request, response) {
     Cancellation.findAll({
         where: {
           timestamp: {[Op.gt]: time24HoursAgo},
-          // [Op.or]: [
-          //   { cause: "STRIKE" },
-          //   { effect: "NO_SERVICE" },
-          //   { effect: "REDUCED_SERVICE" }
-          // ]
+          [Op.or]: [
+            { cause: "STRIKE" },
+            { effect: "NO_SERVICE" },
+            { effect: "REDUCED_SERVICE" }
+          ]
 
         },
         order: [
@@ -229,7 +229,9 @@ app.get('/cancellations/', async function(request, response) {
             id: cancellation.id,
             startDate: cancellation.startDate,
             endDate: cancellation.endDate,
+            // description: cancellation.cause + "/" + cancellation.effect + ": " + cancellation.description
             description: cancellation.description
+
           }
         })
         
