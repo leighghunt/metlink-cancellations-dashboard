@@ -137,12 +137,23 @@ function updateCancellations(){
 
     // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
-    apiResponse.data.entity.forEach((entity) => {
+    var countBefore = await Cancellation.count()
+    console.log("countBefore")
+
+    console.log(countBefore)
+
+
+
+    apiResponse.data.entity.forEach(async (entity) => {
       
+      console.log(entity.id)
+
+      console.log(entity)
+
       if(entity.alert.cause == "STRIKE" || (entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE")){
 
         
-        
+
         
         // console.log(entity.alert.header_text.translation[0].text)
         Cancellation.upsert({
@@ -154,8 +165,21 @@ function updateCancellations(){
           startDate: new Date(entity.alert.active_period[0].start * 1000),
           endDate: new Date(entity.alert.active_period[0].end * 1000),
         });
+
       }
     })
+    
+    var countAfter = await Cancellation.count()
+    console.log("countAfter")
+
+    console.log(countAfter)
+
+
+    if(countAfter>countBefore){
+      console.log("Added " + countAfter-countBefore + " cancellations.")
+    }
+
+
       
   })
   .catch(function (error) {
@@ -164,7 +188,7 @@ function updateCancellations(){
   })  
 }
 
-app.get('/cancellations/', function(request, response) {
+app.get('/cancellations/', async function(request, response) {
 
   
     var time24HoursAgo = new Date()
