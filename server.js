@@ -148,7 +148,7 @@ function updateCancellations(){
       
       console.log(entity.id)
 
-      console.log(entity)
+      // console.log(entity)
 
       if(entity.alert.cause == "STRIKE" || (entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE")){
 
@@ -176,7 +176,7 @@ function updateCancellations(){
 
 
     if(countAfter>countBefore){
-      console.log("Added " + countAfter-countBefore + " cancellations.")
+      console.log("Added cancellations: " + (countAfter-countBefore))
     }
 
 
