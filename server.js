@@ -146,9 +146,9 @@ function updateCancellations(){
 
     // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
 
-    var countBefore = await Cancellation.count()
-    // console.log("countBefore")
-    // console.log(countBefore)
+//     var countBefore = await Cancellation.count()
+//     // console.log("countBefore")
+//     // console.log(countBefore)
 
 
 
@@ -156,18 +156,23 @@ function updateCancellations(){
       
       var existingCancellation = await Cancellation.findByPk(entity.id)
       
-      if(existingCancellation!=null){
-        console.log("existingCancellation found")
-        console.log(existingCancellation.JSON)
+//       if(existingCancellation!=null){
+//         console.log("existingCancellation found")
+//         console.log("existingCancellation.JSON")
 
-        console.log(existingCancellation)
+//         console.log(existingCancellation.JSON)
 
-        console.log(JSON.stringify(entity))
+//         console.log("JSON.stringify(entity)")
 
-      }
+//         console.log(JSON.stringify(entity))
+
+
+//       }
       
       var bNeedsUpserting = true;
       if(existingCancellation!=null && existingCancellation.JSON == JSON.stringify(entity)){
+        // console.log("Exists and unchanged")
+
         bNeedsUpserting = false;
       }
       
@@ -180,7 +185,7 @@ function updateCancellations(){
       // if(entity.alert.cause == "STRIKE" || (entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE")){
         
         // console.log(entity.alert.header_text.translation[0].text)
-        var cancellation = await Cancellation.upsert({
+        var cancellation = {
           id: entity.id,
           route_id: entity.route_id,
           cause: entity.alert.cause,
@@ -190,8 +195,14 @@ function updateCancellations(){
           timestamp: new Date(entity.timestamp),
           startDate: new Date(entity.alert.active_period[0].start * 1000),
           endDate: new Date(entity.alert.active_period[0].end * 1000),
-        });
+        }
         
+        Cancellation.upsert(cancellation)
+        
+        console.log('emitting...')
+
+        console.log(cancellation)
+
         io.emit('cancellation', cancellation)
 
       }
@@ -205,14 +216,14 @@ function updateCancellations(){
 //       }
     })
     
-    var countAfter = await Cancellation.count()
-    // console.log("countAfter")
-    // console.log(countAfter)
+//     var countAfter = await Cancellation.count()
+//     // console.log("countAfter")
+//     // console.log(countAfter)
 
 
-    if(countAfter>countBefore){
-      console.log("Added cancellations: " + (countAfter-countBefore))
-    }
+//     if(countAfter>countBefore){
+//       console.log("Added cancellations: " + (countAfter-countBefore))
+//     }
 
   })
   .catch(function (error) {
