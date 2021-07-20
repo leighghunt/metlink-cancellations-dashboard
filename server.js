@@ -16,37 +16,6 @@ var Cancellation
 
 var routes
 
-  // console.log('A');
-
-// https://medium.com/@joshuatabansi/cron-jobs-in-glitch-easy-e6068b14e474
-cron.schedule('0 * * * *', () => {
-  console.log('running a task at the start of every hour');
-  //function logic goes here
-});
-
-cron.schedule('* * * * *', () => {
-  console.log('* * * * *');
-});
-
-
-cron.schedule('0/1 * * * *', () => {
-  console.log('0/1 * * * *');
-});
-
-
-cron.schedule('0/5 * * * *', () => {
-  console.log('0/5 * * * *');
-});
-
-
-var task = cron.schedule('0/1 * * * *', () => {
-  console.log('running a task aevery minute');
-  //function logic goes here
-});
-
-task.start();
-
-
 
 
 // setup a new database
@@ -59,25 +28,18 @@ var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PA
     min: 0,
     idle: 10000
   },
-    // Security note: the database is saved to the file `database.sqlite` on the local filesystem. It's deliberately placed in the `.data` directory
-    // which doesn't get copied if someone remixes the project.
-  // storage: '.data/database.sqlite'
-
   // dialectOptions: {mode: 2 | 4},    Use sequelize v5 or you'll get file/directory creation issues here
   // https://github.com/sequelize/sequelize/issues/12329#issuecomment-662160609
   logging: false,
   storage: '.data/database.sqlite'
 
 });
-  console.log('A2')
 
 
 // authenticate with the database
-
 sequelize.authenticate()
   .then(function(err) {
     console.log('Connection has been established successfully.');
-    // define a new table 'users'
 
     Cancellation = sequelize.define('cancellations', {
       id: {
@@ -153,8 +115,9 @@ server.listen(process.env.PORT);
 
 // var distanceBetweenLocations = require('./distanceBetweenLocations');
 
+function updateCancellations(){
 
-app.get('/cancellations/', function(request, response) {
+  console.log("updateCancellations")
 
   axios.get(serviceAlertsURL, {
     headers: {
@@ -162,7 +125,7 @@ app.get('/cancellations/', function(request, response) {
     }})
   .then(async function (apiResponse) {
     
-    console.log("cancellations")
+    console.log("updateCancellations - response")
 
     // console.log(apiResponse.data)
 
@@ -182,29 +145,28 @@ app.get('/cancellations/', function(request, response) {
           id: entity.id,
           route_id: entity.route_id,
           JSON: JSON.stringify(entity),
-          description: alertToText(entity),
+          description: entityToText(entity),
           timestamp: new Date(entity.timestamp),
           startDate: new Date(entity.alert.active_period[0].start * 1000),
           endDate: new Date(entity.alert.active_period[0].end * 1000),
         });
       }
     })
-    
-    // Cancellation.create({ firstName: request.query.fName, lastName: request.query.lName});
+      
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })  
+}
 
-    
-    // ******************************************************************************************************
-    // TO DO - change to format we want to display, process on server, and merge new and persisted data here.
-    //
-    // And add timer to auto-retrieve data
-    // ******************************************************************************************************
+app.get('/cancellations/', function(request, response) {
 
-    
     Cancellation.findAll({
-  order: [
-    ['timestamp', 'DESC']]})
+        order: [
+        ['timestamp', 'DESC']]
+      })
       .then(cancellations => {
-        // console.log("All cancellations:", JSON.stringify(cancellations, null, 4));
         var results = cancellations.map(cancellation => {
           return {
             id: cancellation.id,
@@ -219,20 +181,11 @@ app.get('/cancellations/', function(request, response) {
         response.send(JSON.stringify(results));      
 
     });
-
-    // response.setHeader('Content-Type', 'application/json')
-    // response.send(JSON.stringify(apiResponse.data));      
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-    response.status(500).send(error)
-  })  
 });
 
 
 
-function alertToText(entity){
+function entityToText(entity){
   // console.log(entity.alert)
   // elem.alert.informed_entity.push({route_id: "BLAH"})
   // elem.alert.informed_entity.push({route_id: "123"})
@@ -255,8 +208,7 @@ function alertToText(entity){
 
 
 
-// app.get('/routes/', function(request, response) {
-
+function getRoutes(){
   axios.get(routesURL, {
     headers: {
       'x-api-key': process.env.metlink_api_key
@@ -265,15 +217,19 @@ function alertToText(entity){
     
     routes = apiResponse.data;
     console.log("routes")
-
-//     console.log("apiResponse.data length:" + JSON.stringify(apiResponse.data).length)
-
-//     response.setHeader('Content-Type', 'application/json')
-//     response.send(JSON.stringify(apiResponse.data));      
   })
   .catch(function (error) {
     // handle error
     console.log(error);
     // response.status(500).send(error)
   })  
-// });
+}
+
+
+getRoutes();
+
+cron.schedule('*/5 * * * *', () => {
+  console.log('*/5 * * * *');
+});
+
+
