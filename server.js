@@ -251,7 +251,7 @@ function entityToText(entity){
   // elem.alert.informed_entity.push({route_id: "123"})
   var routeType = "Service "
   
-  console.log(entity.alert.informed_entity[0])
+  // console.log(entity.alert.informed_entity[0])
 
 
   switch(entity.alert.informed_entity[0].route_type){
@@ -275,7 +275,7 @@ function entityToText(entity){
       routeType = "Service "
       break
   }
-  console.log(routeType)
+  // console.log(routeType)
 
   var services = entity.alert.informed_entity.reduce((accumulator, currentValue) => {
     // console.log(accumulator)
