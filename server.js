@@ -101,12 +101,11 @@ function setup(){
 
   Cancellation.sync(
     // {force: true}
-    { alter: true }
+    // { alter: true }
   ) 
-  // We use 'force: true' in this example to drop the table users if it already exists, and create a new one. You'll most likely want to remove this setting in your own apps
     .then(function(){
 
-    Cancellation.create({routeId: -1, route_short_name: "BLAH", description: "BLAH BLAH BLAH", startDate: new Date(), endDate: new Date()})
+    Cancellation.create({routeId: -1, route_short_name: "BLAH", description: "BLAH BLAH BLAH", startDate: new Date(), endDate: new Date(), cause: "TEST", effect: "NONE"})
     });  
 }
 
@@ -160,10 +159,7 @@ function updateCancellations(){
 
       // console.log(entity)
 
-      if(entity.alert.cause == "STRIKE" || (entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE")){
-
-        
-
+      // if(entity.alert.cause == "STRIKE" || (entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE")){
         
         // console.log(entity.alert.header_text.translation[0].text)
         Cancellation.upsert({
@@ -178,13 +174,13 @@ function updateCancellations(){
           endDate: new Date(entity.alert.active_period[0].end * 1000),
         });
 
-      } else {
-        // console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entityToText(entity))
-        console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entity.alert.header_text.translation[0].text)
+//       } else {
+//         // console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entityToText(entity))
+//         console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entity.alert.header_text.translation[0].text)
 
-        // console.log(entity)
+//         // console.log(entity)
         
-      }
+//       }
     })
     
     var countAfter = await Cancellation.count()
@@ -216,7 +212,13 @@ app.get('/cancellations/', async function(request, response) {
   
     Cancellation.findAll({
         where: {
-          timestamp: {[Op.gt]: time24HoursAgo},   
+          timestamp: {[Op.gt]: time24HoursAgo},
+          // [Op.or]: [
+          //   { cause: "STRIKE" },
+          //   { effect: "NO_SERVICE" },
+          //   { effect: "REDUCED_SERVICE" }
+          // ]
+
         },
         order: [
         ['timestamp', 'DESC']]
@@ -252,10 +254,18 @@ function entityToText(entity){
     
     var route = routes.find(route => route.route_id == route_id)
     
-    if(accumulator==""){
-      return route.route_short_name 
+    if(route!=null){
+      if(accumulator==""){
+        return route.route_short_name 
+      } else
+      {
+        return accumulator + ", " + route.route_short_name 
+      }
     } else
-    return accumulator + ", " + route.route_short_name 
+    {
+      return accumulator
+    }
+    
   }, "")
   // console.log(services)
   return "Service " + services + ": " + entity.alert.header_text.translation[0].text
