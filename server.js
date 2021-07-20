@@ -168,11 +168,14 @@ app.get('/cancellations/', function(request, response) {
 
   
     var time24HoursAgo = new Date()
+    // console.log(time24HoursAgo)
+    time24HoursAgo.setDate(time24HoursAgo.getDate() - 1)
+    // console.log(time24HoursAgo)
   
     Cancellation.findAll({
-        // where: {
-        //   timestamp: {[Op.gt]: startOfToday},   
-        // },
+        where: {
+          timestamp: {[Op.gt]: time24HoursAgo},   
+        },
         order: [
         ['timestamp', 'DESC']]
       })
@@ -240,6 +243,7 @@ getRoutes();
 
 cron.schedule('*/5 * * * *', () => {
   console.log('*/5 * * * *');
+  updateCancellations();
 });
 
 
