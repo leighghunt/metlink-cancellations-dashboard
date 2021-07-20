@@ -166,24 +166,8 @@ function updateCancellations(){
 
 app.get('/cancellations/', function(request, response) {
 
-    // var timeNow = new Date()
-    // startOfToday.setHours(0,0,0,0)
-    
-    // console.log(startOfToday)
   
-  
-  var timeNow    = new moment();
-  console.log(timeNow)
-
-  var timeNowNZ    = timeNow.clone().tz("Wellington");
-  console.log(timeNowNZ)
-
-  // .tz("2014-06-01 12:00", "America/New_York");
-  // var losAngeles = newYork.clone().tz("America/Los_Angeles");
-  // var london     = newYork.clone().tz("Europe/London");
-
-// newYork.format();    // 2014-06-01T12:00:00-04:00
-  
+    var time24HoursAgo = new Date()
   
     Cancellation.findAll({
         // where: {
@@ -259,3 +243,52 @@ cron.schedule('*/5 * * * *', () => {
 });
 
 
+
+
+
+
+/*
+  // var timeNow = new Date()
+    // startOfToday.setHours(0,0,0,0)
+    
+    // console.log(startOfToday)
+  
+  
+  var timeNow    = new moment();
+  console.log(timeNow)
+
+  var timeNowNZTZ    = timeNow.clone().tz("Pacific/Auckland");
+  console.log(timeNowNZTZ)
+
+  var timeNowNZ = new moment(timeNowNZTZ.format())
+  console.log(timeNowNZ)
+
+   // timeNowNZ.setHours(0)
+  console.log(timeNowNZ)
+  
+  
+  
+  let now = new Date()
+  console.log(now)
+
+  // Get the current time in LA using string matching to enable the offset to be calculated
+  // This allows for daylight savings to be considered
+  // Caution the LocaleTimeString is en-US formatted. Take care if using a different locale
+  let timeInNZ = now.toLocaleTimeString('en-US', { timeZone: 'Pacific/Auckland' })
+    // .match(/([0-1]?[0-9])\:([0-5]?[0-9])\:[0-5]?[0-9]\s(AM|PM)/)
+    // // trim first element of match
+    // .slice(1)
+    //  // take account of AM/PM and convert values to integers
+    // .map( (e,i,a) => i==0 && a[3] =='PM' ? +e+12 : +e)
+    // // trim AM/PM
+    // .slice(0,-1)
+
+    console.log(timeInNZ)
+
+
+  // .tz("2014-06-01 12:00", "America/New_York");
+  // var losAngeles = newYork.clone().tz("America/Los_Angeles");
+  // var london     = newYork.clone().tz("Europe/London");
+
+// newYork.format();    // 2014-06-01T12:00:00-04:00
+*/
