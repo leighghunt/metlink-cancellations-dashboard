@@ -4,6 +4,8 @@ Then displays cancellations in the last 24 hours.
 You can see the alerts also being displayed at https://www.metlink.org.nz/alerts/bus
 
 TO DO:
+- Highlight new cancellations for a few seconds
+- Sound notification of canellations?
 - Display graph of hourly cancellations over last 24 hours - or perhaps current day?
 - Display dashboard of number of cancellations today, and last 5 or 7 days.
 - Correct ever increasing counter from emits that doesn't reflect data dropping off the 24 hour window
