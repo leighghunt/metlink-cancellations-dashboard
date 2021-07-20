@@ -154,7 +154,17 @@ function updateCancellations(){
 
     apiResponse.data.entity.forEach(async (entity) => {
       
-      var existingCancellation = Cancellation.findByPk(entity.id)
+      var existingCancellation = await Cancellation.findByPk(entity.id)
+      
+      if(existingCancellation!=null){
+        console.log("existingCancellation found")
+        console.log(existingCancellation.JSON)
+
+        console.log(existingCancellation)
+
+        console.log(JSON.stringify(entity))
+
+      }
       
       var bNeedsUpserting = true;
       if(existingCancellation!=null && existingCancellation.JSON == JSON.stringify(entity)){
@@ -162,6 +172,7 @@ function updateCancellations(){
       }
       
       if(bNeedsUpserting){
+        console.log("bNeedsUpserting")
       // console.log(entity.id)
 
       // console.log(entity)
