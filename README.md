@@ -1,10 +1,18 @@
-Go to [Google maps](https://www.google.co.nz/maps)
+Calls the Metlink API (https://opendata.metlink.org.nz) to get updates to services.
+Then displays cancellations in the last 24 hours.
 
-- Click location, and copy coordinates from popup.
+You can see the alerts also being displayed at https://www.metlink.org.nz/alerts/bus
 
-Useful links:
+TO DO:
+- Display graph of hourly cancellations over last 24 hours - or perhaps current day?
+- Display dashboard of number of cancellations today, and last 5 or 7 days.
+- Correct ever increasing counter from emits that doesn't reflect data dropping off the 24 hour window
 
-[Leaflet](https://leafletjs.com/examples.html)
+DONE:
+- STORE data in DB, and return in addition to data being returned by API
+- UPSERT data into database to record reversed cancellations
+- EMIT cancellations using sockets to update clients without needing to refresh
+
 
 Welcome to Glitch
 =================
