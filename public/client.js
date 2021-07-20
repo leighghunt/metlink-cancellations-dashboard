@@ -1,5 +1,14 @@
 /* globals moment */
 
+var io = window.io;
+var socket = io.connect(window.location.hostname);
+socket.on('cancellation', function (cancellation) {
+  console.log(cancellation);
+  // handleVehicleData(data);
+});
+
+
+
 var routes = [];
 
 const getCancellationsListener = function() {

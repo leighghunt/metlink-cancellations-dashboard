@@ -154,6 +154,14 @@ function updateCancellations(){
 
     apiResponse.data.entity.forEach(async (entity) => {
       
+      var existingCancellation = Cancellation.findByPk(entity.id)
+      
+      var bNeedsUpserting = true;
+      if(existingCancellation!=null && existingCancellation.JSON == JSON.stringify(entity)){
+        bNeedsUpserting = false;
+      }
+      
+      if(bNeedsUpserting){
       // console.log(entity.id)
 
       // console.log(entity)
@@ -161,7 +169,7 @@ function updateCancellations(){
       // if(entity.alert.cause == "STRIKE" || (entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE")){
         
         // console.log(entity.alert.header_text.translation[0].text)
-        Cancellation.upsert({
+        var cancellation = await Cancellation.upsert({
           id: entity.id,
           route_id: entity.route_id,
           cause: entity.alert.cause,
@@ -172,6 +180,10 @@ function updateCancellations(){
           startDate: new Date(entity.alert.active_period[0].start * 1000),
           endDate: new Date(entity.alert.active_period[0].end * 1000),
         });
+        
+        io.emit('cancellation', cancellation)
+
+      }
 
 //       } else {
 //         // console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entityToText(entity))
@@ -225,20 +237,23 @@ app.get('/cancellations/', async function(request, response) {
         ]
       })
       .then(cancellations => {
-        var results = cancellations.map(cancellation => {
-          return {
-            id: cancellation.id,
-            startDate: cancellation.startDate,
-            endDate: cancellation.endDate,
-            // description: cancellation.cause + "/" + cancellation.effect + ": " + cancellation.description
-            description: cancellation.description
+        response.setHeader('Content-Type', 'application/json')
+        response.send(JSON.stringify(cancellations));
 
-          }
-        })
+      //         var results = cancellations.map(cancellation => {
+//           return {
+//             id: cancellation.id,
+//             startDate: cancellation.startDate,
+//             endDate: cancellation.endDate,
+//             // description: cancellation.cause + "/" + cancellation.effect + ": " + cancellation.description
+//             description: cancellation.description
+
+//           }
+//         })
         
         // console.log(results);
-        response.setHeader('Content-Type', 'application/json')
-        response.send(JSON.stringify(results));      
+        // response.setHeader('Content-Type', 'application/json')
+        // response.send(JSON.stringify(results));      
 
     });
 });
