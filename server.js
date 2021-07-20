@@ -24,13 +24,28 @@ cron.schedule('0 * * * *', () => {
   //function logic goes here
 });
 
+cron.schedule('* * * * *', () => {
+  console.log('* * * * *');
+});
+
+
+cron.schedule('0/1 * * * *', () => {
+  console.log('0/1 * * * *');
+});
+
+
+cron.schedule('0/5 * * * *', () => {
+  console.log('0/5 * * * *');
+});
+
+
 var task = cron.schedule('0/1 * * * *', () => {
   console.log('running a task aevery minute');
   //function logic goes here
 });
 
 task.start();
-console.log(task);
+
 
 
 
