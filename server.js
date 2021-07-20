@@ -229,6 +229,8 @@ function updateCancellations(){
   .catch(function (error) {
     // handle error
     console.log(error);
+
+    console.log("Have you set metlink_api_key environment variable?")
   })  
 }
 
@@ -354,6 +356,7 @@ function getRoutes(){
   .catch(function (error) {
     // handle error
     console.log(error);
+    console.log("Have you set metlink_api_key environment variable?")
     // response.status(500).send(error)
   })  
 }
