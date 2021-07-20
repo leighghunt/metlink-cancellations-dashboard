@@ -245,6 +245,20 @@ function entityToText(entity){
   // console.log(entity.alert)
   // elem.alert.informed_entity.push({route_id: "BLAH"})
   // elem.alert.informed_entity.push({route_id: "123"})
+  var routeType = "Service "
+  
+  switch(entity.alert.informed_entity[0].route_type){
+    case 2:
+      routeType = "Train"
+    case 3:
+      routeType = "Bus "
+
+    default:
+      routeType = "Service "
+
+      break
+  }
+
   var services = entity.alert.informed_entity.reduce((accumulator, currentValue) => {
     // console.log(accumulator)
     // console.log(currentValue)
@@ -267,7 +281,7 @@ function entityToText(entity){
     
   }, "")
   // console.log(services)
-  return "Service " + services + ": " + entity.alert.header_text.translation[0].text
+  return routeType + services + ": " + entity.alert.header_text.translation[0].text
 }
 
 
