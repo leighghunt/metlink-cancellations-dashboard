@@ -122,7 +122,11 @@ function updateGraph(){
   const config = {
     type: 'bar',
     data,
-    options: {}
+    options: {
+        animation: {
+          duration:0  // prevent pesky animation, espcially on update
+        }
+    }
   };
 
 
@@ -133,7 +137,7 @@ function updateGraph(){
     )
   } else {
     chart.config.data = data;
-    chart.update();
+    chart.update(/*{mode: 'none'}*/);
   } 
 }
 
