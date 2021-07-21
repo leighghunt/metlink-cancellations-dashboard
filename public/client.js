@@ -69,6 +69,7 @@ cancellationsRequest.send();
 Chart stuff
 */
 
+var chart
 
 function updateGraph(){
 
@@ -121,8 +122,15 @@ function updateGraph(){
   };
 
 
-  var myChart = new Chart(
+  if(chart==null){
+    chart = new Chart(
       document.getElementById('chartLast24Hours'),
       config
-    );
+    )
+  } else {
+    chart.config.data = data;
+    chart.update();
+  } 
 }
+
+setInterval()
