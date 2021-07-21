@@ -2,21 +2,25 @@
 
 var io = window.io;
 var socket = io.connect(window.location.hostname);
+
+var cancellationsInLast24Hours = 0;
+
+var cancellations = []
+
+
+
 socket.on('cancellation', function (cancellation) {
   // cancellation.description = "***" + cancellation.description;
   // console.log(cancellation);
   ++cancellationsInLast24Hours
   document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
-
+  cancellations.push(cancellation)
   displayCancellation(cancellation)
   updateGraph();
 });
 
 
-var cancellationsInLast24Hours = 0;
-
-var cancellations = []
 
 const getCancellationsListener = function() {
 
@@ -97,8 +101,8 @@ function updateGraph(){
     var hour = new Date(cancellation.timestamp).getHours();
     console.log(hour)
     var index = hour - hoursOffset
-    if(index < 0){
-      index += 24
+    if(index <= 0){
+      index += 23
     }
     console.log(index)
 
@@ -133,4 +137,4 @@ function updateGraph(){
   } 
 }
 
-setInterval()
+setInterval(function(){console.log("Hello")}, 1000)
