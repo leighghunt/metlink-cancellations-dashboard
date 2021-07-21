@@ -1,4 +1,4 @@
-/* globals moment */
+/* globals moment Chart */
 
 var io = window.io;
 var socket = io.connect(window.location.hostname);
@@ -10,12 +10,13 @@ socket.on('cancellation', function (cancellation) {
 
 
   displayCancellation(cancellation)
+  updateGraph();
 });
 
 
 var cancellationsInLast24Hours = 0;
 
-var cancellations
+var cancellations = []
 
 const getCancellationsListener = function() {
 
@@ -36,6 +37,8 @@ const getCancellationsListener = function() {
   cancellations.forEach((cancellation) => {
     displayCancellation(cancellation)     
   })
+  
+  updateGraph();
 }
 
 const displayCancellation = function(cancellation){
@@ -66,22 +69,40 @@ cancellationsRequest.send();
 Chart stuff
 */
 
-updateGraph();
 
 function updateGraph(){
 
   let labels = []
+  let dataValues = []
   
   var now = new Date()
-  var hour = now.getHours()
+  let hoursOffset = now.getHours() 
+
+  var hour = hoursOffset
+
   for(var i = 0; i< 24; ++i){
-    console.log(hour + ":00")
-    --hour;
-    if(hour<0){
-      hour= 23
+    // console.log(hour + ":00")
+    ++hour;
+    if(hour>23){
+      hour= 0
     }
     labels[i] = hour + ":00"
+    dataValues[i] = 0
   }
+  
+  cancellations.forEach(cancellation => {
+    console.log(new Date(cancellation.timestamp))
+
+    var hour = new Date(cancellation.timestamp).getHours();
+    console.log(hour)
+    var index = hour - hoursOffset
+    if(index < 0){
+      index += 24
+    }
+    console.log(index)
+
+    dataValues[index]++
+  })
   
   const data = {
     labels: labels,
@@ -89,7 +110,7 @@ function updateGraph(){
       label: 'Cancellations/hr',
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45],
+      data: dataValues,
     }]
   };
 
