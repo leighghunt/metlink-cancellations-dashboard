@@ -7,9 +7,7 @@ var cancellationsInLast24Hours = 0;
 
 var cancellations = []
 
-
-
-socket.on('cancellation', function (cancellation) {
+function addCancellation(cancellation){
   // cancellation.description = "***" + cancellation.description;
   // console.log(cancellation);
   ++cancellationsInLast24Hours
@@ -17,7 +15,11 @@ socket.on('cancellation', function (cancellation) {
 
   cancellations.push(cancellation)
   displayCancellation(cancellation)
-  updateGraph();
+  updateGraph();  
+}
+
+socket.on('cancellation', function (cancellation) {
+  addCancellation(cancellation)
 });
 
 
@@ -141,4 +143,16 @@ function updateGraph(){
   } 
 }
 
-setInterval(function(){console.log("Hello")}, 1000)
+// setInterval(function(){console.log("Hello")}, 1000)
+
+
+
+
+
+$('#emit').on('click', function(event) {
+  console.log("emit")
+  addCancellation({
+    
+  })
+});
+
