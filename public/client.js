@@ -15,7 +15,7 @@ socket.on('cancellation', function (cancellation) {
 
 var cancellationsInLast24Hours = 0;
 
-var routes = [];
+var cancellations
 
 const getCancellationsListener = function() {
 
@@ -27,11 +27,13 @@ const getCancellationsListener = function() {
 
   var data = JSON.parse(this.responseText)
   
-  cancellationsInLast24Hours = data.length;
+  cancellations = data;
+  
+  cancellationsInLast24Hours = cancellations.length;
   
   document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
-  data.forEach((cancellation) => {
+  cancellations.forEach((cancellation) => {
     displayCancellation(cancellation)     
   })
 }
@@ -64,38 +66,42 @@ cancellationsRequest.send();
 Chart stuff
 */
 
-const labels = [
-  '14:00',
+updateGraph();
 
-  '15:00',
+function updateGraph(){
 
-  '16:00',
+  let labels = []
+  
+  var now = new Date()
+  var hour = now.getHours()
+  for(var i = 0; i< 24; ++i){
+    console.log(hour + ":00")
+    --hour;
+    if(hour<0){
+      hour= 23
+    }
+    labels[i] = hour + ":00"
+  }
+  
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Cancellations/hr',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45],
+    }]
+  };
 
-  '17:00',
-
-  '18:00',
-
-  23,
-  22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
-];
-const data = {
-  labels: labels,
-  datasets: [{
-    label: 'Cancellations/hr',
-    backgroundColor: 'rgb(255, 99, 132)',
-    borderColor: 'rgb(255, 99, 132)',
-    data: [0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45],
-  }]
-};
-
-const config = {
-  type: 'bar',
-  data,
-  options: {}
-};
+  const config = {
+    type: 'bar',
+    data,
+    options: {}
+  };
 
 
-var myChart = new Chart(
-    document.getElementById('chartLast24Hours'),
-    config
-  );
+  var myChart = new Chart(
+      document.getElementById('chartLast24Hours'),
+      config
+    );
+}
