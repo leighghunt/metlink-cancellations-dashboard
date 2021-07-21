@@ -13,29 +13,24 @@ function addCancellation(cancellation){
   ++cancellationsInLast24Hours
   document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
+  cancellations.splice(cancellations.length, cancellation)
   cancellations.push(cancellation)
-  displayCancellation(cancellation)
-  updateGraph();  
+  // displayCancellation(cancellation)
+  // updateGraph();  
+  displayCancellations()
 }
 
 socket.on('cancellation', function (cancellation) {
   addCancellation(cancellation)
 });
 
-
-
-const getCancellationsListener = function() {
-
+function displayCancellations(){
   let listResults = document.getElementById('listResults');
   listResults.style.display = 'block';
   while (listResults.firstChild) {
     listResults.removeChild(listResults.firstChild);
   }
 
-  var data = JSON.parse(this.responseText)
-  
-  cancellations = data;
-  
   cancellationsInLast24Hours = cancellations.length;
   
   document.getElementById('howmany').innerText=cancellationsInLast24Hours
@@ -44,7 +39,18 @@ const getCancellationsListener = function() {
     displayCancellation(cancellation)     
   })
   
-  updateGraph();
+  updateGraph();  
+}
+
+const getCancellationsListener = function() {
+
+
+  var data = JSON.parse(this.responseText)
+  
+  cancellations = data;
+  
+  displayCancellations();
+  
 }
 
 const displayCancellation = function(cancellation){
@@ -152,7 +158,18 @@ function updateGraph(){
 $('#emit').on('click', function(event) {
   console.log("emit")
   addCancellation({
-    
-  })
+    "id": -1,
+    "routeId": null,
+    "cause": "TESTING",
+    "effect": "TESTING",
+    "route_short_name": null,
+    "description": "TESTING",
+    "JSON": "{}",
+    "startDate": "2021-07-20T23:46:33.000Z",
+    "endDate": "2021-07-21T11:59:59.000Z",
+    "timestamp": "2021-07-20T00:46:45.000Z",
+    "createdAt": "2021-07-20T23:47:01.655Z",
+    "updatedAt": "2021-07-20T23:47:01.655Z"
+})
 });
 
