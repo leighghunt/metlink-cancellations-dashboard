@@ -27,7 +27,7 @@
       
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- import the webpage's client-side javascript file -->
     <script src="/client.js" defer></script>
@@ -54,6 +54,11 @@
       <main role="main" class="inner cover">
         <h1 class="cover-heading"><span id="howmany">??</span> Metlink services have been cancelled in last 24 hours</h1>
 
+        
+        <div>
+          <canvas id="chartLast24Hours"></canvas>
+        </div>
+ 
 <!--         <p class="lead">
           <div class="form-group">
               <label for="inputlg">Or type in a Stop Number:</label>
