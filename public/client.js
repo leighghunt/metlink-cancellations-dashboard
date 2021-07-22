@@ -4,6 +4,7 @@ var io = window.io;
 var socket = io.connect(window.location.hostname);
 var cancellationsInLast24Hours = 0;
 var cancellations = []
+var otherEvents = []
 
 
 
@@ -33,6 +34,7 @@ const getCancellationsListener = function() {
   var data = JSON.parse(this.responseText)
 
   cancellations = data.filter(cancellation => isCancellationOrDelay(cancellation))
+  otherEvents = data.filter(cancellation => !isCancellationOrDelay(cancellation))
   
   displayCancellations();
 }
@@ -60,7 +62,9 @@ function addCancellation(cancellation){
   
   // Filter out non cancellations
   cancellations = cancellations.filter(cancellation => isCancellationOrDelay(cancellation))
-  
+  otherEvents = cancellations.filter(cancellation => !isCancellationOrDelay(cancellation))
+
+
   // cancellations.push(cancellation)
   // displayCancellation(cancellation)
   // updateGraph();  
@@ -88,6 +92,7 @@ const displayCancellation = function(cancellation){
   // listResults.appendChild(node);
 
   listResults.insertBefore(node, listResults.firstChild);
+
 
 }
   
@@ -179,10 +184,14 @@ function updateGraph(){
 
 
 function isCancellationOrDelay(cancellation){
-  if(   cancellation.cause == "STRIKE"
-     || cancellation.cause == "TECHNICAL_PROBLEM"
-     // || cancellation.cause == "ACCIDENT"    // Kind of not really avoidable
-     || cancellation.effect == "NO_SERVICE"
+  if(   
+//     cancellation.cause == "STRIKE"
+//      || cancellation.cause == "TECHNICAL_PROBLEM"
+
+//      // || cancellation.cause == "OTHER_CAUSE"
+
+//      // || cancellation.cause == "ACCIDENT"    // Kind of not really avoidable
+     cancellation.effect == "NO_SERVICE"
      || cancellation.effect == "REDUCED_SERVICE"
      || cancellation.effect == "SIGNIFICANT_DELAYS"
     ) {
