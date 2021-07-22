@@ -22,6 +22,21 @@ function displayCancellations(){
   cancellations.forEach((cancellation) => {
     displayCancellation(cancellation)     
   })
+
+  
+  let listOtherEvents = document.getElementById('listOtherEvents');
+  listOtherEvents.style.display = 'block';
+  while (listOtherEvents.firstChild) {
+    listOtherEvents.removeChild(listOtherEvents.firstChild);
+  }
+
+  otherEvents.forEach((otherEvent) => {
+    displayOtherEvent(otherEvent)     
+  })
+
+
+  
+  
   
   updateGraph();  
 }
@@ -86,12 +101,29 @@ const displayCancellation = function(cancellation){
   var displayMessage = cancellation.description
 
   let node = document.createElement("LI");
-  node.className = 'list-group-item list-group-item-action';
+  node.className = 'list-group-item list-group-item-danger';
   var textnode = document.createTextNode(displayMessage);         // Create a text node
   node.appendChild(textnode);                              // Append the text to <li>
   // listResults.appendChild(node);
 
   listResults.insertBefore(node, listResults.firstChild);
+
+
+}
+
+
+const displayOtherEvent = function(otherEvent){
+  let listOtherEvents = document.getElementById('listOtherEvents');
+
+  var displayMessage = otherEvent.description
+
+  let node = document.createElement("LI");
+  node.className = 'list-group-item list-group-item-info';
+  var textnode = document.createTextNode(displayMessage);         // Create a text node
+  node.appendChild(textnode);                              // Append the text to <li>
+  // listResults.appendChild(node);
+
+  listOtherEvents.insertBefore(node, listOtherEvents.firstChild);
 
 
 }
