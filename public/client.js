@@ -51,7 +51,7 @@ function addCancellation(cancellation){
   // ++cancellationsInLast24Hours
   // document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
-  var cancellationIndex = cancellations.findIndex(elem => elem.id = cancellation.id)
+  var cancellationIndex = cancellations.findIndex(elem => elem.id == cancellation.id)
   if(cancellationIndex == -1){
     cancellations.push(cancellation)
   }else{  
@@ -174,21 +174,21 @@ function updateGraph(){
 
 
 
-$('#emit').on('click', function(event) {
-  console.log("emit")
-  addCancellation({
-    "id": -1,
-    "routeId": null,
-    "cause": "TESTING",
-    "effect": "TESTING",
-    "route_short_name": null,
-    "description": "TESTING",
-    "JSON": "{}",
-    "startDate": "2021-07-20T23:46:33.000Z",
-    "endDate": "2021-07-21T11:59:59.000Z",
-    "timestamp": "2021-07-20T00:46:45.000Z",
-    "createdAt": "2021-07-20T23:47:01.655Z",
-    "updatedAt": "2021-07-20T23:47:01.655Z"
-})
-});
+// $('#emit').on('click', function(event) {
+//   console.log("emit")
+//   addCancellation({
+//     "id": -1,
+//     "routeId": null,
+//     "cause": "TESTING",
+//     "effect": "TESTING",
+//     "route_short_name": null,
+//     "description": "TESTING " + Date(),
+//     "JSON": "{}",
+//     "startDate": "2021-07-20T23:46:33.000Z",
+//     "endDate": "2021-07-21T11:59:59.000Z",
+//     "timestamp": "2021-07-20T00:46:45.000Z",
+//     "createdAt": "2021-07-20T23:47:01.655Z",
+//     "updatedAt": "2021-07-20T23:47:01.655Z"
+// })
+// });
 
