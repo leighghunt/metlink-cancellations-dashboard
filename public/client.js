@@ -32,7 +32,7 @@ function displayCancellations(){
 const getCancellationsListener = function() {
   var data = JSON.parse(this.responseText)
 
-  cancellations = data;  
+  cancellations = data.filter(cancellation => isCancellationOrDelay(cancellation))
   
   displayCancellations();
 }
@@ -181,13 +181,13 @@ function updateGraph(){
 function isCancellationOrDelay(cancellation){
   if(   cancellation.cause == "STRIKE"
      || cancellation.cause == "TECHNICAL_PROBLEM"
-     || cancellation.cause == "ACCIDENT"    // Kind of not really avoidable
+     // || cancellation.cause == "ACCIDENT"    // Kind of not really avoidable
      || cancellation.effect == "NO_SERVICE"
      // || cancellation.effect == "REDUCED_SERVICE"
      || cancellation.effect == "SIGNIFICANT_DELAYS"
     ) {
     console.log(cancellation.description)
-    return false//true
+    return true
   } else {
     console.log("NOT ******* " + cancellation.description)
     console.log(cancellation.cause)
