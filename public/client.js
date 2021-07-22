@@ -2,27 +2,10 @@
 
 var io = window.io;
 var socket = io.connect(window.location.hostname);
-
 var cancellationsInLast24Hours = 0;
-
 var cancellations = []
 
-function addCancellation(cancellation){
-  // cancellation.description = "***" + cancellation.description;
-  // console.log(cancellation);
-  ++cancellationsInLast24Hours
-  document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
-  cancellations.splice(cancellations.length, cancellation)
-  cancellations.push(cancellation)
-  // displayCancellation(cancellation)
-  // updateGraph();  
-  displayCancellations()
-}
-
-socket.on('cancellation', function (cancellation) {
-  addCancellation(cancellation)
-});
 
 function displayCancellations(){
   let listResults = document.getElementById('listResults');
@@ -42,16 +25,48 @@ function displayCancellations(){
   updateGraph();  
 }
 
+
+
+
+
 const getCancellationsListener = function() {
-
-
   var data = JSON.parse(this.responseText)
-  
-  cancellations = data;
-  
+  cancellations = data;  
   displayCancellations();
-  
 }
+
+
+
+socket.on('cancellation', function (cancellation) {
+  addCancellation(cancellation)
+});
+
+function addCancellation(cancellation){
+  // cancellation.description = "***" + cancellation.description;
+  // console.log(cancellation);
+  ++cancellationsInLast24Hours
+  document.getElementById('howmany').innerText=cancellationsInLast24Hours
+
+  var cancellationIndex = cancellations.findIndex(elem => elem.id = cancellation.id)
+  if(cancellationIndex == -1){
+    cancellations.push(cancellation)
+  }else{  
+    cancellations.splice(cancellationIndex, 1, cancellation)
+  }
+  // cancellations.push(cancellation)
+  // displayCancellation(cancellation)
+  // updateGraph();  
+  displayCancellations()
+}
+
+
+
+
+
+
+
+
+
 
 const displayCancellation = function(cancellation){
   let listResults = document.getElementById('listResults');
