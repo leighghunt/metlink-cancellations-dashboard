@@ -31,21 +31,25 @@ function displayCancellations(){
 
 const getCancellationsListener = function() {
   var data = JSON.parse(this.responseText)
+
   cancellations = data;  
+  
   displayCancellations();
 }
 
 
 
 socket.on('cancellation', function (cancellation) {
+
   addCancellation(cancellation)
+
 });
 
 function addCancellation(cancellation){
-  // cancellation.description = "***" + cancellation.description;
-  // console.log(cancellation);
-  ++cancellationsInLast24Hours
-  document.getElementById('howmany').innerText=cancellationsInLast24Hours
+  // // cancellation.description = "***" + cancellation.description;
+  // // console.log(cancellation);
+  // ++cancellationsInLast24Hours
+  // document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
   var cancellationIndex = cancellations.findIndex(elem => elem.id = cancellation.id)
   if(cancellationIndex == -1){
@@ -119,15 +123,15 @@ function updateGraph(){
   }
   
   cancellations.forEach(cancellation => {
-    console.log(new Date(cancellation.timestamp))
+    // console.log(new Date(cancellation.timestamp))
 
     var hour = new Date(cancellation.timestamp).getHours();
-    console.log(hour)
+    // console.log(hour)
     var index = hour - hoursOffset
     if(index <= 0){
       index += 23
     }
-    console.log(index)
+    // console.log(index)
 
     dataValues[index]++
   })
