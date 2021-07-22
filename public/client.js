@@ -171,7 +171,30 @@ function updateGraph(){
 // setInterval(function(){console.log("Hello")}, 1000)
 
 
+function isCancellationOrDelay(cancellation){
+  if(
+        cancellation.cause == "STRIKE"
+     || cancellation.cause == "TECHNICAL_PROBLEM"
+     || cancellation.cause == "STRIKE"
+     || cancellation.effect == "STRIKE"
 
+     || cancellation.effect == "STRIKE"
+
+     || cancellation.effect == "STRIKE"
+
+
+  )
+  [Op.or]: [
+          //   { cause: "STRIKE" },
+          //   { cause: "TECHNICAL_PROBLEM" },
+          // //   { cause: "ACCIDENT" },    // Kind of not really avoidable
+          //   { effect: "NO_SERVICE" },
+          //   { effect: "REDUCED_SERVICE" },
+          //   { effect: "SIGNIFICANT_DELAYS" }
+          // ]
+
+
+}
 
 
 // $('#emit').on('click', function(event) {

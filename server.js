@@ -246,14 +246,14 @@ app.get('/cancellations/', async function(request, response) {
         where: {
           timestamp: {[Op.gt]: time24HoursAgo},
 
-          [Op.or]: [
-            { cause: "STRIKE" },
-            { cause: "TECHNICAL_PROBLEM" },
-          //   { cause: "ACCIDENT" },    // Kind of not really avoidable
-            { effect: "NO_SERVICE" },
-            { effect: "REDUCED_SERVICE" },
-            { effect: "SIGNIFICANT_DELAYS" }
-          ]
+          // [Op.or]: [
+          //   { cause: "STRIKE" },
+          //   { cause: "TECHNICAL_PROBLEM" },
+          // //   { cause: "ACCIDENT" },    // Kind of not really avoidable
+          //   { effect: "NO_SERVICE" },
+          //   { effect: "REDUCED_SERVICE" },
+          //   { effect: "SIGNIFICANT_DELAYS" }
+          // ]
 
         },
         order: [
