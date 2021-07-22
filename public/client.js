@@ -183,7 +183,7 @@ function isCancellationOrDelay(cancellation){
      || cancellation.cause == "TECHNICAL_PROBLEM"
      // || cancellation.cause == "ACCIDENT"    // Kind of not really avoidable
      || cancellation.effect == "NO_SERVICE"
-     // || cancellation.effect == "REDUCED_SERVICE"
+     || cancellation.effect == "REDUCED_SERVICE"
      || cancellation.effect == "SIGNIFICANT_DELAYS"
     ) {
     console.log(cancellation.description)
