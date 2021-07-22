@@ -57,6 +57,10 @@ function addCancellation(cancellation){
   }else{  
     cancellations.splice(cancellationIndex, 1, cancellation)
   }
+  
+  // Filter out non cancellations
+  cancellations = cancellations.filter(cancellation => isCancellationOrDelay(cancellation))
+  
   // cancellations.push(cancellation)
   // displayCancellation(cancellation)
   // updateGraph();  
@@ -123,17 +127,20 @@ function updateGraph(){
   }
   
   cancellations.forEach(cancellation => {
-    // console.log(new Date(cancellation.timestamp))
+    // if(isCancellationOrDelay(cancellation)){
+      // console.log(new Date(cancellation.timestamp))
 
-    var hour = new Date(cancellation.timestamp).getHours();
-    // console.log(hour)
-    var index = hour - hoursOffset
-    if(index <= 0){
-      index += 23
-    }
-    // console.log(index)
+      var hour = new Date(cancellation.timestamp).getHours();
+      // console.log(hour)
+      var index = hour - hoursOffset
+      if(index <= 0){
+        index += 23
+      }
+      // console.log(index)
 
-    dataValues[index]++
+      dataValues[index]++
+
+     // }
   })
   
   const data = {
@@ -172,28 +179,24 @@ function updateGraph(){
 
 
 function isCancellationOrDelay(cancellation){
-  if(
-        cancellation.cause == "STRIKE"
+  if(   cancellation.cause == "STRIKE"
      || cancellation.cause == "TECHNICAL_PROBLEM"
-     || cancellation.cause == "STRIKE"
-     || cancellation.effect == "STRIKE"
+     || cancellation.cause == "ACCIDENT"    // Kind of not really avoidable
+     || cancellation.effect == "NO_SERVICE"
+     // || cancellation.effect == "REDUCED_SERVICE"
+     || cancellation.effect == "SIGNIFICANT_DELAYS"
+    ) {
+    console.log(cancellation.description)
+    return false//true
+  } else {
+    console.log("NOT ******* " + cancellation.description)
+    console.log(cancellation.cause)
 
-     || cancellation.effect == "STRIKE"
-
-     || cancellation.effect == "STRIKE"
-
-
-  )
-  [Op.or]: [
-          //   { cause: "STRIKE" },
-          //   { cause: "TECHNICAL_PROBLEM" },
-          // //   { cause: "ACCIDENT" },    // Kind of not really avoidable
-          //   { effect: "NO_SERVICE" },
-          //   { effect: "REDUCED_SERVICE" },
-          //   { effect: "SIGNIFICANT_DELAYS" }
-          // ]
+    console.log(cancellation.effect)
 
 
+    return false
+  }
 }
 
 
