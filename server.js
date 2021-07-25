@@ -419,11 +419,12 @@ cron.schedule('*/1 * * * *', () => {
 // newYork.format();    // 2014-06-01T12:00:00-04:00
 */
 
+var pingNo = 0
 // Ping every minute - and in client check if last ping was more than 5 minutes ago
 setInterval(function(){
   console.log("ping")
   console.log(new Date())
 
 
-  // io.emit("ping")
-}, 60000)
+  io.emit("ping", ++pingNo)
+}, 1000)

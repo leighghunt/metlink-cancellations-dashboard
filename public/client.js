@@ -263,11 +263,16 @@ function isCancellationOrDelay(cancellation){
 
 
 var lastPing = new Date()
+var lastPingNo
 
-socket.on('ping', function (cancellation) {
 
-  console.log('ping')
+socket.on('ping', function (pingNo) {
 
+  console.log('ping: ' + pingNo)
+  
+  if(lastPingNo)
+
+  lastPingNo = pingNo
   lastPing = new Date()
   console.log(lastPing)
   
