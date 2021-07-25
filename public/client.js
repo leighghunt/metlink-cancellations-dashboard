@@ -279,4 +279,6 @@ setInterval(function(){
   console.log(now)
   console.log(lastPing)
   console.log(now - lastPing);
-}, 10000)
+  console.log('*********')
+
+}, 7000)

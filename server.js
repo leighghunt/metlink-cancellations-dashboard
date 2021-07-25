@@ -421,4 +421,4 @@ cron.schedule('*/1 * * * *', () => {
 
 setInterval(function(){
   io.emit("ping")
-}, 1000)
+}, 5000)
