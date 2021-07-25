@@ -272,17 +272,20 @@ socket.on('ping', function (pingNo) {
 
   // console.log('ping: ' + pingNo)
   
-  if(pingNo > lastPingNo+1){
-    console.warn("Missed ping")
-    console.warn("Last pingNo:" + lastPingNo)
-    console.warn("This pingNo:" + pingNo)
-    console.warn("Refreshing cancellations...")
-    refreshCancellations()
+  if(pingNo!=null){
+    
+    if(pingNo > lastPingNo+1){
+      console.warn("Missed ping")
+      console.warn("Last pingNo:" + lastPingNo)
+      console.warn("This pingNo:" + pingNo)
+      console.warn("Refreshing cancellations...")
+      refreshCancellations()
 
-  }
+    }
+    lastPingNo = pingNo
+    lastPing = new Date()
+  } 
 
-  lastPingNo = pingNo
-  lastPing = new Date()
   // console.log(lastPing)
   
 });
