@@ -262,23 +262,22 @@ function isCancellationOrDelay(cancellation){
 // });
 
 
-var lastPing
+var lastPing = new Date()
 
 socket.on('ping', function (cancellation) {
 
   console.log('ping')
 
   lastPing = new Date()
+  console.log(lastPing)
   
 });
 
 
 setInterval(function(){
   var now = new Date()
-  console.log('*********')
-  console.log(now)
-  console.log(lastPing)
-  console.log(now - lastPing);
-  console.log('*********')
+  
+  var timeSinceLastPing = now - lastPing
+  console.log(timeSinceLastPing);
 
 }, 7000)
