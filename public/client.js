@@ -62,6 +62,8 @@ socket.on('cancellation', function (cancellation) {
 
 });
 
+
+
 function addCancellation(cancellation){
   // // cancellation.description = "***" + cancellation.description;
   // // console.log(cancellation);
@@ -259,3 +261,22 @@ function isCancellationOrDelay(cancellation){
 // })
 // });
 
+
+var lastPing
+
+socket.on('ping', function (cancellation) {
+
+  console.log('ping')
+
+  lastPing = new Date()
+  
+});
+
+
+setInterval(function(){
+  var now = new Date()
+  console.log('*********')
+  console.log(now)
+  console.log(lastPing)
+  console.log(now - lastPing);
+}, 10000)
