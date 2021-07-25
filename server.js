@@ -427,4 +427,4 @@ setInterval(function(){
 
 
   io.emit("ping", ++pingNo)
-}, 1000)
+}, 60000)

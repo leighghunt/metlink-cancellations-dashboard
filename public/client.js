@@ -129,13 +129,15 @@ const displayOtherEvent = function(otherEvent){
 
 
 }
-  
-const cancellationsRequest = new XMLHttpRequest();
-cancellationsRequest.onload = getCancellationsListener;
-cancellationsRequest.open('get', '/cancellations');
-cancellationsRequest.send();
 
+function refreshCancellations(){
+  const cancellationsRequest = new XMLHttpRequest();
+  cancellationsRequest.onload = getCancellationsListener;
+  cancellationsRequest.open('get', '/cancellations');
+  cancellationsRequest.send();  
+}
 
+refreshCancellations()
 
 
 
@@ -268,13 +270,20 @@ var lastPingNo
 
 socket.on('ping', function (pingNo) {
 
-  console.log('ping: ' + pingNo)
+  // console.log('ping: ' + pingNo)
   
-  if(lastPingNo)
+  if(pingNo > lastPingNo+1){
+    console.warn("Missed ping")
+    console.warn("Last pingNo:" + lastPingNo)
+    console.warn("This pingNo:" + pingNo)
+    console.warn("Refreshing cancellations...")
+    refreshCancellations()
+
+  }
 
   lastPingNo = pingNo
   lastPing = new Date()
-  console.log(lastPing)
+  // console.log(lastPing)
   
 });
 
@@ -283,6 +292,12 @@ setInterval(function(){
   var now = new Date()
   
   var timeSinceLastPing = now - lastPing
-  console.log(timeSinceLastPing);
+  // console.log(timeSinceLastPing);
+  
+  if(timeSinceLastPing >= 300000){
+    // It's been more than 5 minutes since last ping
+    // Let's refresh the whole page
+    location.reload()
+  }
 
-}, 7000)
+}, 60000)
