@@ -418,3 +418,7 @@ cron.schedule('*/1 * * * *', () => {
 
 // newYork.format();    // 2014-06-01T12:00:00-04:00
 */
+
+setInterval(function(){
+  io.emit("ping")
+})
