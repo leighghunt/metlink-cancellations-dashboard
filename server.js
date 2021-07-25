@@ -432,8 +432,10 @@ var pingNo = 0
 // Ping every minute - and in client check if last ping was more than 5 minutes ago
 setInterval(function(){
   console.log("ping")
-  console.log(new Date())
 
+  console.log(pingNo)
+
+  console.log(new Date())
 
   io.emit("ping", ++pingNo)
 }, 60000)
