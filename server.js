@@ -237,14 +237,15 @@ function updateCancellations(){
 app.get('/cancellations/', async function(request, response) {
 
   
-    var time24HoursAgo = new Date()
-    // console.log(time24HoursAgo)
-    time24HoursAgo.setDate(time24HoursAgo.getDate() - 1)
-    // console.log(time24HoursAgo)
-  
+//     var from = new Date()
+//     from.setDate(from.getDate() - 1)
+  console.log("request.params.from")
+  console.log(request.params.from)
+
+    
     Cancellation.findAll({
         where: {
-          timestamp: {[Op.gt]: time24HoursAgo},
+          timestamp: {[Op.gt]: request.params.from},
 
           // [Op.or]: [
           //   { cause: "STRIKE" },

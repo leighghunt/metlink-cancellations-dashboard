@@ -133,6 +133,11 @@ const displayOtherEvent = function(otherEvent){
 function refreshCancellations(){
   const cancellationsRequest = new XMLHttpRequest();
   cancellationsRequest.onload = getCancellationsListener;
+  
+  var from = new Date()
+  from.setDate(from.getDate() - 1)
+  console.log(from)
+  cancellationsRequest.params.from = from
   cancellationsRequest.open('get', '/cancellations');
   cancellationsRequest.send();  
 }
