@@ -98,7 +98,7 @@ sequelize.authenticate()
 
 // populate table with default users
 function setup(){
-
+  console.log('setup')
   Cancellation.sync(
     // {force: true}
     // { alter: true }
@@ -127,6 +127,28 @@ app.get('/', function(request, response) {
 server.listen(process.env.PORT);
 
 // var distanceBetweenLocations = require('./distanceBetweenLocations');
+
+function fixCancellations(){
+  
+    console.log('fixCancellations')
+    console.log(Cancellation)
+
+        var existingCancellation = Cancellation.findAll({
+        where: {
+          route_short_name: null
+          }})
+      .then(cancellations => {
+        // console.log(cancellations)
+        cancellations.forEach(cancellation => console.log(cancellation.id + ': ' + cancellation.short_route_name))
+        
+                // Cancellation.upsert(cancellation)
+
+
+    });
+}
+setTimeout(fixCancellations, 1000)
+
+
 
 function updateCancellations(){
 
@@ -406,3 +428,4 @@ setInterval(function(){
 
   io.emit("ping", ++pingNo)
 }, 60000)
+
