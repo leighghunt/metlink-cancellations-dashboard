@@ -157,11 +157,16 @@ function updateCancellations(){
       if(bNeedsUpserting){
         console.log("bNeedsUpserting")
         
+        if(entity.route_id == null){
+          entity.route_id = entity.alert.informed_entity[0].route_id
+        }
         var route = routes.find(route => route.route_id == entity.route_id)
 
         var route_short_name
         if(route!=null){
           route_short_name = route.route_short_name 
+        } else {
+          console.log("couldn't find log")
         }
 
         var cancellation = {
