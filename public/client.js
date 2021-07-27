@@ -2,9 +2,11 @@
 
 var io = window.io;
 var socket = io.connect(window.location.hostname);
-var cancellationsInLast24Hours = 0;
+var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
+
+var daysToReview = 1
 
 
 
@@ -15,9 +17,9 @@ function displayCancellations(){
     listResults.removeChild(listResults.firstChild);
   }
 
-  cancellationsInLast24Hours = cancellations.length;
+  cancellationsDuringPeriod = cancellations.length;
   
-  document.getElementById('howmany').innerText=cancellationsInLast24Hours
+  document.getElementById('howmany').innerText=cancellationsDuringPeriod
 
   cancellations.forEach((cancellation) => {
     displayCancellation(cancellation)     
@@ -65,10 +67,6 @@ socket.on('cancellation', function (cancellation) {
 
 
 function addCancellation(cancellation){
-  // // cancellation.description = "***" + cancellation.description;
-  // // console.log(cancellation);
-  // ++cancellationsInLast24Hours
-  // document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
   var cancellationIndex = cancellations.findIndex(elem => elem.id == cancellation.id)
   if(cancellationIndex == -1){
