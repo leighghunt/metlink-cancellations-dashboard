@@ -140,34 +140,12 @@ function updateCancellations(){
     
     console.log("updateCancellations - response")
 
-    // console.log(apiResponse.data)
-
     console.log("apiResponse.data length:" + JSON.stringify(apiResponse.data).length)
-
-    // console.log("apiResponse.data.entity length:" + JSON.stringify(apiResponse.data.entity).length)
-
-//     var countBefore = await Cancellation.count()
-//     // console.log("countBefore")
-//     // console.log(countBefore)
-
 
 
     apiResponse.data.entity.forEach(async (entity) => {
       
       var existingCancellation = await Cancellation.findByPk(entity.id)
-      
-//       if(existingCancellation!=null){
-//         console.log("existingCancellation found")
-//         console.log("existingCancellation.JSON")
-
-//         console.log(existingCancellation.JSON)
-
-//         console.log("JSON.stringify(entity)")
-
-//         console.log(JSON.stringify(entity))
-
-
-//       }
       
       var bNeedsUpserting = true;
       if(existingCancellation!=null && existingCancellation.JSON == JSON.stringify(entity)){
@@ -178,16 +156,18 @@ function updateCancellations(){
       
       if(bNeedsUpserting){
         console.log("bNeedsUpserting")
-      // console.log(entity.id)
-
-      // console.log(entity)
-
-      // if(entity.alert.cause == "STRIKE" || (entity.alert.effect == "NO_SERVICE" || entity.alert.effect == "REDUCED_SERVICE")){
         
-        // console.log(entity.alert.header_text.translation[0].text)
+        var route = routes.find(route => route.route_id == entity.route_id)
+
+        var route_short_name
+        if(route!=null){
+          route_short_name = route.route_short_name 
+        }
+
         var cancellation = {
           id: entity.id,
           route_id: entity.route_id,
+          route_short_name: route_short_name,
           cause: entity.alert.cause,
           effect: entity.alert.effect,          
           JSON: JSON.stringify(entity),
@@ -206,25 +186,7 @@ function updateCancellations(){
         io.emit('cancellation', cancellation)
 
       }
-
-//       } else {
-//         // console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entityToText(entity))
-//         console.log("Not adding " + entity.alert.cause + " -> " + entity.alert.effect + "   " + entity.alert.header_text.translation[0].text)
-
-//         // console.log(entity)
-        
-//       }
     })
-    
-//     var countAfter = await Cancellation.count()
-//     // console.log("countAfter")
-//     // console.log(countAfter)
-
-
-//     if(countAfter>countBefore){
-//       console.log("Added cancellations: " + (countAfter-countBefore))
-//     }
-
   })
   .catch(function (error) {
     // handle error
@@ -236,29 +198,31 @@ function updateCancellations(){
 
 app.get('/cancellations/', async function(request, response) {
 
+    var from = new Date()
+    from.setDate(from.getDate() - 1)
   
-//     var from = new Date()
-//     from.setDate(from.getDate() - 1)
-  console.log("request.query")
-  console.log(request.query)
+    if(request.query.from!=null){
+      console.log(request.query.from)
 
-  console.log("request.query.from")
-  console.log(request.query.from)
+      console.log(new Date(request.query.from))
+
+      from = new Date(request.query.from)
+    }
+
+    var to = new Date()
+  
+    if(request.query.to!=null){
+      to = new Date(request.query.to)
+    }
 
 
-    
+    console.log(from)
+    console.log(to)
+
+
     Cancellation.findAll({
         where: {
-          timestamp: {[Op.gt]: new Date(request.query.from)},
-
-          // [Op.or]: [
-          //   { cause: "STRIKE" },
-          //   { cause: "TECHNICAL_PROBLEM" },
-          // //   { cause: "ACCIDENT" },    // Kind of not really avoidable
-          //   { effect: "NO_SERVICE" },
-          //   { effect: "REDUCED_SERVICE" },
-          //   { effect: "SIGNIFICANT_DELAYS" }
-          // ]
+          timestamp: {[Op.gt]: from},
 
         },
         order: [
@@ -268,22 +232,6 @@ app.get('/cancellations/', async function(request, response) {
       .then(cancellations => {
         response.setHeader('Content-Type', 'application/json')
         response.send(JSON.stringify(cancellations));
-
-      //         var results = cancellations.map(cancellation => {
-//           return {
-//             id: cancellation.id,
-//             startDate: cancellation.startDate,
-//             endDate: cancellation.endDate,
-//             // description: cancellation.cause + "/" + cancellation.effect + ": " + cancellation.description
-//             description: cancellation.description
-
-//           }
-//         })
-        
-        // console.log(results);
-        // response.setHeader('Content-Type', 'application/json')
-        // response.send(JSON.stringify(results));      
-
     });
 });
 

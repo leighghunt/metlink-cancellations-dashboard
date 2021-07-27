@@ -137,8 +137,10 @@ function refreshCancellations(){
   var from = new Date()
   from.setDate(from.getDate() - 1)
   console.log(from)
+  console.log(from.toUTCString())
+  // console.log(from)
   // cancellationsRequest.params.from = from
-  cancellationsRequest.open('get', '/cancellations?from=' + from);
+  cancellationsRequest.open('get', '/cancellations?from=' + from.toUTCString());
   cancellationsRequest.send();  
 }
 
@@ -222,57 +224,57 @@ function updateGraph(){
 }
 
 
-function updateSummary(){
+// function updateSummary(){
 
-  let services = []
+//   let services = []
   
-  cancellations.forEach(cancellation => {
+//   cancellations.forEach(cancellation => {
 
-      let service = services[cancellation.]
-      var hour = new Date(cancellation.timestamp).getHours();
-      // console.log(hour)
-      var index = hour - hoursOffset
-      if(index <= 0){
-        index += reviewPeriodHours-1
-      }
-      // console.log(index)
+//       let service = services[cancellation.]
+//       var hour = new Date(cancellation.timestamp).getHours();
+//       // console.log(hour)
+//       var index = hour - hoursOffset
+//       if(index <= 0){
+//         index += reviewPeriodHours-1
+//       }
+//       // console.log(index)
 
-      dataValues[index]++
+//       dataValues[index]++
 
-     // }
-  })
+//      // }
+//   })
   
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Cancellations/hr',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: dataValues,
-    }]
-  };
+//   const data = {
+//     labels: labels,
+//     datasets: [{
+//       label: 'Cancellations/hr',
+//       backgroundColor: 'rgb(255, 99, 132)',
+//       borderColor: 'rgb(255, 99, 132)',
+//       data: dataValues,
+//     }]
+//   };
 
-  const config = {
-    type: 'bar',
-    data,
-    options: {
-        animation: {
-          duration:0  // prevent pesky animation, espcially on update
-        }
-    }
-  };
+//   const config = {
+//     type: 'bar',
+//     data,
+//     options: {
+//         animation: {
+//           duration:0  // prevent pesky animation, espcially on update
+//         }
+//     }
+//   };
 
 
-  if(chart==null){
-    chart = new Chart(
-      document.getElementById('chart'),
-      config
-    )
-  } else {
-    chart.config.data = data;
-    chart.update(/*{mode: 'none'}*/);
-  } 
-}
+//   if(chart==null){
+//     chart = new Chart(
+//       document.getElementById('chart'),
+//       config
+//     )
+//   } else {
+//     chart.config.data = data;
+//     chart.update(/*{mode: 'none'}*/);
+//   } 
+// }
 
 // setInterval(function(){console.log("Hello")}, 1000)
 
@@ -301,25 +303,6 @@ function isCancellationOrDelay(cancellation){
     return false
   }
 }
-
-
-// $('#emit').on('click', function(event) {
-//   console.log("emit")
-//   addCancellation({
-//     "id": -1,
-//     "routeId": null,
-//     "cause": "TESTING",
-//     "effect": "TESTING",
-//     "route_short_name": null,
-//     "description": "TESTING " + Date(),
-//     "JSON": "{}",
-//     "startDate": "2021-07-20T23:46:33.000Z",
-//     "endDate": "2021-07-21T11:59:59.000Z",
-//     "timestamp": "2021-07-20T00:46:45.000Z",
-//     "createdAt": "2021-07-20T23:47:01.655Z",
-//     "updatedAt": "2021-07-20T23:47:01.655Z"
-// })
-// });
 
 
 var lastPing = new Date()
