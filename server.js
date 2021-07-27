@@ -239,13 +239,17 @@ app.get('/cancellations/', async function(request, response) {
   
 //     var from = new Date()
 //     from.setDate(from.getDate() - 1)
-  console.log("request.params.from")
-  console.log(request.params.from)
+  console.log("request.query")
+  console.log(request.query)
+
+  console.log("request.query.from")
+  console.log(request.query.from)
+
 
     
     Cancellation.findAll({
         where: {
-          timestamp: {[Op.gt]: request.params.from},
+          timestamp: {[Op.gt]: new Date(request.query.from)},
 
           // [Op.or]: [
           //   { cause: "STRIKE" },

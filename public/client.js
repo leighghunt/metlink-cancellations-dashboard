@@ -137,8 +137,8 @@ function refreshCancellations(){
   var from = new Date()
   from.setDate(from.getDate() - 1)
   console.log(from)
-  cancellationsRequest.params.from = from
-  cancellationsRequest.open('get', '/cancellations');
+  // cancellationsRequest.params.from = from
+  cancellationsRequest.open('get', '/cancellations?from=' + from);
   cancellationsRequest.send();  
 }
 
