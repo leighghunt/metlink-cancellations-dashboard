@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var daysToReview = 1
+var reviewPeriodHours = 24
 
 
 
@@ -20,6 +20,8 @@ function displayCancellations(){
   cancellationsDuringPeriod = cancellations.length;
   
   document.getElementById('howmany').innerText=cancellationsDuringPeriod
+  document.getElementById('period').innerText=(reviewPeriodHours < 48?reviewPeriodHours + " hours":reviewPeriodHours/24 + " days")
+
 
   cancellations.forEach((cancellation) => {
     displayCancellation(cancellation)     
@@ -160,10 +162,10 @@ function updateGraph(){
 
   var hour = hoursOffset
 
-  for(var i = 0; i< 24; ++i){
+  for(var i = 0; i< reviewPeriodHours; ++i){
     // console.log(hour + ":00")
     ++hour;
-    if(hour>23){
+    if(hour>reviewPeriodHours-1){
       hour= 0
     }
     labels[i] = hour + ":00"
@@ -178,7 +180,7 @@ function updateGraph(){
       // console.log(hour)
       var index = hour - hoursOffset
       if(index <= 0){
-        index += 23
+        index += reviewPeriodHours-1
       }
       // console.log(index)
 
@@ -210,7 +212,60 @@ function updateGraph(){
 
   if(chart==null){
     chart = new Chart(
-      document.getElementById('chartLast24Hours'),
+      document.getElementById('chart'),
+      config
+    )
+  } else {
+    chart.config.data = data;
+    chart.update(/*{mode: 'none'}*/);
+  } 
+}
+
+
+function updateSummary(){
+
+  let services = []
+  
+  cancellations.forEach(cancellation => {
+
+      let service = services[cancellation.]
+      var hour = new Date(cancellation.timestamp).getHours();
+      // console.log(hour)
+      var index = hour - hoursOffset
+      if(index <= 0){
+        index += reviewPeriodHours-1
+      }
+      // console.log(index)
+
+      dataValues[index]++
+
+     // }
+  })
+  
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Cancellations/hr',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: dataValues,
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data,
+    options: {
+        animation: {
+          duration:0  // prevent pesky animation, espcially on update
+        }
+    }
+  };
+
+
+  if(chart==null){
+    chart = new Chart(
+      document.getElementById('chart'),
       config
     )
   } else {
