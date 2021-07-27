@@ -234,18 +234,24 @@ function updateSummary(){
   
   cancellations.forEach(cancellation => {
 
-      let service = services[cancellation.route_short_name]
+      let service = services[cancellation.routeId]
       if(service==null){
         service = {
           route_short_name : cancellation.route_short_name,
-                  cancellations : 1}
+          cancellations : 1
+        }
       } else{
         ++service.cancellations;
       }
+      console.log(cancellation)
+
+      console.log(service)
+
     
-      services[cancellation.route_short_name] = service
+      services[cancellation.routeId] = service
+      console.log(services)
+
       
-      // console.log(service)
   })
   
   console.log(services)
