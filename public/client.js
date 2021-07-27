@@ -221,62 +221,38 @@ function updateGraph(){
     chart.config.data = data;
     chart.update(/*{mode: 'none'}*/);
   } 
+  
+  updateSummary()
 }
 
 
-// function updateSummary(){
+function updateSummary(){
 
-//   let services = []
+  console.log("updateSummary")
+  let services = []
+  console.log(services)
   
-//   cancellations.forEach(cancellation => {
+  cancellations.forEach(cancellation => {
 
-//       let service = services[cancellation.]
-//       var hour = new Date(cancellation.timestamp).getHours();
-//       // console.log(hour)
-//       var index = hour - hoursOffset
-//       if(index <= 0){
-//         index += reviewPeriodHours-1
-//       }
-//       // console.log(index)
-
-//       dataValues[index]++
-
-//      // }
-//   })
+      let service = services[cancellation.route_short_name]
+      if(service==null){
+        service = {
+          route_short_name : cancellation.route_short_name,
+                  cancellations : 1}
+      } else{
+        ++service.cancellations;
+      }
+    
+      services[cancellation.route_short_name] = service
+      
+      // console.log(service)
+  })
   
-//   const data = {
-//     labels: labels,
-//     datasets: [{
-//       label: 'Cancellations/hr',
-//       backgroundColor: 'rgb(255, 99, 132)',
-//       borderColor: 'rgb(255, 99, 132)',
-//       data: dataValues,
-//     }]
-//   };
-
-//   const config = {
-//     type: 'bar',
-//     data,
-//     options: {
-//         animation: {
-//           duration:0  // prevent pesky animation, espcially on update
-//         }
-//     }
-//   };
+  console.log(services)
 
 
-//   if(chart==null){
-//     chart = new Chart(
-//       document.getElementById('chart'),
-//       config
-//     )
-//   } else {
-//     chart.config.data = data;
-//     chart.update(/*{mode: 'none'}*/);
-//   } 
-// }
+}
 
-// setInterval(function(){console.log("Hello")}, 1000)
 
 
 function isCancellationOrDelay(cancellation){
