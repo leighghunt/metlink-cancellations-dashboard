@@ -202,10 +202,8 @@ app.get('/cancellations/', async function(request, response) {
     from.setDate(from.getDate() - 1)
   
     if(request.query.from!=null){
-      console.log(request.query.from)
-
-      console.log(new Date(request.query.from))
-
+      // console.log(request.query.from)
+      // console.log(new Date(request.query.from))
       from = new Date(request.query.from)
     }
 
@@ -215,14 +213,22 @@ app.get('/cancellations/', async function(request, response) {
       to = new Date(request.query.to)
     }
 
-
     console.log(from)
     console.log(to)
 
 
     Cancellation.findAll({
         where: {
-          timestamp: {[Op.gt]: from},
+          timestamp: {
+            [Op.and]:[
+              {[Op.gte]: from},
+              {[Op.lte]: to}
+
+            ]
+          },
+
+          // timestamp: {[Op.gt]: from},
+
 
         },
         order: [
