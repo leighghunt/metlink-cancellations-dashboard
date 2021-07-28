@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodHours = 24
+var reviewPeriodHours = 240
 
 
 
@@ -135,7 +135,7 @@ function refreshCancellations(){
   cancellationsRequest.onload = getCancellationsListener;
   
   var from = new Date()
-  from.setDate(from.getDate() - 1)
+  from.setDate(from.getDate() - 1.5)
   console.log(from)
   console.log(from.toUTCString())
   // console.log(from)

@@ -156,7 +156,7 @@ function fixCancellations(){
             console.log(cancellation.id + ': ' + cancellation.routeId + ', ' + cancellation.route_short_name)
             // console.log('cancellation')
 
-            console.log(cancellation.dataValues)
+            // console.log(cancellation.dataValues)
 
             Cancellation.upsert(cancellation.dataValues)
           }
