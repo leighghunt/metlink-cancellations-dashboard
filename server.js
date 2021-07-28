@@ -133,7 +133,7 @@ function fixCancellations(){
     console.log('fixCancellations')
     console.log(Cancellation)
 
-        var existingCancellation = Cancellation.findAll({
+        Cancellation.findAll({
           limit: 3, 
           where: {
             route_short_name: null
@@ -154,8 +154,8 @@ function fixCancellations(){
           if(route!=null){
             cancellation.route_short_name = route.route_short_name 
             console.log(cancellation.id + ': ' + cancellation.routeId + ', ' + cancellation.route_short_name)
-            console.log(cancellation.JSON)
-            await Cancellation.upsert(cancellation)
+            console.log(cancellation)
+            Cancellation.upsert(cancellation)
           }
 
         })
@@ -201,6 +201,7 @@ function updateCancellations(){
           console.log("Needs inserting")
         }
         
+        var suppliedJSON = JSON.stringify(entity)
         if(entity.route_id == null){
           entity.route_id = entity.alert.informed_entity[0].route_id
         }
@@ -221,7 +222,7 @@ function updateCancellations(){
           route_short_name: route_short_name,
           cause: entity.alert.cause,
           effect: entity.alert.effect,          
-          JSON: JSON.stringify(entity),
+          JSON: suppliedJSON,
           description: entityToText(entity),
           timestamp: new Date(entity.timestamp),
           startDate: new Date(entity.alert.active_period[0].start * 1000),
