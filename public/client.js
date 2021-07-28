@@ -2,9 +2,11 @@
 
 var io = window.io;
 var socket = io.connect(window.location.hostname);
-var cancellationsInLast24Hours = 0;
+var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
+
+var reviewPeriodDays = 1
 
 
 
@@ -15,9 +17,11 @@ function displayCancellations(){
     listResults.removeChild(listResults.firstChild);
   }
 
-  cancellationsInLast24Hours = cancellations.length;
+  cancellationsDuringPeriod = cancellations.length;
   
-  document.getElementById('howmany').innerText=cancellationsInLast24Hours
+  document.getElementById('howmany').innerText=cancellationsDuringPeriod
+  document.getElementById('period').innerText=reviewPeriodDays + " days"
+
 
   cancellations.forEach((cancellation) => {
     displayCancellation(cancellation)     
@@ -65,10 +69,6 @@ socket.on('cancellation', function (cancellation) {
 
 
 function addCancellation(cancellation){
-  // // cancellation.description = "***" + cancellation.description;
-  // // console.log(cancellation);
-  // ++cancellationsInLast24Hours
-  // document.getElementById('howmany').innerText=cancellationsInLast24Hours
 
   var cancellationIndex = cancellations.findIndex(elem => elem.id == cancellation.id)
   if(cancellationIndex == -1){
@@ -135,10 +135,12 @@ function refreshCancellations(){
   cancellationsRequest.onload = getCancellationsListener;
   
   var from = new Date()
-  from.setDate(from.getDate() - 1)
+  from.setDate(from.getDate() - reviewPeriodDays)
   console.log(from)
+  console.log(from.toUTCString())
+  // console.log(from)
   // cancellationsRequest.params.from = from
-  cancellationsRequest.open('get', '/cancellations?from=' + from);
+  cancellationsRequest.open('get', '/cancellations?from=' + from.toUTCString());
   cancellationsRequest.send();  
 }
 
@@ -161,11 +163,13 @@ function updateGraph(){
   let hoursOffset = now.getHours() 
 
   var hour = hoursOffset
+  
+  var reviewPeriodHours = reviewPeriodDays * 24
 
-  for(var i = 0; i< 24; ++i){
+  for(var i = 0; i< reviewPeriodHours; ++i){
     // console.log(hour + ":00")
     ++hour;
-    if(hour>23){
+    if(hour>reviewPeriodHours-1){
       hour= 0
     }
     labels[i] = hour + ":00"
@@ -180,7 +184,7 @@ function updateGraph(){
       // console.log(hour)
       var index = hour - hoursOffset
       if(index <= 0){
-        index += 23
+        index += reviewPeriodHours-1
       }
       // console.log(index)
 
@@ -212,16 +216,53 @@ function updateGraph(){
 
   if(chart==null){
     chart = new Chart(
-      document.getElementById('chartLast24Hours'),
+      document.getElementById('chart'),
       config
     )
   } else {
     chart.config.data = data;
     chart.update(/*{mode: 'none'}*/);
   } 
+  
+  updateSummary()
 }
 
-// setInterval(function(){console.log("Hello")}, 1000)
+
+function updateSummary(){
+
+  console.log("updateSummary")
+  let services = []
+  // console.log(services)
+  
+  cancellations.forEach(cancellation => {
+
+      let service = services[cancellation.routeId]
+      if(service==null){
+        service = {
+          route_short_name : cancellation.route_short_name,
+          cancellations : 1
+        }
+      } else{
+        ++service.cancellations;
+      }
+      // console.log(cancellation)
+
+      // console.log(service)
+
+    
+      services[cancellation.routeId] = service
+      // console.log(services)
+
+      
+  })
+  
+  console.log(services)
+  services.forEach(service => {
+    console.log(service.route_short_name + ": " + service.cancellations)
+  })
+
+}
+
 
 
 function isCancellationOrDelay(cancellation){
@@ -248,25 +289,6 @@ function isCancellationOrDelay(cancellation){
     return false
   }
 }
-
-
-// $('#emit').on('click', function(event) {
-//   console.log("emit")
-//   addCancellation({
-//     "id": -1,
-//     "routeId": null,
-//     "cause": "TESTING",
-//     "effect": "TESTING",
-//     "route_short_name": null,
-//     "description": "TESTING " + Date(),
-//     "JSON": "{}",
-//     "startDate": "2021-07-20T23:46:33.000Z",
-//     "endDate": "2021-07-21T11:59:59.000Z",
-//     "timestamp": "2021-07-20T00:46:45.000Z",
-//     "createdAt": "2021-07-20T23:47:01.655Z",
-//     "updatedAt": "2021-07-20T23:47:01.655Z"
-// })
-// });
 
 
 var lastPing = new Date()
