@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodHours = 240
+var reviewPeriodDays = 1
 
 
 
@@ -20,7 +20,7 @@ function displayCancellations(){
   cancellationsDuringPeriod = cancellations.length;
   
   document.getElementById('howmany').innerText=cancellationsDuringPeriod
-  document.getElementById('period').innerText=(reviewPeriodHours < 48?reviewPeriodHours + " hours":reviewPeriodHours/24 + " days")
+  document.getElementById('period').innerText=reviewPeriodDays + " days"
 
 
   cancellations.forEach((cancellation) => {
@@ -135,7 +135,7 @@ function refreshCancellations(){
   cancellationsRequest.onload = getCancellationsListener;
   
   var from = new Date()
-  from.setDate(from.getDate() - 1.5)
+  from.setDate(from.getDate() - reviewPeriodDays)
   console.log(from)
   console.log(from.toUTCString())
   // console.log(from)
@@ -163,6 +163,8 @@ function updateGraph(){
   let hoursOffset = now.getHours() 
 
   var hour = hoursOffset
+  
+  var reviewPeriodHours = reviewPeriodDays * 24
 
   for(var i = 0; i< reviewPeriodHours; ++i){
     // console.log(hour + ":00")
