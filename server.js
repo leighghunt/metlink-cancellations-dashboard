@@ -134,12 +134,14 @@ function fixCancellations(){
     console.log(Cancellation)
 
         var existingCancellation = Cancellation.findAll({
-        where: {
-          route_short_name: null
-          }})
+          limit: 3, 
+          where: {
+            route_short_name: null
+            }
+        })
       .then(cancellations => {
         // console.log(cancellations)
-        cancellations.forEach(cancellation => {
+        cancellations.forEach(async cancellation => {
           console.log(cancellation.id + ': ' + cancellation.routeId + ', ' + cancellation.route_short_name)
           
           let entity = JSON.parse(cancellation.JSON);
@@ -151,12 +153,10 @@ function fixCancellations(){
 
           if(route!=null){
             cancellation.route_short_name = route.route_short_name 
+            console.log(cancellation.id + ': ' + cancellation.routeId + ', ' + cancellation.route_short_name)
+            console.log(cancellation.JSON)
+            await Cancellation.upsert(cancellation)
           }
-
-          console.log(cancellation.id + ': ' + cancellation.routeId + ', ' + cancellation.route_short_name)
-
-          Cancellation.upsert(cancellation)
-
 
         })
     });
