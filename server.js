@@ -139,14 +139,29 @@ function fixCancellations(){
           }})
       .then(cancellations => {
         // console.log(cancellations)
-        cancellations.forEach(cancellation => console.log(cancellation.id + ': ' + cancellation.short_route_name))
-        
-                // Cancellation.upsert(cancellation)
+        cancellations.forEach(cancellation => {
+          console.log(cancellation.id + ': ' + cancellation.routeId + ', ' + cancellation.route_short_name)
+          
+          let entity = JSON.parse(cancellation.JSON);
+          
+          cancellation.routeId = entity.alert.informed_entity[0].route_id
+          var route = routes.find(route => route.route_id == cancellation.routeId)
+          // console.log(cancellation.routeId)
+          // console.log(route)
+
+          if(route!=null){
+            cancellation.route_short_name = route.route_short_name 
+          }
+
+          console.log(cancellation.id + ': ' + cancellation.routeId + ', ' + cancellation.route_short_name)
+
+          Cancellation.upsert(cancellation)
 
 
+        })
     });
 }
-setTimeout(fixCancellations, 1000)
+setTimeout(fixCancellations, 5000)
 
 
 
