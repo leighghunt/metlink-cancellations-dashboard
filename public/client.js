@@ -230,7 +230,7 @@ function updateSummary(){
 
   console.log("updateSummary")
   let services = []
-  console.log(services)
+  // console.log(services)
   
   cancellations.forEach(cancellation => {
 
@@ -243,19 +243,21 @@ function updateSummary(){
       } else{
         ++service.cancellations;
       }
-      console.log(cancellation)
+      // console.log(cancellation)
 
-      console.log(service)
+      // console.log(service)
 
     
       services[cancellation.routeId] = service
-      console.log(services)
+      // console.log(services)
 
       
   })
   
   console.log(services)
-
+  services.forEach(service => {
+    console.log(service.route_short_name + ": " + service.cancellations)
+  })
 
 }
 

@@ -134,7 +134,7 @@ function fixCancellations(){
     console.log(Cancellation)
 
         Cancellation.findAll({
-          limit: 3, 
+          // limit: 10, 
           where: {
             route_short_name: null
             }
@@ -154,14 +154,17 @@ function fixCancellations(){
           if(route!=null){
             cancellation.route_short_name = route.route_short_name 
             console.log(cancellation.id + ': ' + cancellation.routeId + ', ' + cancellation.route_short_name)
-            console.log(cancellation)
-            Cancellation.upsert(cancellation)
+            // console.log('cancellation')
+
+            console.log(cancellation.dataValues)
+
+            Cancellation.upsert(cancellation.dataValues)
           }
 
         })
     });
 }
-setTimeout(fixCancellations, 5000)
+// setTimeout(fixCancellations, 5000)
 
 
 
