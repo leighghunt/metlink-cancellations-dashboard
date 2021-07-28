@@ -192,8 +192,14 @@ function updateCancellations(){
       }
       
       if(bNeedsUpserting){
-        console.log("bNeedsUpserting")
-        console.log(entity.route_id)
+        if(existingCancellation!=null){
+          console.log("Needs Upserting")
+          console.log(entity.route_id)
+          console.log(existingCancellation.JSON)
+          console.log(JSON.stringify(entity))          
+        } else {
+          console.log("Needs inserting")
+        }
         
         if(entity.route_id == null){
           entity.route_id = entity.alert.informed_entity[0].route_id
