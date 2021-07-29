@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodDays = 1
+var reviewPeriodDays = 2
 
 
 
@@ -165,6 +165,11 @@ function updateGraph(){
   var hour = hoursOffset
   
   var reviewPeriodHours = reviewPeriodDays * 24
+  
+  var bins = reviewPeriodHours
+  if(reviewPeriodDays>3){
+    bins = reviewPeriodDays
+  }
 
   for(var i = 0; i< reviewPeriodHours; ++i){
     // console.log(hour + ":00")
