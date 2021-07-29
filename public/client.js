@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodDays = 2
+var reviewPeriodDays = 3
 
 
 
@@ -167,6 +167,8 @@ function updateGraph(){
   var reviewPeriodHours = reviewPeriodDays * 24
   
   var bins = reviewPeriodHours
+  var binDateDiffMiliseconds = 3600000
+
   if(reviewPeriodDays>3){
     bins = reviewPeriodDays
   }
@@ -181,10 +183,18 @@ function updateGraph(){
 
   binDate.setSeconds(0)
 
-  binDate = binDate - reviewPeriodHours * 60000
+  console.log('binDate 2')
+  console.log(binDate)
+  
 
 
-  console.log('binDate')
+  for(var binIndex = 0; binIndex < bins; ++binIndex){
+    console.log('binIndex: ' + binIndex)
+  }
+  binDate = new Date(binDate.getTime() - bins * binDateDiffMiliseconds)
+
+
+  console.log('binDate 3')
   console.log(binDate)
 
   
