@@ -232,7 +232,6 @@ function updateSummary(){
 
   console.log("updateSummary")
   let services = []
-  // console.log(services)
   
   cancellations.forEach(cancellation => {
 
@@ -245,22 +244,18 @@ function updateSummary(){
       } else{
         ++service.cancellations;
       }
-      // console.log(cancellation)
-
-      // console.log(service)
-
     
       services[cancellation.routeId] = service
-      // console.log(services)
-
       
   })
   
   console.log(services)
-  services.forEach(service => {
-    console.log(service.route_short_name + ": " + service.cancellations)
-  })
+  services.sort((a, b) => {return b.cancellations - a.cancellations})
+  console.log(services)
 
+  // services.forEach(service => {
+  //   console.log(service.route_short_name + ": " + service.cancellations)
+  // })
 }
 
 
@@ -269,21 +264,18 @@ function isCancellationOrDelay(cancellation){
   if(   
 //     cancellation.cause == "STRIKE"
 //      || cancellation.cause == "TECHNICAL_PROBLEM"
-
 //      // || cancellation.cause == "OTHER_CAUSE"
-
 //      // || cancellation.cause == "ACCIDENT"    // Kind of not really avoidable
      cancellation.effect == "NO_SERVICE"
      || cancellation.effect == "REDUCED_SERVICE"
      || cancellation.effect == "SIGNIFICANT_DELAYS"
     ) {
-    console.log(cancellation.description)
+    // console.log(cancellation.description)
     return true
   } else {
-    console.log("NOT ******* " + cancellation.description)
-    console.log(cancellation.cause)
-
-    console.log(cancellation.effect)
+    // console.log("NOT ******* " + cancellation.description)
+    // console.log(cancellation.cause)
+    // console.log(cancellation.effect)
 
 
     return false
