@@ -167,66 +167,50 @@ function updateGraph(){
   var reviewPeriodHours = reviewPeriodDays * 24
   
   var bins = reviewPeriodHours
-  var binDateDiffMiliseconds = 3600000
+  var binDateDiffMiliseconds = 60 * 60 * 1000
 
   if(reviewPeriodDays>3){
     bins = reviewPeriodDays
+    binDateDiffMiliseconds = 24 * 60 * 60 * 1000
   }
   
   console.log(bins)
-  var binDate = new Date()
-  console.log('binDate')
-  console.log(binDate)
+  var mostRecentBinDate = new Date()
+  console.log('mostRecentBinDate')
+  console.log(mostRecentBinDate)
   // binDate.setHours(-5)
 
-  binDate.setMinutes(0)
+  mostRecentBinDate.setMinutes(0)
+  mostRecentBinDate.setSeconds(0)
+  mostRecentBinDate.setMilliseconds(0)
 
-  binDate.setSeconds(0)
-
-  console.log('binDate 2')
-  console.log(binDate)
+  console.log(mostRecentBinDate)
   
+
+  binDate = new Date(mostRecentBinDate.getTime() - bins * binDateDiffMiliseconds)
 
 
   for(var binIndex = 0; binIndex < bins; ++binIndex){
     console.log('binIndex: ' + binIndex)
+    binDate = new Date(binDate.getTime() + binDateDiffMiliseconds)
+    console.log(binDate)
+
+    labels[binIndex] = binDate
+    dataValues[binIndex] = 0
   }
-  binDate = new Date(binDate.getTime() - bins * binDateDiffMiliseconds)
 
-
-  console.log('binDate 3')
-  console.log(binDate)
-
-  
-
-  
-  // console.log(cancellations)
-  // cancellations.sort((a, b) => {return a.timestamp - b.timestamp})
-  // console.log(cancellations)
-
-  var firstCancellation = cancellations[0]
-  var lastCancellation = cancellations[cancellations.length - 1]
-  
-  console.log(firstCancellation.timestamp)
-  console.log(lastCancellation.timestamp)
-
-
-  for(var i = 0; i< reviewPeriodHours; ++i){
-    // console.log(hour + ":00")
-    ++hour;
-    if(hour>reviewPeriodHours-1){
-      hour= 0
-    }
-    labels[i] = hour + ":00"
-    dataValues[i] = 0
-  }
-  
   cancellations.forEach(cancellation => {
-    // if(isCancellationOrDelay(cancellation)){
-      // console.log(new Date(cancellation.timestamp))
 
-      var hour = new Date(cancellation.timestamp).getHours();
-      // console.log(hour)
+    var targetBinDate = new Date(cancellation.timestamp)
+    targetBinDate.setMinutes(0)
+    targetBinDate.setSeconds(0)
+    targetBinDate.setMilliseconds(0)
+    console.log(targetBinDate)
+
+    var targetBinIndex = mostRecentBinDate.getTime() - targetBinDate.getTime()
+    console.log(targetBinIndex)
+
+    
       var index = hour - hoursOffset
       if(index <= 0){
         index += reviewPeriodHours-1
@@ -237,6 +221,49 @@ function updateGraph(){
 
      // }
   })
+
+
+//   console.log('binDate 3')
+//   console.log(binDate)
+
+  
+  // console.log(cancellations)
+  // cancellations.sort((a, b) => {return a.timestamp - b.timestamp})
+  // console.log(cancellations)
+
+//   var firstCancellation = cancellations[0]
+//   var lastCancellation = cancellations[cancellations.length - 1]
+  
+//   console.log(firstCancellation.timestamp)
+//   console.log(lastCancellation.timestamp)
+
+
+//   for(var i = 0; i< reviewPeriodHours; ++i){
+//     // console.log(hour + ":00")
+//     ++hour;
+//     if(hour>reviewPeriodHours-1){
+//       hour= 0
+//     }
+//     labels[i] = hour + ":00"
+//     dataValues[i] = 0
+//   }
+  
+//   cancellations.forEach(cancellation => {
+//     // if(isCancellationOrDelay(cancellation)){
+//       // console.log(new Date(cancellation.timestamp))
+
+//       var hour = new Date(cancellation.timestamp).getHours();
+//       // console.log(hour)
+//       var index = hour - hoursOffset
+//       if(index <= 0){
+//         index += reviewPeriodHours-1
+//       }
+//       // console.log(index)
+
+//       dataValues[index]++
+
+//      // }
+//   })
   
   const data = {
     labels: labels,
@@ -258,16 +285,16 @@ function updateGraph(){
         //   mode: 'nearest',
         // },
 
-      // scales: {
-      //   x: {
-      //     type: 'time',
-      //     display: true,
-      //     offset: true,
-      //     time: {
-      //       unit: 'day'
-      //     }
-      //   },
-      // },
+      scales: {
+        x: {
+          // type: 'time',
+          display: true,
+          offset: true,
+          time: {
+            unit: 'day'
+          }
+        },
+      },
 
 //     scales: {
 //       x: {
