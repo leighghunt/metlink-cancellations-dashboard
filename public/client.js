@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodDays = 3
+var reviewPeriodDays = 4
 
 
 
@@ -187,18 +187,20 @@ function updateGraph(){
   console.log(mostRecentBinDate)
   
 
-  binDate = new Date(mostRecentBinDate.getTime() - bins * binDateDiffMiliseconds)
+  var binDate = new Date(mostRecentBinDate.getTime() - bins * binDateDiffMiliseconds)
 
 
+  // Set up bins
   for(var binIndex = 0; binIndex < bins; ++binIndex){
-    console.log('binIndex: ' + binIndex)
+    // console.log('binIndex: ' + binIndex)
     binDate = new Date(binDate.getTime() + binDateDiffMiliseconds)
-    console.log(binDate)
+    // console.log(binDate)
 
-    labels[binIndex] = binDate
+    labels[binIndex] = binDate.getHours()
     dataValues[binIndex] = 0
   }
 
+  // Populate data in each bin
   cancellations.forEach(cancellation => {
 
     var targetBinDate = new Date(cancellation.timestamp)
@@ -207,63 +209,12 @@ function updateGraph(){
     targetBinDate.setMilliseconds(0)
     console.log(targetBinDate)
 
-    var targetBinIndex = mostRecentBinDate.getTime() - targetBinDate.getTime()
+    var targetBinIndex = bins - (mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds
     console.log(targetBinIndex)
+    dataValues[targetBinIndex]++
 
-    
-      var index = hour - hoursOffset
-      if(index <= 0){
-        index += reviewPeriodHours-1
-      }
-      // console.log(index)
-
-      dataValues[index]++
-
-     // }
   })
 
-
-//   console.log('binDate 3')
-//   console.log(binDate)
-
-  
-  // console.log(cancellations)
-  // cancellations.sort((a, b) => {return a.timestamp - b.timestamp})
-  // console.log(cancellations)
-
-//   var firstCancellation = cancellations[0]
-//   var lastCancellation = cancellations[cancellations.length - 1]
-  
-//   console.log(firstCancellation.timestamp)
-//   console.log(lastCancellation.timestamp)
-
-
-//   for(var i = 0; i< reviewPeriodHours; ++i){
-//     // console.log(hour + ":00")
-//     ++hour;
-//     if(hour>reviewPeriodHours-1){
-//       hour= 0
-//     }
-//     labels[i] = hour + ":00"
-//     dataValues[i] = 0
-//   }
-  
-//   cancellations.forEach(cancellation => {
-//     // if(isCancellationOrDelay(cancellation)){
-//       // console.log(new Date(cancellation.timestamp))
-
-//       var hour = new Date(cancellation.timestamp).getHours();
-//       // console.log(hour)
-//       var index = hour - hoursOffset
-//       if(index <= 0){
-//         index += reviewPeriodHours-1
-//       }
-//       // console.log(index)
-
-//       dataValues[index]++
-
-//      // }
-//   })
   
   const data = {
     labels: labels,
@@ -286,14 +237,25 @@ function updateGraph(){
         // },
 
       scales: {
-        x: {
-          // type: 'time',
-          display: true,
-          offset: true,
+
+        x: [{
+          type: "time",
           time: {
-            unit: 'day'
+            unit: 'day',
+            round: 'day',
+            displayFormats: {
+              day: 'MMM D'
+            }
           }
-        },
+        }],
+        // x: {
+        //   // type: 'time',
+        //   display: true,
+        //   offset: true,
+        //   time: {
+        //     unit: 'day'
+        //   }
+        // },
       },
 
 //     scales: {
