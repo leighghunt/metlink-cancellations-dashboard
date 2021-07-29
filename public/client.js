@@ -20,7 +20,7 @@ function displayCancellations(){
   cancellationsDuringPeriod = cancellations.length;
   
   document.getElementById('howmany').innerText=cancellationsDuringPeriod
-  document.getElementById('period').innerText=reviewPeriodDays + " days"
+  document.getElementById('period').innerText=(reviewPeriodDays==1?" 24 hours":reviewPeriodDays + " days")
 
 
   cancellations.forEach((cancellation) => {
