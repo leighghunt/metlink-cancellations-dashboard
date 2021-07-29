@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodDays = 2
+var reviewPeriodDays = 1
 
 
 
@@ -223,15 +223,61 @@ function updateGraph(){
     type: 'bar',
     data,
     options: {
+        // spanGaps: 1000 * 60 * 60 * 24 * 2, // 2 days
+        // responsive: true,
+        // interaction: {
+        //   mode: 'nearest',
+        // },
+
+      // scales: {
+      //   x: {
+      //     type: 'time',
+      //     display: true,
+      //     offset: true,
+      //     time: {
+      //       unit: 'day'
+      //     }
+      //   },
+      // },
+
+//     scales: {
+//       x: {
+//         type: 'time',
+//         display: true,
+//         title: {
+//           display: true,
+//           text: 'Date'
+//         },
+//         // ticks: {
+//         //   autoSkip: false,
+//         //   maxRotation: 0,
+//         //   major: {
+//         //     enabled: true
+//         //   },
+//         //   // // color: function(context) {
+//         //   // //   return context.tick && context.tick.major ? '#FF0000' : 'rgba(0,0,0,0.1)';
+//         //   // // },
+//         //   // font: function(context) {
+//         //   //   if (context.tick && context.tick.major) {
+//         //   //     return {
+//         //   //       weight: 'bold',
+//         //   //     };
+//         //   //   }
+//         //   // }
+//         // }
+//       },
+//       // y: {
+//       //   display: true,
+//       //   title: {
+//       //     display: true,
+//       //     text: 'value'
+//       //   }
+//       // }
+//     },      
+      
         animation: {
           duration:0  // prevent pesky animation, espcially on update
         }
-      spanGaps: 1000 * 60 * 60 * 24 * 2, // 2 days
-      responsive: true,
-      interaction: {
-        mode: 'nearest',
-      },
-
     }
   };
 
