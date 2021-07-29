@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodDays = 1
+var reviewPeriodDays = 2
 
 
 
@@ -170,6 +170,25 @@ function updateGraph(){
   if(reviewPeriodDays>3){
     bins = reviewPeriodDays
   }
+  
+  console.log(bins)
+  var binDate = new Date()
+  console.log('binDate')
+  console.log(binDate)
+  // binDate.setHours(-5)
+
+  binDate.setMinutes(0)
+
+  binDate.setSeconds(0)
+
+  binDate = binDate - reviewPeriodHours * 60000
+
+
+  console.log('binDate')
+  console.log(binDate)
+
+  
+
   
   // console.log(cancellations)
   // cancellations.sort((a, b) => {return a.timestamp - b.timestamp})
