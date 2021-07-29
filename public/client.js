@@ -170,6 +170,17 @@ function updateGraph(){
   if(reviewPeriodDays>3){
     bins = reviewPeriodDays
   }
+  
+  // console.log(cancellations)
+  // cancellations.sort((a, b) => {return a.timestamp - b.timestamp})
+  // console.log(cancellations)
+
+  var firstCancellation = cancellations[0]
+  var lastCancellation = cancellations[cancellations.length - 1]
+  
+  console.log(firstCancellation.timestamp)
+  console.log(lastCancellation.timestamp)
+
 
   for(var i = 0; i< reviewPeriodHours; ++i){
     // console.log(hour + ":00")
@@ -215,6 +226,12 @@ function updateGraph(){
         animation: {
           duration:0  // prevent pesky animation, espcially on update
         }
+      spanGaps: 1000 * 60 * 60 * 24 * 2, // 2 days
+      responsive: true,
+      interaction: {
+        mode: 'nearest',
+      },
+
     }
   };
 
