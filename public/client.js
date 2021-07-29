@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodDays = 4
+var reviewPeriodDays = 10
 
 
 
@@ -169,7 +169,12 @@ function updateGraph(){
   var bins = reviewPeriodHours
   var binDateDiffMiliseconds = 60 * 60 * 1000
 
+  var displayingDays = false;
   if(reviewPeriodDays>3){
+    displayingDays = true;
+  }
+
+  if(displayingDays == true){
     bins = reviewPeriodDays
     binDateDiffMiliseconds = 24 * 60 * 60 * 1000
   }
@@ -185,18 +190,27 @@ function updateGraph(){
   mostRecentBinDate.setMilliseconds(0)
 
   console.log(mostRecentBinDate)
-  
+  if(displayingDays){
+    mostRecentBinDate.setHours(0)
+  }
+
+
 
   var binDate = new Date(mostRecentBinDate.getTime() - bins * binDateDiffMiliseconds)
 
 
   // Set up bins
   for(var binIndex = 0; binIndex < bins; ++binIndex){
-    // console.log('binIndex: ' + binIndex)
     binDate = new Date(binDate.getTime() + binDateDiffMiliseconds)
-    // console.log(binDate)
+    console.log('binIndex: ' + binIndex)
+    console.log(binDate)
 
-    labels[binIndex] = binDate.getHours()
+    
+      if(displayingDays){
+        labels[binIndex] = binDate.getDate()
+      } else {
+        labels[binIndex] = binDate.getHours()
+      }
     dataValues[binIndex] = 0
   }
 
@@ -209,7 +223,15 @@ function updateGraph(){
     targetBinDate.setMilliseconds(0)
     console.log(targetBinDate)
 
+    if(displayingDays){
+      targetBinDate.setHours(0)
+    }
+    console.log(targetBinDate)
+
     var targetBinIndex = bins - (mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds
+    
+    console.log((mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds)
+    
     console.log(targetBinIndex)
     dataValues[targetBinIndex]++
 
@@ -219,7 +241,7 @@ function updateGraph(){
   const data = {
     labels: labels,
     datasets: [{
-      label: 'Cancellations/hr',
+      label: displayingDays?'Cancellations/day':'Cancellations/hr',
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
       data: dataValues,
@@ -230,68 +252,6 @@ function updateGraph(){
     type: 'bar',
     data,
     options: {
-        // spanGaps: 1000 * 60 * 60 * 24 * 2, // 2 days
-        // responsive: true,
-        // interaction: {
-        //   mode: 'nearest',
-        // },
-
-      scales: {
-
-        x: [{
-          type: "time",
-          time: {
-            unit: 'day',
-            round: 'day',
-            displayFormats: {
-              day: 'MMM D'
-            }
-          }
-        }],
-        // x: {
-        //   // type: 'time',
-        //   display: true,
-        //   offset: true,
-        //   time: {
-        //     unit: 'day'
-        //   }
-        // },
-      },
-
-//     scales: {
-//       x: {
-//         type: 'time',
-//         display: true,
-//         title: {
-//           display: true,
-//           text: 'Date'
-//         },
-//         // ticks: {
-//         //   autoSkip: false,
-//         //   maxRotation: 0,
-//         //   major: {
-//         //     enabled: true
-//         //   },
-//         //   // // color: function(context) {
-//         //   // //   return context.tick && context.tick.major ? '#FF0000' : 'rgba(0,0,0,0.1)';
-//         //   // // },
-//         //   // font: function(context) {
-//         //   //   if (context.tick && context.tick.major) {
-//         //   //     return {
-//         //   //       weight: 'bold',
-//         //   //     };
-//         //   //   }
-//         //   // }
-//         // }
-//       },
-//       // y: {
-//       //   display: true,
-//       //   title: {
-//       //     display: true,
-//       //     text: 'value'
-//       //   }
-//       // }
-//     },      
       
         animation: {
           duration:0  // prevent pesky animation, espcially on update
