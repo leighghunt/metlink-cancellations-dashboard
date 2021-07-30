@@ -150,8 +150,8 @@ function refreshCancellations(){
       from.setMilliseconds(0)
       from.setHours(0)
   }
-  console.log('from')
-  console.log(from)
+  // console.log('from')
+  // console.log(from)
   // cancellationsRequest.params.from = from
   cancellationsRequest.open('get', '/cancellations?from=' + from.toUTCString());
   cancellationsRequest.send();  
@@ -207,12 +207,11 @@ function updateGraph(){
     mostRecentBinDate.setHours(0)
   }
 
-
-
   var binDate = new Date(mostRecentBinDate.getTime() - bins * binDateDiffMiliseconds)
 
 
   // Set up bins
+  // var lastBinHours = 0;
   for(var binIndex = 0; binIndex < bins; ++binIndex){
     binDate = new Date(binDate.getTime() + binDateDiffMiliseconds)
     // console.log('binIndex: ' + binIndex)
@@ -222,7 +221,11 @@ function updateGraph(){
       if(displayingDays){
         labels[binIndex] = binDate.getDate()
       } else {
-        labels[binIndex] = binDate.getHours()
+        // if(binDate.getHours() == 0){
+        //   labels[binIndex] = "> " + binDate.getHours()
+        // } else {
+          labels[binIndex] = binDate.getHours() + ":00"
+        // }
       }
     dataValues[binIndex] = 0
   }
