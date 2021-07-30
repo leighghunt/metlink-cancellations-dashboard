@@ -325,7 +325,7 @@ function updateSummary(){
   })
   
   if(summary.length>2){
-    summary = summary.substring(-2)
+    summary = summary.substring(0, summary.length-2)
   }
   
   document.querySelector('#cancellationsSummary').textContent = summary
