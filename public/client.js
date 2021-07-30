@@ -6,7 +6,16 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodDays = 3
+var reviewPeriodDays = document.querySelector('#period').value;
+
+
+
+$('#period').on('change', function(event) {
+  reviewPeriodDays = document.querySelector('#period').value;
+  console.log(reviewPeriodDays)
+  refreshCancellations()
+});
+
 
 
 
@@ -87,9 +96,6 @@ function addCancellation(cancellation){
   // updateGraph();  
   displayCancellations()
 }
-
-
-
 
 
 
