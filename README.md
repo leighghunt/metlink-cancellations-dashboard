@@ -13,7 +13,6 @@ TO DO:
 
 - Highlight new cancellations for a few seconds
 - Sound notification of cancellations?
-- Display dashboard of number of cancellations today, and last 5 or 7 days.
 
 DONE:
 
@@ -26,6 +25,8 @@ DONE:
   - This should help handle cancellations being reversed
 - Prevent emitting of updates causing duplicates in graph
 - Add sequence to allow clients to detect missed emit and reload
+- Display dashboard of number of cancellations today, and last 5 or 7 days.
+
 
 
 # Welcome to Glitch
