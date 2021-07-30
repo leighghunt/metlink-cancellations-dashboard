@@ -6,7 +6,7 @@ var cancellationsDuringPeriod = 0;
 var cancellations = []
 var otherEvents = []
 
-var reviewPeriodDays = 10
+var reviewPeriodDays = 3
 
 
 
@@ -135,10 +135,17 @@ function refreshCancellations(){
   cancellationsRequest.onload = getCancellationsListener;
   
   var from = new Date()
-  from.setDate(from.getDate() - reviewPeriodDays)
+  from.setDate(from.getDate() - reviewPeriodDays)  // A multiple of 24 hours back from now - so if <=3 days, same time in day
   console.log(from)
   console.log(from.toUTCString())
-  // console.log(from)
+  if(reviewPeriodDays>3){
+      from.setMinutes(0)
+      from.setSeconds(0)
+      from.setMilliseconds(0)
+      from.setHours(0)
+  }
+  console.log('from')
+  console.log(from)
   // cancellationsRequest.params.from = from
   cancellationsRequest.open('get', '/cancellations?from=' + from.toUTCString());
   cancellationsRequest.send();  
@@ -202,8 +209,8 @@ function updateGraph(){
   // Set up bins
   for(var binIndex = 0; binIndex < bins; ++binIndex){
     binDate = new Date(binDate.getTime() + binDateDiffMiliseconds)
-    console.log('binIndex: ' + binIndex)
-    console.log(binDate)
+    // console.log('binIndex: ' + binIndex)
+    // console.log(binDate)
 
     
       if(displayingDays){
@@ -221,18 +228,18 @@ function updateGraph(){
     targetBinDate.setMinutes(0)
     targetBinDate.setSeconds(0)
     targetBinDate.setMilliseconds(0)
-    console.log(targetBinDate)
+    // console.log(targetBinDate)
 
     if(displayingDays){
       targetBinDate.setHours(0)
     }
-    console.log(targetBinDate)
+    // console.log(targetBinDate)
 
     var targetBinIndex = bins - (mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds
     
-    console.log((mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds)
+    // console.log((mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds)
     
-    console.log(targetBinIndex)
+    // console.log(targetBinIndex)
     dataValues[targetBinIndex]++
 
   })
