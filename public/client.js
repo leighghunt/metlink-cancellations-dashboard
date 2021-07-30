@@ -244,11 +244,11 @@ function updateGraph(){
     }
     // console.log(targetBinDate)
 
-    var targetBinIndex = bins - (mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds
+    var targetBinIndex = bins -1 - (mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds
     
     // console.log((mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds)
-    
-    // console.log(targetBinIndex)
+    console.log(cancellation.timestamp)
+    console.log(targetBinIndex)
     dataValues[targetBinIndex]++
 
   })
@@ -268,6 +268,13 @@ function updateGraph(){
     type: 'bar',
     data,
     options: {
+      
+      
+//       scales: {
+//       x: {
+//         offset: true
+//         }
+//       },
       
         animation: {
           duration:0  // prevent pesky animation, espcially on update
