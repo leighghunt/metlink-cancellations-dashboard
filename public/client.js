@@ -315,9 +315,20 @@ function updateSummary(){
   services.sort((a, b) => {return b.cancellations - a.cancellations})
   console.log(services)
 
-  // services.forEach(service => {
-  //   console.log(service.route_short_name + ": " + service.cancellations)
-  // })
+  var servicesSummarised = 0;
+  var summary = ""
+  services.forEach(service => {
+    if(servicesSummarised++ < 5){
+      summary += service.route_short_name + " (" + service.cancellations + "), "
+      console.log(service.route_short_name + ": " + service.cancellations)
+    }
+  })
+  
+  if(summary.length>2){
+    summary = summary.substring(-2)
+  }
+  
+  document.querySelector('#cancellationsSummary').textContent = summary
 }
 
 
