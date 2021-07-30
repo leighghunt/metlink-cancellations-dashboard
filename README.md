@@ -5,6 +5,10 @@ You can see the alerts also being displayed at [www.metlink.org.nz/alerts/bus](h
 
 To tinker with this project, remix it, and set the `metlink_api_key` environment variable to your own API [key](https://opendata.metlink.org.nz/dashboard) (free registration necessary).
 
+FOUND A BUG?
+
+- Please log it [here](https://github.com/leighghunt/metlink-cancellations-dashboard/issues/new)
+
 TO DO:
 
 - Highlight new cancellations for a few seconds
