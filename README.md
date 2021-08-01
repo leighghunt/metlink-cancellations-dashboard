@@ -12,6 +12,7 @@ FOUND A BUG?
 TO DO:
 
 - Determine what percentage of route's services cancelled
+- Allow filtering by service, or type of service (train/bus)
 - Highlight new cancellations for a few seconds
 - Sound notification of cancellations?
 
