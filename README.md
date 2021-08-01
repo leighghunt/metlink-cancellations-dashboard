@@ -11,6 +11,7 @@ FOUND A BUG?
 
 TO DO:
 
+- Determine what percentage of route's services cancelled
 - Highlight new cancellations for a few seconds
 - Sound notification of cancellations?
 
@@ -28,6 +29,14 @@ DONE:
 - Display dashboard of number of cancellations today, and last 5 or 7 days.
 
 
+## Backup to another instance:
+
+```sqlite3 .data/database.sqlite .dump > database.dump; git commit -am'Latest db backup'; git push```
+
+
+## Backup from another instance:
+
+```git pull; rm .data/database.sqlite; sqlite3 .data/database.sqlite  < database.dump; refresh```
 
 # Welcome to Glitch
 
