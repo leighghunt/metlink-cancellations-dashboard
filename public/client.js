@@ -21,9 +21,9 @@ $('#btnFilterServices').on('click', function(event) {
   serviceFilter = document.getElementById('filterServices').value
 
   if(serviceFilter==''){
-    document.getElementById('filterServices').style.display = 'block'
+    document.getElementById('servicesSummary').style.display = 'block'
   } else {
-    document.getElementById('filterServices').style.display = 'none'
+    document.getElementById('servicesSummary').style.display = 'none'
   }
 
   console.log(event)
