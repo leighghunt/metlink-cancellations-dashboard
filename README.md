@@ -17,6 +17,7 @@ TO DO:
 
 DONE:
 
+- Allow filtering by service, ~~or type of service (train/bus)~~
 - STORE data in DB, and return in addition to data being returned by API
 - UPSERT data into database to record reversed cancellations
 - EMIT cancellations using sockets to update clients without needing to refresh
