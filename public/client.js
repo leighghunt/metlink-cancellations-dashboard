@@ -7,12 +7,18 @@ var cancellations = []
 var otherEvents = []
 
 var reviewPeriodDays = document.querySelector('#period').value;
-
+var serviceFilter = ''
 
 
 $('#period').on('change', function(event) {
   reviewPeriodDays = document.querySelector('#period').value;
   console.log(reviewPeriodDays)
+  refreshCancellations()
+});
+
+
+$('#filterServices').on('change', function(event) {
+  console.log(event)
   refreshCancellations()
 });
 
@@ -89,6 +95,10 @@ function addCancellation(cancellation){
   // Filter out non cancellations
   cancellations = cancellations.filter(cancellation => isCancellationOrDelay(cancellation))
   otherEvents = cancellations.filter(cancellation => !isCancellationOrDelay(cancellation))
+
+  cancellations = cancellations.filter(cancellation => isFiltered(cancellation))
+  otherEvents = otherEvents.filter(cancellation => isFiltered(cancellation))
+
 
 
   // cancellations.push(cancellation)
@@ -361,6 +371,25 @@ function isCancellationOrDelay(cancellation){
     return false
   }
 }
+
+
+function isFiltered(cancellation){
+  if( serviceFilter == ''){
+    return true;
+  }
+  
+  if(
+     cancellation.effect == "NO_SERVICE"
+     || cancellation.effect == "REDUCED_SERVICE"
+     || cancellation.effect == "SIGNIFICANT_DELAYS"
+    ) {
+    // console.log(cancellation.description)
+    return true
+  } else {
+    return false
+  }
+}
+
 
 
 var lastPing = new Date()
