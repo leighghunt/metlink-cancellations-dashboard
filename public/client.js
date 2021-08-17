@@ -17,10 +17,17 @@ $('#period').on('change', function(event) {
 });
 
 
-$('#filterServices').on('change', function(event) {
+$('#btnFilterServices').on('click', function(event) {
   console.log(event)
   refreshCancellations()
 });
+
+
+// $('#filterServices').on('change', function(event) {
+//   console.log(event)
+//   refreshCancellations()
+// });
+
 
 
 
@@ -67,9 +74,12 @@ function displayCancellations(){
 const getCancellationsListener = function() {
   var data = JSON.parse(this.responseText)
 
+  data = data.filter(cancellation => isFiltered(cancellation))
+
   cancellations = data.filter(cancellation => isCancellationOrDelay(cancellation))
   otherEvents = data.filter(cancellation => !isCancellationOrDelay(cancellation))
   
+
   displayCancellations();
 }
 
@@ -91,13 +101,12 @@ function addCancellation(cancellation){
   }else{  
     cancellations.splice(cancellationIndex, 1, cancellation)
   }
-  
+
+  cancellations = cancellations.filter(cancellation => isFiltered(cancellation))
+
   // Filter out non cancellations
   cancellations = cancellations.filter(cancellation => isCancellationOrDelay(cancellation))
   otherEvents = cancellations.filter(cancellation => !isCancellationOrDelay(cancellation))
-
-  cancellations = cancellations.filter(cancellation => isFiltered(cancellation))
-  otherEvents = otherEvents.filter(cancellation => isFiltered(cancellation))
 
 
 
@@ -378,11 +387,7 @@ function isFiltered(cancellation){
     return true;
   }
   
-  if(
-     cancellation.effect == "NO_SERVICE"
-     || cancellation.effect == "REDUCED_SERVICE"
-     || cancellation.effect == "SIGNIFICANT_DELAYS"
-    ) {
+  if( cancellation.route_short_name == serviceFilter){
     // console.log(cancellation.description)
     return true
   } else {
