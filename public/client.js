@@ -21,8 +21,10 @@ $('#btnFilterServices').on('click', function(event) {
   serviceFilter = document.getElementById('filterServices').value
 
   if(serviceFilter==''){
+    document.getElementById('filterDescription').innerText = 'Metlink'
     document.getElementById('servicesSummary').style.display = 'block'
   } else {
+    document.getElementById('filterDescription').innerText = serviceFilter
     document.getElementById('servicesSummary').style.display = 'none'
   }
 
@@ -48,7 +50,14 @@ function displayCancellations(){
   }
 
   cancellationsDuringPeriod = cancellations.length;
-  
+
+  if(serviceFilter==''){
+    document.getElementById('filterDescription').innerText = 'Metlink'
+  } else {
+    document.getElementById('filterDescription').innerText = serviceFilter
+  }
+
+
   document.getElementById('howmany').innerText=cancellationsDuringPeriod
   document.getElementById('period').innerText=(reviewPeriodDays==1?" 24 hours":reviewPeriodDays + " days")
 
