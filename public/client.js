@@ -18,6 +18,14 @@ $('#period').on('change', function(event) {
 
 
 $('#btnFilterServices').on('click', function(event) {
+  serviceFilter = document.getElementById('filterServices').value
+
+  if(serviceFilter==''){
+    document.getElementById('filterServices').style.display = 'block'
+  } else {
+    document.getElementById('filterServices').style.display = 'none'
+  }
+
   console.log(event)
   refreshCancellations()
 });
@@ -383,6 +391,7 @@ function isCancellationOrDelay(cancellation){
 
 
 function isFiltered(cancellation){
+  
   if( serviceFilter == ''){
     return true;
   }
