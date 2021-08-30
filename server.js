@@ -453,10 +453,3 @@ setInterval(function(){
 
   io.emit("ping", ++pingNo)
 }, 60000)
-
-
-setInterval(function(){
-
-  io.emit("blah", new Date())
-}, 1000)
-
