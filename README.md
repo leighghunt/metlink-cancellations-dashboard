@@ -1,5 +1,5 @@
 Calls the [Metlink API](https://opendata.metlink.org.nz) to get updates to services.
-Then displays cancellations in the last 24 hours.
+Then displays cancellations in the last 24 hours on this [dashboard](https://how-many-metlink-cancellations-today.glitch.me)
 
 You can see the alerts also being displayed at [www.metlink.org.nz/alerts/bus](https://www.metlink.org.nz/alerts/bus)
 
