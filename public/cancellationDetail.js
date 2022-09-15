@@ -51,7 +51,7 @@ function displayCancellation(){
   document.getElementById('startDate').innerText = new Date(cancellation.startDate).toLocaleString()
   document.getElementById('endDate').innerText = new Date(cancellation.endDate).toLocaleString()
   document.getElementById('description').innerText = cancellation.description
-  document.getElementById('json').innerText = cancellation.JSON
+  document.getElementById('json').innerText = JSON.stringify(JSON.parse(cancellation.JSON), null, '\t\n')
     
 //   let listResults = document.getElementById('listResults');
 //   listResults.style.display = 'block';
