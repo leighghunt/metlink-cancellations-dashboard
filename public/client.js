@@ -172,7 +172,7 @@ const displayOtherEvent = function(otherEvent){
 
   let node = document.createElement("A");
   node.className = 'list-group-item list-group-item-info';
-  node.href = "/CancellationDetail/" + otherEvent.id;
+  node.href = "/CancellationDetail?cancellationId=" + otherEvent.id;
   var textnode = document.createTextNode(displayMessage);         // Create a text node
   node.appendChild(textnode);                              // Append the text to <li>
   // listResults.appendChild(node);

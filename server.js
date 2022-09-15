@@ -124,7 +124,7 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get('/CancellationDetail/:cancellationId', function(request, response) {
+app.get('/CancellationDetail', function(request, response) {
   response.sendFile(__dirname + '/views/CancellationDetail.html');
 });
 
