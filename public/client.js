@@ -176,7 +176,9 @@ const displayOtherEvent = function(otherEvent){
   
   var a = document.createElement('a');
   a.href = "/CancellationDetail/" + otherEvent.id;
-  a.title = ">";
+  a.title = "Title";
+  a.text = "text";
+  a.textContent = "textContent";
   node.appendChild(a);
 
   listOtherEvents.insertBefore(node, listOtherEvents.firstChild);
