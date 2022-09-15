@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Welcome to Glitch!</title>
+    <title>Cancellation Detail</title>
     <meta name="description" content="A cool thing made with Glitch">
     <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
     <meta charset="utf-8">
@@ -30,7 +30,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- import the webpage's client-side javascript file -->
-    <script src="/client.js" defer></script>
+    <script src="/clientCancellationDetail.js" defer></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RHWV49FYYB"></script>
@@ -63,38 +63,11 @@
       <p id="demo"></p>
 
       <main role="main" class="inner cover">
-        <h1 class="cover-heading"><span id="howmany">??</span> <span id="filterDescription">Metlink</span> services have been cancelled in last 
-            <input id="period" TYPE="NUMBER" MIN="1" MAX="30" VALUE="3"> days</h1>        
-        <div>
-          <canvas id="chart"></canvas>
-        </div>
 
-        Filter services:
-        <input id="filterServices"/><button id="btnFilterServices" type="button" class="btn btn-primary">FILTER</button>
-
-        <div class="lead" id="servicesSummary">
-          <h2>
-            5 most cancelled services:
-          </h2>
-          <h3 id="cancellationsSummary">
-             ...
-          </h3>
+        <div class="lead" id="cancellationDetail">
 
         </div>
 
-        <p class="lead" >
-          <ul class="list-group" id="listOtherEvents" style="display:block">
-          </ul>
-        
-          <ul class="list-group" id="listResults" style="display:block">
-            <li class="list-group-item list-group-item-action">Checking...</li>
-            <li class="list-group-item list-group-item-action">...</li>
-            <li class="list-group-item list-group-item-action">...</li>
-            <li class="list-group-item list-group-item-action">...</li>
-            <li class="list-group-item list-group-item-action">...</li>
-          </ul>
-
-        </p>
       </main>
 
       <footer class="mastfoot mt-auto">

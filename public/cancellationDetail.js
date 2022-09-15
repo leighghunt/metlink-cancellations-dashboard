@@ -1,42 +1,42 @@
 /* globals moment Chart */
 
-var io = window.io;
-var socket = io.connect(window.location.hostname);
-var cancellationsDuringPeriod = 0;
-var cancellations = []
-var otherEvents = []
+// var io = window.io;
+// var socket = io.connect(window.location.hostname);
+// var cancellationsDuringPeriod = 0;
+// var cancellations = []
+// var otherEvents = []
 
-var reviewPeriodDays = document.querySelector('#period').value;
-var serviceFilter = ''
-
-
-$('#period').on('change', function(event) {
-  reviewPeriodDays = document.querySelector('#period').value;
-  console.log(reviewPeriodDays)
-  refreshCancellations()
-});
+// var reviewPeriodDays = document.querySelector('#period').value;
+// var serviceFilter = ''
 
 
-$('#btnFilterServices').on('click', function(event) {
-  serviceFilter = document.getElementById('filterServices').value
-
-  if(serviceFilter==''){
-    document.getElementById('filterDescription').innerText = 'Metlink'
-    document.getElementById('servicesSummary').style.display = 'block'
-  } else {
-    document.getElementById('filterDescription').innerText = serviceFilter
-    document.getElementById('servicesSummary').style.display = 'none'
-  }
-
-  console.log(event)
-  refreshCancellations()
-});
+// $('#period').on('change', function(event) {
+//   reviewPeriodDays = document.querySelector('#period').value;
+//   console.log(reviewPeriodDays)
+//   refreshCancellations()
+// });
 
 
-// $('#filterServices').on('change', function(event) {
+// $('#btnFilterServices').on('click', function(event) {
+//   serviceFilter = document.getElementById('filterServices').value
+
+//   if(serviceFilter==''){
+//     document.getElementById('filterDescription').innerText = 'Metlink'
+//     document.getElementById('servicesSummary').style.display = 'block'
+//   } else {
+//     document.getElementById('filterDescription').innerText = serviceFilter
+//     document.getElementById('servicesSummary').style.display = 'none'
+//   }
+
 //   console.log(event)
 //   refreshCancellations()
 // });
+
+
+// // $('#filterServices').on('change', function(event) {
+// //   console.log(event)
+// //   refreshCancellations()
+// // });
 
 
 
@@ -88,7 +88,7 @@ function displayCancellations(){
 
 
 
-const getCancellationsListener = function() {
+const getCancellationListener = function() {
   var data = JSON.parse(this.responseText)
 
   data = data.filter(cancellation => isFiltered(cancellation))
@@ -149,13 +149,6 @@ const displayCancellation = function(cancellation){
   var textnode = document.createTextNode(displayMessage);         // Create a text node
   node.appendChild(textnode);                              // Append the text to <li>
   // listResults.appendChild(node);
-  
-  var a = document.createElement('a');
-  console.log(cancellation)
-  a.href = "/CancellationDetail/" + cancellation.id;
-  a.title = ">";
-  node.appendChild(a);
-
 
   listResults.insertBefore(node, listResults.firstChild);
 
@@ -173,11 +166,6 @@ const displayOtherEvent = function(otherEvent){
   var textnode = document.createTextNode(displayMessage);         // Create a text node
   node.appendChild(textnode);                              // Append the text to <li>
   // listResults.appendChild(node);
-  
-  var a = document.createElement('a');
-  a.href = "/CancellationDetail/" + otherEvent.id;
-  a.title = ">";
-  node.appendChild(a);
 
   listOtherEvents.insertBefore(node, listOtherEvents.firstChild);
 

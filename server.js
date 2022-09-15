@@ -124,8 +124,8 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get('/CancellatioDetail', function(request, response) {
-  response.sendFile(__dirname + '/views/CancellatioDetail.html');
+app.get('/CancellationDetail/:cancellationId', function(request, response) {
+  response.sendFile(__dirname + '/views/CancellationDetail.html');
 });
 
 server.listen(process.env.PORT);
