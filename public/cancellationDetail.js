@@ -45,10 +45,13 @@ var cancellation = {}
 function displayCancellation(){
   console.log(cancellation)
   
-  document.getElementById('routeId').innerText = cancellation.routeId
+  document.getElementById('routeId').innerText = cancellation.route_short_name
+  document.getElementById('cause').innerText = cancellation.cause
+  document.getElementById('effect').innerText = cancellation.effect
   document.getElementById('startDate').innerText = new Date(cancellation.startDate).toLocaleString()
   document.getElementById('endDate').innerText = new Date(cancellation.endDate).toLocaleString()
   document.getElementById('description').innerText = cancellation.description
+  document.getElementById('json').innerText = cancellation.JSON
     
 //   let listResults = document.getElementById('listResults');
 //   listResults.style.display = 'block';

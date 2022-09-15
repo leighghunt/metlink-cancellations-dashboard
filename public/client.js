@@ -146,7 +146,7 @@ const displayCancellation = function(cancellation){
 
   let node = document.createElement("A");
   node.className = 'list-group-item list-group-item-danger';
-  node.href = "/CancellationDetail/" + cancellation.id;
+  node.href = "/CancellationDetail?cancellationId=" + cancellation.id;
   // node.textContext = displayMessage
   var textnode = document.createTextNode(displayMessage);         // Create a text node
   node.appendChild(textnode);                              // Append the text to <li>
