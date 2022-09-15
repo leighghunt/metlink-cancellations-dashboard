@@ -172,28 +172,16 @@ const displayOtherEvent = function(otherEvent){
 
 }
 
-function refreshCancellations(){
+function refreshCancellation(){
   const cancellationsRequest = new XMLHttpRequest();
-  cancellationsRequest.onload = getCancellationsListener;
+  cancellationsRequest.onload = getCancellationListener;
   
-  var from = new Date()
-  from.setDate(from.getDate() - reviewPeriodDays)  // A multiple of 24 hours back from now - so if <=3 days, same time in day
-  console.log(from)
-  console.log(from.toUTCString())
-  if(reviewPeriodDays>3){
-      from.setMinutes(0)
-      from.setSeconds(0)
-      from.setMilliseconds(0)
-      from.setHours(0)
-  }
-  // console.log('from')
-  // console.log(from)
   // cancellationsRequest.params.from = from
   cancellationsRequest.open('get', '/cancellations?from=' + from.toUTCString());
   cancellationsRequest.send();  
 }
 
-refreshCancellations()
+refreshCancellation()
 
 
 

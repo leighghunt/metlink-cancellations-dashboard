@@ -144,17 +144,19 @@ const displayCancellation = function(cancellation){
 
   var displayMessage = cancellation.description
 
-  let node = document.createElement("LI");
+  let node = document.createElement("A");
   node.className = 'list-group-item list-group-item-danger';
+  node.href = "/CancellationDetail/" + cancellation.id;
+  // node.textContext = displayMessage
   var textnode = document.createTextNode(displayMessage);         // Create a text node
   node.appendChild(textnode);                              // Append the text to <li>
-  // listResults.appendChild(node);
+  listResults.appendChild(node);
   
-  var a = document.createElement('a');
-  console.log(cancellation)
-  a.href = "/CancellationDetail/" + cancellation.id;
-  a.title = ">";
-  node.appendChild(a);
+  // var a = document.createElement('a');
+  // console.log(cancellation)
+  // a.href = "/CancellationDetail/" + cancellation.id;
+  // a.title = ">";
+  // node.appendChild(a);
 
 
   listResults.insertBefore(node, listResults.firstChild);
@@ -168,18 +170,13 @@ const displayOtherEvent = function(otherEvent){
 
   var displayMessage = otherEvent.description
 
-  let node = document.createElement("LI");
+  let node = document.createElement("A");
   node.className = 'list-group-item list-group-item-info';
+  node.href = "/CancellationDetail/" + otherEvent.id;
   var textnode = document.createTextNode(displayMessage);         // Create a text node
   node.appendChild(textnode);                              // Append the text to <li>
   // listResults.appendChild(node);
   
-  var a = document.createElement('a');
-  a.href = "/CancellationDetail/" + otherEvent.id;
-  a.title = "Title";
-  a.text = "text";
-  a.textContent = "textContent";
-  node.appendChild(a);
 
   listOtherEvents.insertBefore(node, listOtherEvents.firstChild);
 
