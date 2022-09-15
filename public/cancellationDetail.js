@@ -48,10 +48,14 @@ function displayCancellation(){
   document.getElementById('routeId').innerText = cancellation.route_short_name
   document.getElementById('cause').innerText = cancellation.cause
   document.getElementById('effect').innerText = cancellation.effect
+  document.getElementById('timestamp').innerText = new Date(cancellation.timestamp).toLocaleString()
   document.getElementById('startDate').innerText = new Date(cancellation.startDate).toLocaleString()
   document.getElementById('endDate').innerText = new Date(cancellation.endDate).toLocaleString()
   document.getElementById('description').innerText = cancellation.description
-  document.getElementById('json').innerText = JSON.stringify(JSON.parse(cancellation.JSON), null, '\t\n')
+  
+  var jsonString = JSON.stringify(JSON.parse(cancellation.JSON), null, 4)
+  console.log(jsonString)
+  document.getElementById('json').innerHTML = jsonString
     
 //   let listResults = document.getElementById('listResults');
 //   listResults.style.display = 'block';
