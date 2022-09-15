@@ -124,6 +124,10 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
+app.get('/CancellatioDetail', function(request, response) {
+  response.sendFile(__dirname + '/views/CancellatioDetail.html');
+});
+
 server.listen(process.env.PORT);
 
 // var distanceBetweenLocations = require('./distanceBetweenLocations');
@@ -296,49 +300,26 @@ app.get('/cancellations/', async function(request, response) {
     });
 });
 
-app.get('/cancellation/', async function(request, response) {
+app.get('/cancellation/:cancellationId', async function(request, response) {
 
-    var from = new Date()
-    from.setDate(from.getDate() - 1)
-  
-    if(request.query.from!=null){
-      // console.log(request.query.from)
-      // console.log(new Date(request.query.from))
-      from = new Date(request.query.from)
+    // console.log('cancellation')
+    response.setHeader('Content-Type', 'application/json')
+
+    if(request.params.cancellationId!=null){
+      
+      // console.log(request.params.cancellationId)
+
+      const cancellation = await Cancellation.findByPk(request.params.cancellationId)
+      
+      if(cancellation === null){
+        response.sendStatus(404)        
+      } else {
+        response.send(JSON.stringify(cancellation));
+      }
+    } else {
+      response.sendStatus(404)
     }
 
-    var to = new Date()
-  
-    if(request.query.to!=null){
-      to = new Date(request.query.to)
-    }
-
-    console.log(from)
-    console.log(to)
-
-
-    Cancellation.findAll({
-        where: {
-          timestamp: {
-            [Op.and]:[
-              {[Op.gte]: from},
-              {[Op.lte]: to}
-
-            ]
-          },
-
-          // timestamp: {[Op.gt]: from},
-
-
-        },
-        order: [
-          ['timestamp', 'ASC']
-        ]
-      })
-      .then(cancellations => {
-        response.setHeader('Content-Type', 'application/json')
-        response.send(JSON.stringify(cancellations));
-    });
 });
 
 
