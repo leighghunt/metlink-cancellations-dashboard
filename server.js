@@ -296,6 +296,51 @@ app.get('/cancellations/', async function(request, response) {
     });
 });
 
+app.get('/cancellation/', async function(request, response) {
+
+    var from = new Date()
+    from.setDate(from.getDate() - 1)
+  
+    if(request.query.from!=null){
+      // console.log(request.query.from)
+      // console.log(new Date(request.query.from))
+      from = new Date(request.query.from)
+    }
+
+    var to = new Date()
+  
+    if(request.query.to!=null){
+      to = new Date(request.query.to)
+    }
+
+    console.log(from)
+    console.log(to)
+
+
+    Cancellation.findAll({
+        where: {
+          timestamp: {
+            [Op.and]:[
+              {[Op.gte]: from},
+              {[Op.lte]: to}
+
+            ]
+          },
+
+          // timestamp: {[Op.gt]: from},
+
+
+        },
+        order: [
+          ['timestamp', 'ASC']
+        ]
+      })
+      .then(cancellations => {
+        response.setHeader('Content-Type', 'application/json')
+        response.send(JSON.stringify(cancellations));
+    });
+});
+
 
 
 function entityToText(entity){
