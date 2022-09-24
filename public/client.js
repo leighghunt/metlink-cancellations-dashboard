@@ -12,7 +12,7 @@ var serviceFilter = ''
 
 $('#period').on('change', function(event) {
   reviewPeriodDays = document.querySelector('#period').value;
-  console.log(reviewPeriodDays)
+  // console.log(reviewPeriodDays)
   refreshCancellations()
 });
 
@@ -28,13 +28,13 @@ $('#btnFilterServices').on('click', function(event) {
     document.getElementById('servicesSummary').style.display = 'none'
   }
 
-  console.log(event)
+  // console.log(event)
   refreshCancellations()
 });
 
 
 // $('#filterServices').on('change', function(event) {
-//   console.log(event)
+  // console.log(event)
 //   refreshCancellations()
 // });
 
@@ -142,7 +142,10 @@ function addCancellation(cancellation){
 const displayCancellation = function(cancellation){
   let listResults = document.getElementById('listResults');
 
-  var displayMessage = cancellation.description
+  var timestamp = new Date(cancellation.timestamp)
+  var datePrefix = (timestamp.getDate() + '/' + (timestamp.getMonth() + 1)) + ' '
+  
+  var displayMessage = datePrefix + cancellation.description
 
   let node = document.createElement("A");
   node.className = 'list-group-item list-group-item-danger';
@@ -168,7 +171,10 @@ const displayCancellation = function(cancellation){
 const displayOtherEvent = function(otherEvent){
   let listOtherEvents = document.getElementById('listOtherEvents');
 
-  var displayMessage = otherEvent.description
+  var timestamp = new Date(otherEvent.timestamp)
+  var datePrefix = (timestamp.getDate() + '/' + (timestamp.getMonth() + 1)) + ' '
+  
+  var displayMessage = datePrefix + otherEvent.description
 
   let node = document.createElement("A");
   node.className = 'list-group-item list-group-item-info';
@@ -189,8 +195,8 @@ function refreshCancellations(){
   
   var from = new Date()
   from.setDate(from.getDate() - reviewPeriodDays)  // A multiple of 24 hours back from now - so if <=3 days, same time in day
-  console.log(from)
-  console.log(from.toUTCString())
+  // console.log(from)
+  // console.log(from.toUTCString())
   if(reviewPeriodDays>3){
       from.setMinutes(0)
       from.setSeconds(0)
@@ -239,17 +245,17 @@ function updateGraph(){
     binDateDiffMiliseconds = 24 * 60 * 60 * 1000
   }
   
-  console.log(bins)
+  // console.log(bins)
   var mostRecentBinDate = new Date()
-  console.log('mostRecentBinDate')
-  console.log(mostRecentBinDate)
+  // console.log('mostRecentBinDate')
+  // console.log(mostRecentBinDate)
   // binDate.setHours(-5)
 
   mostRecentBinDate.setMinutes(0)
   mostRecentBinDate.setSeconds(0)
   mostRecentBinDate.setMilliseconds(0)
 
-  console.log(mostRecentBinDate)
+  // console.log(mostRecentBinDate)
   if(displayingDays){
     mostRecentBinDate.setHours(0)
   }
@@ -294,8 +300,8 @@ function updateGraph(){
     var targetBinIndex = bins -1 - (mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds
     
     // console.log((mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds)
-    console.log(cancellation.timestamp)
-    console.log(targetBinIndex)
+    // console.log(cancellation.timestamp)
+    // console.log(targetBinIndex)
     dataValues[targetBinIndex]++
 
   })
@@ -346,7 +352,7 @@ function updateGraph(){
 
 function updateSummary(){
 
-  console.log("updateSummary")
+  // console.log("updateSummary")
   let services = []
   
   cancellations.forEach(cancellation => {
@@ -365,16 +371,16 @@ function updateSummary(){
       
   })
   
-  console.log(services)
+  // console.log(services)
   services.sort((a, b) => {return b.cancellations - a.cancellations})
-  console.log(services)
+  // console.log(services)
 
   var servicesSummarised = 0;
   var summary = ""
   services.forEach(service => {
     if(servicesSummarised++ < 5){
       summary += service.route_short_name + " (" + service.cancellations + "), "
-      console.log(service.route_short_name + ": " + service.cancellations)
+      // console.log(service.route_short_name + ": " + service.cancellations)
     }
   })
   
