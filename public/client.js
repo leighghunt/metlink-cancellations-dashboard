@@ -299,6 +299,9 @@ function updateGraph(){
 
     var targetBinIndex = bins -1 - (mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds
     
+    // Crude fix for daylight savings calc issue
+    targetBinIndex = Math.round(targetBinIndex)
+    
     // console.log((mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds)
     // console.log(cancellation.timestamp)
     // console.log(targetBinIndex)
