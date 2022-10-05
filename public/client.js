@@ -267,6 +267,16 @@ function updateGraph(){
   // var lastBinHours = 0;
   for(var binIndex = 0; binIndex < bins; ++binIndex){
     binDate = new Date(binDate.getTime() + binDateDiffMiliseconds)
+    
+    // Crude fix for daylight savings calc issue - part 1
+    if(binDate.getHours() == 23){
+      binDate.setHours(24);
+    }
+    
+    if(binDate.getHours() == 1){
+      binDate.setHours(0);
+    }
+    
     // console.log('binIndex: ' + binIndex)
     // console.log(binDate)
 
@@ -299,7 +309,7 @@ function updateGraph(){
 
     var targetBinIndex = bins -1 - (mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds
     
-    // Crude fix for daylight savings calc issue
+    // Crude fix for daylight savings calc issue - part 2
     targetBinIndex = Math.round(targetBinIndex)
     
     // console.log((mostRecentBinDate.getTime() - targetBinDate.getTime())/ binDateDiffMiliseconds)
