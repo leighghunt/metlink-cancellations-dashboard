@@ -268,20 +268,22 @@ function updateGraph(){
   for(var binIndex = 0; binIndex < bins; ++binIndex){
     binDate = new Date(binDate.getTime() + binDateDiffMiliseconds)
     
-    // Crude fix for daylight savings calc issue - part 1
-    if(binDate.getHours() == 23){
-      binDate.setHours(24);
-    }
-    
-    if(binDate.getHours() == 1){
-      binDate.setHours(0);
-    }
     
     // console.log('binIndex: ' + binIndex)
     // console.log(binDate)
 
     
       if(displayingDays){
+
+        // Crude fix for daylight savings calc issue - part 1
+        if(binDate.getHours() == 23){
+          binDate.setHours(24);
+        }
+
+        if(binDate.getHours() == 1){
+          binDate.setHours(0);
+        }
+
         labels[binIndex] = binDate.getDate()
       } else {
         // if(binDate.getHours() == 0){
