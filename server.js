@@ -11,7 +11,6 @@ const moment = require('moment');
 
 const app = express();
 
-
 // Setup SocketIO
 var server = require('http').Server(app);
 const io = require('socket.io')(server);
