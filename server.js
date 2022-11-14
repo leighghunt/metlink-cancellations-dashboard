@@ -406,7 +406,7 @@ function getRoutes(){
 getRoutes();
 
 cron.schedule('*/1 * * * *', () => {
-  updateCancellations();
+  // updateCancellations();
 });
 
 
