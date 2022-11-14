@@ -1,0 +1,142 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+
+<!-- You might want to try something fancier: -->
+<!-- html/nunjucks docs: https://mozilla.github.io/nunjucks/ -->
+<!-- pug: https://pugjs.org/ -->
+<!-- haml: http://haml.info/ -->
+<!-- hbs(handlebars): http://handlebarsjs.com/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cancellation Detail</title>
+    <meta name="description" content="A cool thing made with Glitch">
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+      
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/cancellationDetail.js" defer></script>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RHWV49FYYB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RHWV49FYYB');
+    </script>
+  </head>
+    <body class="text-center">
+
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;z-index:1000"></div>
+    <script src="https://button.glitch.me/button.js"></script>
+
+
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+<!--           <h3 class="masthead-brand">Cover</h3> -->
+          <nav class="nav nav-masthead justify-content-center">
+<!--             <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Contact</a> -->
+          </nav>
+        </div>
+      </header>
+
+      <p id="demo"></p>
+
+      <main role="main" class="inner cover">
+
+        <div class="lead" id="cancellationDetail">
+
+          <div class="container">
+            <div class="row align-items-start">
+              <div class="col col-6 text-left">Route:</div>
+              <div id="routeId" class="col col-6 text-right">...</div>
+
+              <div class="col col-6 text-left">Timestamp:</div>
+              <div id="timestamp" class="col col-6 text-right">...</div>
+
+
+              <div class="col col-6 text-left">Start Date:</div>
+              <div id="startDate" class="col col-6 text-right">...</div>
+              
+              <div class="col col-6 text-left">End Date:</div>
+              <div id="endDate" class="col col-6 text-right">...</div>
+
+              <div class="col col-6 text-left">Cause:</div>
+              <div id="cause" class="col col-6 text-right">...</div>
+              
+              <div class="col col-6 text-left">Effect:</div>
+              <div id="effect" class="col col-6 text-right">...</div>
+              
+            </div>
+          </div>
+          <p>
+            
+          </p>
+          <div class="container">
+            <div class="row align-items-start">
+              <div class="col col-6 text-left">Description:</div>
+              <div id="description" class="col col-12 text-left">...</div>
+
+            </div>
+          <p>
+            
+          </p>
+          <div class="container">
+            <div class="row align-items-start">
+
+              <div class="col col-6 text-left">JSON:</div>
+<!--               <pre class=".pre-scrollable"><code id="json" class="col col-12 text-left">...</code></pre> -->
+              <textarea id="json" class="col col-12 text-left" rows="10">...</textarea>
+
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Interface to <a href="https://www.metlink.org.nz">Metlink</a>'s service alerts <a href="https://opendata.metlink.org.nz">API</a>, by <a href="https://twitter.com/leighghunt">@leighghunt</a>, <a href="http://venari.co.nz">Venari Ltd</a>, hosted on <a href="https://glitch.com/~how-many-metlink-cancellations-today">Glitch</a>.</p>
+          <p>Not affiliated Metlink in any way. Not even guaranteed to be accurate - hey it's under development.</p>
+          <p>
+            If you want a guaranteed up to date feed of alerts, pleaase check Metlink's own <a href="https://www.metlink.org.nz/alerts">Alert Page</a>.
+          </p>
+          <p>
+            Something not quite right? Please let me know <a href="https://github.com/leighghunt/metlink-cancellations-dashboard/issues/new" target="blank">here</a>.
+          </p>
+
+          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+
+        </div>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
