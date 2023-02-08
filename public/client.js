@@ -10,6 +10,65 @@ var reviewPeriodDays = document.querySelector('#period').value;
 var serviceFilter = ''
 
 
+var haltStateUpdateCounter = 0;
+
+function haltStateUpdate(){
+  console.log("haltStateUpdate - " + haltStateUpdateCounter + " -> " + ++haltStateUpdateCounter)
+}
+
+function resumeStateUpdate(){
+  console.log("resumeStateUpdate - " + haltStateUpdateCounter + " -> " + --haltStateUpdateCounter)
+}
+
+
+
+function updateState(){
+  if(haltStateUpdateCounter<=0){
+    console.log('updateState')
+    var URL = "?"
+    
+    
+    if(URL[URL.length-1] == ","){
+      URL = URL.substring(0, URL.length-1)
+    }
+
+    // URL+="&lat=" + map.getCenter().lat
+    // URL+="&lng=" + map.getCenter().lng
+    // URL+="&zoom=" + map.getZoom()
+      // URL += layerId.substring(0, layerId.indexOf(" ")) + ",";
+
+    window.history.replaceState(null, "", URL)
+  }
+}
+
+function restoreState(){
+  haltStateUpdate()
+  console.log('restoreState')
+  
+  var urlParams = new URLSearchParams(window.location.search);
+  
+  var layersShow = urlParams.get("layersShow");
+  var layersDontShow = urlParams.get("layersDontShow");
+  
+
+  var lat = urlParams.get("lat")
+  var lng = urlParams.get("lng")
+  var zoom = urlParams.get("zoom")
+  if(lat && lng && zoom){
+  }
+  resumeStateUpdate()
+}
+
+restoreState()
+
+// Let's pause state updating for 10 seconds whilst things settle down....
+haltStateUpdate()
+window.setTimeout(resumeStateUpdate, 10000)
+
+
+
+
+
 $('#period').on('change', function(event) {
   reviewPeriodDays = document.querySelector('#period').value;
   // console.log(reviewPeriodDays)
@@ -437,7 +496,7 @@ function isFiltered(cancellation){
     return true;
   }
   
-  if( cancellation.route_short_name == serviceFilter){
+  if( cancellation.route_short_name.toLowerCase().contains(serviceFilter.toLowerCase())){
     // console.log(cancellation.description)
     return true
   } else {
