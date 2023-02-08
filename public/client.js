@@ -56,10 +56,16 @@ function restoreState(){
   if(reviewPeriodDays==null){
     reviewPeriodDays=3
   }
+  
+  document.querySelector('#period').value = reviewPeriodDays
+  
   serviceFilter = urlParams.get("serviceFilter");
   if(serviceFilter==null){
     serviceFilter=''
   }
+  
+  document.getElementById('filterServices').value = serviceFilter
+
   
   resumeStateUpdate()
 }
@@ -503,17 +509,18 @@ function isFiltered(cancellation){
   if( serviceFilter == ''){
     return true;
   }
-  
-  if(cancellation.route_short_name!=null){
-    if( cancellation.route_short_name.toLowerCase().includes(serviceFilter.toLowerCase())){
+
+  if(cancellation.route_short_name!=null && cancellation.route_short_name.toLowerCase().includes(serviceFilter.toLowerCase())){
+    // console.log(cancellation.description)
+    return true
+  }
+
+  if(cancellation.description!=null && cancellation.description.toLowerCase().includes(serviceFilter.toLowerCase())){
       // console.log(cancellation.description)
       return true
-    } else {
-      return false
-    }
-  } else {
-    return false
   }
+
+  return false
 }
 
 
