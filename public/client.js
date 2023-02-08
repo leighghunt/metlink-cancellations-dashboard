@@ -31,21 +31,16 @@ function updateState(){
     // serviceFilter
     
     if(reviewPeriodDays!=3){
-      URL += "reviewPeriodDays=" + reviewPeriodDays
+      URL += "reviewPeriodDays=" + reviewPeriodDays + "&"
     }
     
-    if(serviceFilter!=3){
-      URL += "serviceFilter=" + serviceFilter
+    if(serviceFilter!=''){
+      URL += "serviceFilter=" + serviceFilter + "&"
     }
     
-    if(URL[URL.length-1] == ","){
+    if(URL[URL.length-1] == "&"){
       URL = URL.substring(0, URL.length-1)
     }
-
-    // URL+="&lat=" + map.getCenter().lat
-    // URL+="&lng=" + map.getCenter().lng
-    // URL+="&zoom=" + map.getZoom()
-      // URL += layerId.substring(0, layerId.indexOf(" ")) + ",";
 
     window.history.replaceState(null, "", URL)
   }
@@ -57,23 +52,25 @@ function restoreState(){
   
   var urlParams = new URLSearchParams(window.location.search);
   
-  var layersShow = urlParams.get("layersShow");
-  var layersDontShow = urlParams.get("layersDontShow");
-  
-
-  var lat = urlParams.get("lat")
-  var lng = urlParams.get("lng")
-  var zoom = urlParams.get("zoom")
-  if(lat && lng && zoom){
+  reviewPeriodDays = urlParams.get("reviewPeriodDays");
+  if(reviewPeriodDays==null){
+    reviewPeriodDays=3
   }
+  serviceFilter = urlParams.get("serviceFilter");
+  if(serviceFilter==null){
+    serviceFilter=''
+  }
+  
   resumeStateUpdate()
 }
 
 restoreState()
 
-// Let's pause state updating for 10 seconds whilst things settle down....
-haltStateUpdate()
-window.setTimeout(resumeStateUpdate, 10000)
+// // Let's pause state updating for 10 seconds whilst things settle down....
+// haltStateUpdate()
+// window.setTimeout(resumeStateUpdate, 3000)
+
+resumeStateUpdate
 
 
 
