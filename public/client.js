@@ -27,6 +27,16 @@ function updateState(){
     console.log('updateState')
     var URL = "?"
     
+    // reviewPeriodDays
+    // serviceFilter
+    
+    if(reviewPeriodDays!=3){
+      URL += "reviewPeriodDays=" + reviewPeriodDays
+    }
+    
+    if(serviceFilter!=3){
+      URL += "serviceFilter=" + serviceFilter
+    }
     
     if(URL[URL.length-1] == ","){
       URL = URL.substring(0, URL.length-1)
@@ -83,8 +93,8 @@ $('#btnFilterServices').on('click', function(event) {
     document.getElementById('filterDescription').innerText = 'Metlink'
     document.getElementById('servicesSummary').style.display = 'block'
   } else {
-    document.getElementById('filterDescription').innerText = serviceFilter
-    document.getElementById('servicesSummary').style.display = 'none'
+    document.getElementById('filterDescription').innerText = "'" + serviceFilter + "'"
+    // document.getElementById('servicesSummary').style.display = 'none'
   }
 
   // console.log(event)
@@ -249,6 +259,7 @@ const displayOtherEvent = function(otherEvent){
 }
 
 function refreshCancellations(){
+  updateState()
   const cancellationsRequest = new XMLHttpRequest();
   cancellationsRequest.onload = getCancellationsListener;
   
@@ -496,9 +507,13 @@ function isFiltered(cancellation){
     return true;
   }
   
-  if( cancellation.route_short_name.toLowerCase().contains(serviceFilter.toLowerCase())){
-    // console.log(cancellation.description)
-    return true
+  if(cancellation.route_short_name!=null){
+    if( cancellation.route_short_name.toLowerCase().includes(serviceFilter.toLowerCase())){
+      // console.log(cancellation.description)
+      return true
+    } else {
+      return false
+    }
   } else {
     return false
   }
