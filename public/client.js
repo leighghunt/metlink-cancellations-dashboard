@@ -10,6 +10,78 @@ var reviewPeriodDays = document.querySelector('#period').value;
 var serviceFilter = ''
 
 
+var haltStateUpdateCounter = 0;
+
+function haltStateUpdate(){
+  console.log("haltStateUpdate - " + haltStateUpdateCounter + " -> " + ++haltStateUpdateCounter)
+}
+
+function resumeStateUpdate(){
+  console.log("resumeStateUpdate - " + haltStateUpdateCounter + " -> " + --haltStateUpdateCounter)
+}
+
+
+
+function updateState(){
+  if(haltStateUpdateCounter<=0){
+    console.log('updateState')
+    var URL = "?"
+    
+    // reviewPeriodDays
+    // serviceFilter
+    
+    if(reviewPeriodDays!=3){
+      URL += "reviewPeriodDays=" + reviewPeriodDays + "&"
+    }
+    
+    if(serviceFilter!=''){
+      URL += "serviceFilter=" + serviceFilter + "&"
+    }
+    
+    if(URL[URL.length-1] == "&"){
+      URL = URL.substring(0, URL.length-1)
+    }
+
+    window.history.replaceState(null, "", URL)
+  }
+}
+
+function restoreState(){
+  haltStateUpdate()
+  console.log('restoreState')
+  
+  var urlParams = new URLSearchParams(window.location.search);
+  
+  reviewPeriodDays = urlParams.get("reviewPeriodDays");
+  if(reviewPeriodDays==null){
+    reviewPeriodDays=3
+  }
+  
+  document.querySelector('#period').value = reviewPeriodDays
+  
+  serviceFilter = urlParams.get("serviceFilter");
+  if(serviceFilter==null){
+    serviceFilter=''
+  }
+  
+  document.getElementById('filterServices').value = serviceFilter
+
+  
+  resumeStateUpdate()
+}
+
+restoreState()
+
+// // Let's pause state updating for 10 seconds whilst things settle down....
+// haltStateUpdate()
+// window.setTimeout(resumeStateUpdate, 3000)
+
+resumeStateUpdate
+
+
+
+
+
 $('#period').on('change', function(event) {
   reviewPeriodDays = document.querySelector('#period').value;
   // console.log(reviewPeriodDays)
@@ -24,8 +96,8 @@ $('#btnFilterServices').on('click', function(event) {
     document.getElementById('filterDescription').innerText = 'Metlink'
     document.getElementById('servicesSummary').style.display = 'block'
   } else {
-    document.getElementById('filterDescription').innerText = serviceFilter
-    document.getElementById('servicesSummary').style.display = 'none'
+    document.getElementById('filterDescription').innerText = "'" + serviceFilter + "'"
+    // document.getElementById('servicesSummary').style.display = 'none'
   }
 
   // console.log(event)
@@ -190,6 +262,7 @@ const displayOtherEvent = function(otherEvent){
 }
 
 function refreshCancellations(){
+  updateState()
   const cancellationsRequest = new XMLHttpRequest();
   cancellationsRequest.onload = getCancellationsListener;
   
@@ -436,13 +509,18 @@ function isFiltered(cancellation){
   if( serviceFilter == ''){
     return true;
   }
-  
-  if( cancellation.route_short_name == serviceFilter){
+
+  if(cancellation.route_short_name!=null && cancellation.route_short_name.toLowerCase().includes(serviceFilter.toLowerCase())){
     // console.log(cancellation.description)
     return true
-  } else {
-    return false
   }
+
+  if(cancellation.description!=null && cancellation.description.toLowerCase().includes(serviceFilter.toLowerCase())){
+      // console.log(cancellation.description)
+      return true
+  }
+
+  return false
 }
 
 

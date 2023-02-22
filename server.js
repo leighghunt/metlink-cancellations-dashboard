@@ -369,7 +369,11 @@ function entityToText(entity){
         return route.route_short_name 
       } else
       {
-        return accumulator + ", " + route.route_short_name 
+        if(accumulator.includes(route.route_short_name)){
+          return accumulator
+        } else {
+          return accumulator + ", " + route.route_short_name        
+        }
       }
     } else
     {
